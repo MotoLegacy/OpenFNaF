@@ -1,3 +1,16 @@
+//
+// main.cpp
+///////////////////////////////////////
+// changes:
+// ~ moved switch for cleanliness purposes.
+// ~ types.hpp.
+// -xaa 11/17/19
+//
+
+//
+//includes
+//
+
 #include "game.hpp"
 #include "menu.hpp"
 #include <psp2/ctrl.h>
@@ -12,17 +25,9 @@ int main()
     while (!quit) {
         vita2d_start_drawing();
         vita2d_clear_screen();
-        switch(gameState) {
-            case 0:
-                doMenu();
-                break;
-            case 1:
-                doGame();
-                break;
-            case 2:
-                quit = true;
-                break;
-        }
+
+          D_GameLoop();
+
         vita2d_end_drawing();
         vita2d_swap_buffers();
     }

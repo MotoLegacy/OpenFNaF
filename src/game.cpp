@@ -10,6 +10,11 @@
 
 #include <psp2/ctrl.h>
 #include <psp2/kernel/processmgr.h>
+#include "types.hpp"
+
+//////////////////////////////////////////
+// replace all this shit with types.hpp //
+//////////////////////////////////////////
 
 int gameState;
 int gState;
@@ -35,16 +40,6 @@ bool powerR = false;
 bool powerRFlic = false;
 bool pressC = false;
 bool pressT = false;
-
-bool doorGoDownL = false;
-bool doorGoUpL = false;
-bool doorDownL = false;
-int doorLTicker = 0;
-
-bool doorGoDownR = false;
-bool doorGoUpR = false;
-bool doorDownR = false;
-int doorRTicker = 0;
 
 const char *vo;
 
@@ -128,6 +123,10 @@ vita2d_texture *fredscare28;
 vita2d_texture *fredscare29;
 vita2d_texture *fredscare30;
 
+/////////////////
+// end replace //
+/////////////////
+
 SoLoud::Soloud ggSoloud; // SoLoud engine
 SoLoud::WavStream blip;
 SoLoud::WavStream fanbuzz;
@@ -136,6 +135,30 @@ SoLoud::WavStream lightbuzz;
 SoLoud::WavStream doorshut;
 SoLoud::WavStream xscream;
 SoLoud::WavStream staticcc3;
+
+gamestate_t Game;
+vswap_t     Graphics;
+
+//
+// D_GameLoop(void);
+////////////////////////////////////////////
+// handles main game loop, from main.cpp.
+// -xaa 11/17/19
+//
+
+void D_GameLoop(void) {
+          switch(Game.State) {
+            case 0:
+                doMenu();
+                break;
+            case 1:
+                doGame();
+                break;
+            case 2:
+                quit = true;
+                break;
+        }
+}
 
 void gameIntro() {
     const char* nite;
@@ -504,8 +527,6 @@ void scareFreddy1() {
     }
     scareTicker++;
 
-    vita2d_font_draw_textf(gfont,20, 20, RGBA8(255,255,255,255), 35.0f, "%d", scareTicker);
-
     gameClock();
 
     if (scareTicker >= 60) {
@@ -869,7 +890,7 @@ void gameStuff() {
         voiceover.stop();
         fanbuzz.stop();
         ggSoloud.play(xscream);
-        //freeScare();
+        freeScare();
         fredScare = true;
     }
 }

@@ -1,8 +1,7 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-extern int gameState;
-extern void doGame();
+void D_GameLoop(void);
 extern int GM_NIGHT;
 extern int GM_BEAR;
 extern int GM_BUNNY;
