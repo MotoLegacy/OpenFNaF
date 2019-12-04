@@ -1,7 +1,7 @@
 //
 // types.hpp
 ///////////////////////////////////////
-// some basic datatypes. -xaa 11/17/19
+// added anima defs. -xaa 12/4/2019
 //
 
 //
@@ -9,6 +9,18 @@
 //
 
 #include <vita2d.h>
+
+//
+// macros - fnaf1
+//
+
+#ifdef GAME_FNAF1
+  #define A_FRED  0
+  #define A_FOX   1
+  #define A_BIRD  2
+  #define A_BUN   3
+  #define A_GFRED 4
+#endif
 
 //
 // short types
@@ -26,12 +38,27 @@ typedef signed long long  s64_t;
 
 // !
 typedef void func_t;
+typedef func_t aitrigger_t;
 
 //graphics types
 typedef vita2d_texture* texture2d_t;
 
 // game specific types
 typedef u64_t animastate_t;
+
+typedef struct {
+  u32_t AiLevel    = 0;
+  u32_t MoveChance = 0;
+  u32_t Location;
+  func_t* OnUpdate;
+  func_t* OnAmbientUpdate;
+  func_t* OnCamUpdate;
+  func_t* OnDraw;
+  func_t* OnMove;
+  func_t* OnKill;
+  func_t* OnPowerLoss;
+} anima_t;
+  
 
 //
 // enums

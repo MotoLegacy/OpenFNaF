@@ -138,6 +138,7 @@ SoLoud::WavStream staticcc3;
 
 gamestate_t Game;
 vswap_t     Graphics;
+anima_t     Animas[G_NUM_ANIMAS];
 
 //
 // D_GameLoop(void);
