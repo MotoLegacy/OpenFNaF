@@ -18,6 +18,7 @@
 //FNAF 1
 #ifdef GAME_FNAF1
   #define I_SUPPORT_VERSION  "0.01"
+  #define G_NUM_ROOMS         12
 #endif
 
 //FNAF 2
