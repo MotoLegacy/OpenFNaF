@@ -14,8 +14,6 @@
 // macros - generic
 //
 
-#define ROOM(x) (1 << x)
-
 // rooms
 #define ROOMBIT(x) (1 << x)
 
@@ -24,7 +22,6 @@
 //
 
 #ifdef GAME_FNAF1
-<<<<<<< HEAD
 
   // animas
   #define A_FRED    0
@@ -54,13 +51,6 @@
   #define RM_KITCHEN            10
   #define RM_SUPPLY_CLOSET      11
 
-=======
-  #define A_FRED  0
-  #define A_FOX   1
-  #define A_BIRD  2
-  #define A_BUN   3
-  #define A_GFRED 4
->>>>>>> 1d62ee94d4742f9f19cae8b2415468b2d8b00b54
 #endif
 
 //
@@ -88,28 +78,6 @@ typedef vita2d_texture* texture2d_t;
 
 // game specific types
 typedef u64_t animastate_t;
-<<<<<<< HEAD
-=======
-
-typedef struct {
-  u32_t AiLevel    = 0;
-  u32_t MoveChance = 0;
-  u32_t Location;
-  func_t* OnUpdate;
-  func_t* OnAmbientUpdate;
-  func_t* OnCamUpdate;
-  func_t* OnDraw;
-  func_t* OnMove;
-  func_t* OnKill;
-  func_t* OnPowerLoss;
-} anima_t;
-
-typedef struct {
-  bitfield_t  CanMoveTo;         //bitfield containing ones for rooms we can travel to (see game_*.hpp)
-  u32_t       CamBound;          //(CamBound)(-1) pixels left, (CamBound)(1) pixels right on screen
-  u32_t       ExtraData;         //general purpose use
-} gameroom_t;
->>>>>>> 1d62ee94d4742f9f19cae8b2415468b2d8b00b54
   
 
 //
