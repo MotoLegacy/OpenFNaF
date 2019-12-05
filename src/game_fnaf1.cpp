@@ -3,6 +3,7 @@
 //
 
 #include "types.hpp"
+#include "math.hpp"
 #include "version.hpp"
 
 //
@@ -151,6 +152,22 @@ aitrigger_t AI_Bun_OnKill(void) {
 }
 
 //
+// gfred
+//
+
+aitrigger_t AI_GFred_OnCamUpdate(void) {
+    // if we're looking at east hall corner
+    if (Camera.ViewLocation == CAM_2B) {
+        // 5% chance of occuring
+        if (Math_GenerateChance(5)) {
+            // FIXME - insert some garbage about poster here
+            // FIXME - maybe have an if to check if can tp here (for consistency)
+            Animas[A_GFred].Location = Rooms[RM_OFFICE];
+        }
+    }
+}
+
+//
 // G_SetupAnimatronics()
 // Set initial stats and updates for animatronics.
 //
@@ -158,15 +175,20 @@ aitrigger_t AI_Bun_OnKill(void) {
 func_t G_SetupAnimatronics(void) {
   //fred
   Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
+  Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
 
   //fox
   Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
+  Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
 
   //bird
   Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
 
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
+
+  //goldfred
+  Animas[A_GFRED].OnCamUpdate = &AI_GFred_OnCamUpdate;
 }
 
 //
