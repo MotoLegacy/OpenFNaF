@@ -4,7 +4,12 @@
 #include <stdlib.h>
 #include "types.hpp"
 
-// FIXME - use typedef for bool..?
-extern bool Math_GenerateChance(u64_t percent);
+//
+// prototypes
+//
+
+bool    Math_GenerateChance(u64_t percent);
+u64_t   Math_SeedRandom(u64_t seed);
+u8_t    Math_Prng(void);
 
 #endif
