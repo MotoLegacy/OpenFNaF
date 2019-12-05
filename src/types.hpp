@@ -11,16 +11,47 @@
 #include <vita2d.h>
 
 //
+// macros - general
+//
+
+// camera
+#define CAM_1       0
+#define CAM_2       1
+#define CAM_3       2
+#define CAM_4       3
+#define CAM_5       4
+#define CAM_6       5
+#define CAM_7       6
+#define CAM_8       7
+#define CAM_9       8
+#define CAM_10      9
+#define CAM_11      10
+#define CAM_12      11
+
+//
 // macros - fnaf1
 //
 
+
 #ifdef GAME_FNAF1
-  #define A_FRED  0
-  #define A_FOX   1
-  #define A_BIRD  2
-  #define A_BUN   3
-  #define A_GFRED 4
+
+  // animas
+  #define A_FRED    0
+  #define A_FOX     1
+  #define A_BIRD    2
+  #define A_BUN     3
+  #define A_GFRED   4
+
+  // camera (fnaf1 had sub-room cameras that do not appear in other games)
+  // substitute xA cams for full num (e.g. cam 1a is cam 1)
+  #define CAM_1B    12
+  #define CAM_1C    13
+  #define CAM_2B    14
+  #define CAM_4B    15
+
 #endif
+
+
 
 //
 // short types
@@ -47,8 +78,9 @@ typedef vita2d_texture* texture2d_t;
 typedef u64_t animastate_t;
 
 typedef struct {
-  u32_t AiLevel    = 0;
-  u32_t MoveChance = 0;
+  u8_t Update_Multiplier      = 1;
+  u32_t AiLevel               = 0;
+  u32_t MoveChance            = 0;
   u32_t Location;
   func_t* OnUpdate;
   func_t* OnAmbientUpdate;
@@ -58,6 +90,11 @@ typedef struct {
   func_t* OnKill;
   func_t* OnPowerLoss;
 } anima_t;
+
+
+typedef struct {
+  u32_t ViewLocation;
+} camera_t;
   
 
 //

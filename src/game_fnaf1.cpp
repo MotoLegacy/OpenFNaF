@@ -9,6 +9,7 @@
 //
 
 extern anima_t Animas[G_NUM_ANIMAS];
+extern camera_t Camera;
 
 //
 // ai functions
@@ -39,11 +40,17 @@ aitrigger_t AI_Fred_OnAmbientUpdate(void) {
 }
 
 aitrigger_t AI_Fred_OnCamUpdate(void) {
-  //?
+    // restrict fred's movement if we're starring at him
+    if (Camera.ViewLocation == Animas[A_FRED].Location) {
+        Animas[A_FRED].Update_Multiplier = 0;
+    } else {
+        Animas[A_FRED].Update_Multiplier = 1;
+    }
 }
 
 aitrigger_t AI_Fred_OnMove(void) {
   //footstep sound, evaluate next move ahead
+  // Animas[A_FRED].Location = /*add stuff here*/;
 }
 
 aitrigger_t AI_Fred_OnKill(void) {
@@ -73,7 +80,17 @@ aitrigger_t AI_Fox_OnAmbientUpdate(void) {
 }
 
 aitrigger_t AI_Fox_OnCamUpdate(void) {
-  //set preference values for how often the player's looking at him
+    // decide whether or not to try and advance outta the cove.
+
+    // see if we're looking at pirate cove
+    if (Camera.ViewLocation == CAM_3) {
+        // if we look too often and ai level is high enough, increase multiplier
+        // moto FIXME - find real ai level and add frequency check
+        if (Animas[A_FOX].AiLevel >= 5 /*&& (FIXME - frequency check)*/)
+            Animas[A_FOX].Update_Multiplier = 2;
+        else // else, just restrict movement
+            Animas[A_FOX].Update_Multiplier = 0;
+    }
 }
 
 aitrigger_t AI_Fox_OnMove(void) {
@@ -98,6 +115,7 @@ aitrigger_t AI_Bird_OnCamUpdate(void) {
 
 aitrigger_t AI_Bird_OnMove(void) {
   //footstep sound, evaluate next move ahead
+  // Animas[A_BIRD].Location = /*add stuff here*/;
 }
 
 aitrigger_t AI_Bird_OnKill(void) {
@@ -118,6 +136,7 @@ aitrigger_t AI_Bun_OnCamUpdate(void) {
 
 aitrigger_t AI_Bun_OnMove(void) {
   //footstep sound, evaluate next move ahead
+  // Animas[A_BUN].Location = /*add stuff here*/;
 }
 
 aitrigger_t AI_Bun_OnKill(void) {
