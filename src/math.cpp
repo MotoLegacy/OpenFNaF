@@ -58,7 +58,6 @@ u64_t Math_SeedRandom(u64_t seed) {
 //
 
 u8_t Math_Prng(void) {
-  u8_t get = Prng[PrngIndex];
-  PrngIndex++;
+  u8_t get = Prng[++PrngIndex];
   return get;
 }
