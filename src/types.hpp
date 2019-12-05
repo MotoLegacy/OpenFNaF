@@ -16,16 +16,51 @@
 
 #define ROOM(x) (1 << x)
 
+// rooms
+#define ROOMBIT(x) (1 << x)
+
 //
 // macros - fnaf1
 //
 
 #ifdef GAME_FNAF1
+<<<<<<< HEAD
+
+  // animas
+  #define A_FRED    0
+  #define A_FOX     1
+  #define A_BIRD    2
+  #define A_BUN     3
+  #define A_GFRED   4
+
+  // camera (fnaf1 had sub-room cameras that do not appear in other games)
+  // substitute xA cams for full num (e.g. cam 1a is cam 1)
+  #define CAM_1B    12
+  #define CAM_1C    13
+  #define CAM_2B    14
+  #define CAM_4B    15
+
+  // rooms
+  #define RM_OFFICE             0
+  #define RM_SHOW_STAGE         1
+  #define RM_BACKSTAGE          2
+  #define RM_DINING_AREA        3
+  #define RM_PIRATE_COVE        4
+  #define RM_EAST_HALL          5
+  #define RM_EAST_HALL_CORNER   6
+  #define RM_WEST_HALL          7
+  #define RM_WEST_HALL_CORNER   8
+  #define RM_RESTROOMS          9
+  #define RM_KITCHEN            10
+  #define RM_SUPPLY_CLOSET      11
+
+=======
   #define A_FRED  0
   #define A_FOX   1
   #define A_BIRD  2
   #define A_BUN   3
   #define A_GFRED 4
+>>>>>>> 1d62ee94d4742f9f19cae8b2415468b2d8b00b54
 #endif
 
 //
@@ -53,6 +88,8 @@ typedef vita2d_texture* texture2d_t;
 
 // game specific types
 typedef u64_t animastate_t;
+<<<<<<< HEAD
+=======
 
 typedef struct {
   u32_t AiLevel    = 0;
@@ -72,6 +109,7 @@ typedef struct {
   u32_t       CamBound;          //(CamBound)(-1) pixels left, (CamBound)(1) pixels right on screen
   u32_t       ExtraData;         //general purpose use
 } gameroom_t;
+>>>>>>> 1d62ee94d4742f9f19cae8b2415468b2d8b00b54
   
 
 //
@@ -101,6 +139,37 @@ typedef enum {
 //
 // structs
 //
+
+// gameroom_t
+// holds information on rooms
+typedef struct {
+  bitfield_t CanTravelTo : 64;
+  texture2d_t Graphic;
+  s32_t CamBound;    //negative for left, positive for right. assumes we can go CamBound pixels right and (CamBound)(-1) pixels left
+  u64_t guid;
+} gameroom_t;
+
+// anima_t
+// holds animatronic data
+typedef struct {
+  u32_t Update_Multiplier     = 1;
+  u32_t AiLevel               = 0;
+  u32_t MoveChance            = 0;
+  u32_t Location;
+  func_t* OnUpdate;
+  func_t* OnAmbientUpdate;
+  func_t* OnCamUpdate;
+  func_t* OnDraw;
+  func_t* OnMove;
+  func_t* OnKill;
+  func_t* OnPowerLoss;
+} anima_t;
+
+// camera_t
+// holds player camera information
+typedef struct {
+  u32_t ViewLocation;
+} camera_t;
 
 // gamestate_t
 // holds all the game variables

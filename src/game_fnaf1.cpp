@@ -3,6 +3,7 @@
 //
 
 #include "types.hpp"
+#include "version.hpp"
 
 //
 // externs
@@ -10,6 +11,12 @@
 
 extern anima_t Animas[G_NUM_ANIMAS];
 extern camera_t Camera;
+
+//
+// globals
+//
+
+gameroom_t Rooms[G_NUM_ROOMS];
 
 //
 // ai functions
@@ -145,6 +152,7 @@ aitrigger_t AI_Bun_OnKill(void) {
 
 //
 // G_SetupAnimatronics()
+// Set initial stats and updates for animatronics.
 //
 
 func_t G_SetupAnimatronics(void) {
@@ -159,4 +167,41 @@ func_t G_SetupAnimatronics(void) {
 
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
+}
+
+//
+// G_SetupRooms()
+// Link all of the Rooms in the pizzeria together
+//
+
+func_t G_SetupRooms(void) {
+    // Show Stage
+    Rooms[RM_SHOW_STAGE].CanTravelTo = ROOMBIT(RM_DINING_AREA);
+    // Dining Area
+    Rooms[RM_DINING_AREA].CanTravelTo = ROOMBIT(RM_SHOW_STAGE) | ROOMBIT(RM_BACKSTAGE) | ROOMBIT(RM_RESTROOMS)
+                                        | ROOMBIT(RM_PIRATE_COVE) | ROOMBIT(RM_WEST_HALL) | ROOMBIT(RM_EAST_HALL)
+                                        | ROOMBIT(RM_KITCHEN);
+    // Back Stage, Restrooms, Kitchen, & Pirate Cove
+    Rooms[RM_BACKSTAGE].CanTravelTo = Rooms[RM_RESTROOMS].CanTravelTo = Rooms[RM_KITCHEN] =
+                                    Rooms[RM_PIRATE_COVE].CanTravelTo =  ROOMBIT(RM_DINING_AREA);
+    // West hall
+    Rooms[RM_WEST_HALL].CanTravelTo = ROOMBIT(RM_WEST_HALL_CORNER) | ROOMBIT(RM_DINING_AREA) | ROOMBIT(RM_SUPPLY_CLOSET);
+    // West Hall Corner
+    Rooms[RM_WEST_HALL_CORNER].CanTravelTo = ROOMBIT(RM_OFFICE) | ROOMBIT(RM_WEST_HALL);
+    // East Hall
+    Rooms[RM_EAST_HALL].CanTravelTo = ROOMBIT(RM_EAST_HALL_CORNER) | ROOMBIT(RM_DINING_AREA);
+    // East Hall Corner
+    Rooms[RM_EAST_HALL_CORNER].CanTravelTo = ROOMBIT(RM_EAST_HALL) | ROOMBIT(RM_OFFICE);
+    // Office
+    Rooms[RM_OFFICE].CanTravelTo = ROOMBIT(RM_EAST_HALL_CORNER) | ROOMBIT(RM_WEST_HALL_CORNER);
+}
+
+//
+// G_Main()
+// Basically calls everything else..
+//
+
+func_t G_Main(void) {
+    G_SetupAnimatronics();
+    G_SetupRooms();
 }
