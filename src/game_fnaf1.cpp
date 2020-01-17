@@ -48,17 +48,30 @@ aitrigger_t AI_Fred_OnAmbientUpdate(void) {
 }
 
 aitrigger_t AI_Fred_OnCamUpdate(void) {
-    // restrict fred's movement if we're starring at him
-    if (Camera.ViewLocation == Animas[A_FRED].Location) {
-        Animas[A_FRED].Update_Multiplier = 0;
-    } else {
-        Animas[A_FRED].Update_Multiplier = 1;
-    }
+  // If we're in attack mode.
+  if (Animas[A_FRED].AnimaMode == 1) {
+    if (Cameras.ViewLocation == CAM_4B)
+      Animas[A_FRED].IsLockedDown = true;
+    else
+      Animas[A_FRED].IsLockedDown = false;
+  } else { // We're roamin' like normal
+    if (Cameras.CameraInUse)
+      Animas[A_FRED].IsLockedDown = true;
+    else
+      Animas[A_FRED].IsLockedDown = false;
+  }
 }
 
 aitrigger_t AI_Fred_OnMove(void) {
   //footstep sound, evaluate next move ahead
   // Animas[A_FRED].Location = /*add stuff here*/;
+
+  // Switch in/out of Attack Mode.
+  if (Animas[A_FRED].Location == RM_EAST_HALL_CORNER)
+    // Moto -- maybe have #defines for modes?
+    Animas[A_FRED].AnimaMode = 1;
+  else if (Animas[A_FRED].Location == RM_EAST_HALL || Animas[A_FRED] == RM_OFFICE)
+    Animas[A_FRED].AnimaMode = 0;
 }
 
 aitrigger_t AI_Fred_OnKill(void) {
@@ -89,15 +102,10 @@ aitrigger_t AI_Fox_OnAmbientUpdate(void) {
 
 aitrigger_t AI_Fox_OnCamUpdate(void) {
     // decide whether or not to try and advance outta the cove.
-
-    // see if we're looking at pirate cove
-    if (Camera.ViewLocation == CAM_3) {
-        // if we look too often and ai level is high enough, increase multiplier
-        // moto FIXME - find real ai level and add frequency check
-        if (Animas[A_FOX].AiLevel >= 5 /*&& (FIXME - frequency check)*/)
-            Animas[A_FOX].Update_Multiplier = 2;
-        else // else, just restrict movement
-            Animas[A_FOX].Update_Multiplier = 0;
+    if (Cameras.CameraInUse && Animas[A_FOX].AnimaMode != 2) {
+      Animas[A_FOX].IsLockedDown = true;
+    } else {
+      Animas[A_FOX].IsLockedDown = false;
     }
 }
 

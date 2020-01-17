@@ -115,7 +115,8 @@ typedef struct {
 // anima_t
 // holds animatronic data
 typedef struct {
-  u32_t Update_Multiplier     = 1;
+  u32_t AnimaMode             = 0; // 0: Normal, 1: Attack/Running (Freddy/Foxy, respectively)
+  bool IsLockedDown;
   u32_t AiLevel               = 0;
   u32_t MoveChance            = 0;
   u32_t Location;
@@ -132,6 +133,7 @@ typedef struct {
 // holds player camera information
 typedef struct {
   u32_t ViewLocation;
+  bool CameraInUse;
 } camera_t;
 
 // gamestate_t
