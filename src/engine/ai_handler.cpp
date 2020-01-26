@@ -1,7 +1,7 @@
-#include "ai_handler.hpp"
-
+#include "types.hpp"
 
 void AI_GrantMovement(anima_t Anima) {
     
-    Animas[Anima].OnUpdate();
+    //Anima[0].OnUpdate();
+    return;
 }

@@ -4,6 +4,11 @@
 // added anima defs. -xaa 12/4/2019
 //
 
+#ifndef _TYPES_H_
+#define _TYPES_H_
+
+#include "version.hpp"
+
 //
 // macros - generic
 //
@@ -273,3 +278,5 @@ typedef struct {
   texture2d_t fredscare30;
 
 } vswap_t;
+
+#endif

@@ -3,7 +3,7 @@
 //
 
 #include "engine/types.hpp"
-//#include "engine/math.hpp"
+#include "engine/math.hpp"
 #include "engine/version.hpp"
 
 //
@@ -50,12 +50,12 @@ aitrigger_t AI_Fred_OnAmbientUpdate(void) {
 aitrigger_t AI_Fred_OnCamUpdate(void) {
   // If we're in attack mode.
   if (Animas[A_FRED].AnimaMode == 1) {
-    if (Cameras.ViewLocation == CAM_4B)
+    if (Camera.ViewLocation == CAM_4B)
       Animas[A_FRED].IsLockedDown = true;
     else
       Animas[A_FRED].IsLockedDown = false;
   } else { // We're roamin' like normal
-    if (Cameras.CameraInUse)
+    if (Camera.CameraInUse)
       Animas[A_FRED].IsLockedDown = true;
     else
       Animas[A_FRED].IsLockedDown = false;
@@ -70,7 +70,7 @@ aitrigger_t AI_Fred_OnMove(void) {
   if (Animas[A_FRED].Location == RM_EAST_HALL_CORNER)
     // Moto -- maybe have #defines for modes?
     Animas[A_FRED].AnimaMode = 1;
-  else if (Animas[A_FRED].Location == RM_EAST_HALL || Animas[A_FRED] == RM_OFFICE)
+  else if (Animas[A_FRED].Location == RM_EAST_HALL || Animas[A_FRED].Location == RM_OFFICE)
     Animas[A_FRED].AnimaMode = 0;
 }
 
@@ -102,7 +102,7 @@ aitrigger_t AI_Fox_OnAmbientUpdate(void) {
 
 aitrigger_t AI_Fox_OnCamUpdate(void) {
     // decide whether or not to try and advance outta the cove.
-    if (Cameras.CameraInUse && Animas[A_FOX].AnimaMode != 2) {
+    if (Camera.CameraInUse && Animas[A_FOX].AnimaMode != 2) {
       Animas[A_FOX].IsLockedDown = true;
     } else {
       Animas[A_FOX].IsLockedDown = false;
@@ -170,7 +170,7 @@ aitrigger_t AI_GFred_OnCamUpdate(void) {
         if (Math_GenerateChance(5)) {
             // FIXME - insert some garbage about poster here
             // FIXME - maybe have an if to check if can tp here (for consistency)
-            Animas[A_GFred].Location = Rooms[RM_OFFICE];
+            Animas[A_GFRED].Location = Rooms[RM_OFFICE].guid;
         }
     }
 }
