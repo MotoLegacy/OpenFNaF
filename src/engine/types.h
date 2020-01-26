@@ -7,7 +7,10 @@
 #ifndef _TYPES_H_
 #define _TYPES_H_
 
-#include "version.hpp"
+#include "version.h"
+
+#define TRUE    1
+#define FALSE   0
 
 //
 // macros - generic
@@ -66,6 +69,8 @@ typedef signed short      s16_t;
 typedef signed long       s32_t;
 typedef signed long long  s64_t;
 
+typedef u64_t bool;
+
 typedef u64_t bitfield_t;
 
 // !
@@ -120,10 +125,10 @@ typedef struct {
 // anima_t
 // holds animatronic data
 typedef struct {
-  u32_t AnimaMode             = 0; // 0: Normal, 1: Attack/Running (Freddy/Foxy, respectively)
+  u32_t AnimaMode; // 0: Normal, 1: Attack/Running (Freddy/Foxy, respectively)
   bool IsLockedDown;
-  u32_t AiLevel               = 0;
-  u32_t MoveChance            = 0;
+  u32_t AiLevel;
+  u32_t MoveChance;
   u32_t Location;
   func_t* OnUpdate;
   func_t* OnAmbientUpdate;
@@ -148,9 +153,9 @@ typedef struct {
   //general variables
   u64_t State;
   u64_t GState; //?
-  u64_t LoadState = 0;
-  u64_t GameInit = 0;
-  s64_t ScrollX = -124; //scroll state of the room
+  u64_t LoadState;
+  u64_t GameInit;
+  s64_t ScrollX; //scroll state of the room
   u64_t GM_HOUR;
   u64_t GM_NIGHT;
   
@@ -170,17 +175,17 @@ typedef struct {
   doorstate_e DoorRightSwitched;
   
   //other switches
-  bool PressC    = false;
-  bool PressT    = false;
-  bool FredScare = false;
+  bool PressC;
+  bool PressT;
+  bool FredScare;
   
   //various game timers
-  u64_t ScareTicker  = 0;
-  u64_t StaticTicker = 0;
-  u64_t FanTicker = 0;
-  u64_t FlickerTicker = 0;
-  u64_t IntroTicker = 0;
-  u64_t HourTicker = 0;
+  u64_t ScareTicker;
+  u64_t StaticTicker;
+  u64_t FanTicker;
+  u64_t FlickerTicker;
+  u64_t IntroTicker;
+  u64_t HourTicker;
 
 } gamestate_t;
 
@@ -193,10 +198,10 @@ typedef struct {
   //methods
   //example: Graphics.DrawText(...);
   // FIXME - make platform independent and replace null pointers - moto
-  func_t* DrawText    = nullptr;
-  func_t* DrawTexture = nullptr;
-  func_t* Free        = nullptr;
-  func_t* Load        = nullptr;
+  func_t* DrawText;
+  func_t* DrawTexture;
+  func_t* Free;
+  func_t* Load;
 
   //static texture pages start
   //scene

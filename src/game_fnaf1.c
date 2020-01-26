@@ -2,16 +2,16 @@
 // includes
 //
 
-#include "engine/types.hpp"
-#include "engine/math.hpp"
-#include "engine/version.hpp"
+#include "engine/types.h"
+#include "engine/math.h"
+#include "engine/version.h"
 
 //
 // externs
 //
 
-extern anima_t Animas[G_NUM_ANIMAS];
-extern camera_t Camera;
+anima_t Animas[G_NUM_ANIMAS];
+camera_t Camera;
 
 //
 // globals
@@ -51,14 +51,14 @@ aitrigger_t AI_Fred_OnCamUpdate(void) {
   // If we're in attack mode.
   if (Animas[A_FRED].AnimaMode == 1) {
     if (Camera.ViewLocation == CAM_4B)
-      Animas[A_FRED].IsLockedDown = true;
+      Animas[A_FRED].IsLockedDown = TRUE;
     else
-      Animas[A_FRED].IsLockedDown = false;
+      Animas[A_FRED].IsLockedDown = FALSE;
   } else { // We're roamin' like normal
     if (Camera.CameraInUse)
-      Animas[A_FRED].IsLockedDown = true;
+      Animas[A_FRED].IsLockedDown = TRUE;
     else
-      Animas[A_FRED].IsLockedDown = false;
+      Animas[A_FRED].IsLockedDown = FALSE;
   }
 }
 
@@ -103,9 +103,9 @@ aitrigger_t AI_Fox_OnAmbientUpdate(void) {
 aitrigger_t AI_Fox_OnCamUpdate(void) {
     // decide whether or not to try and advance outta the cove.
     if (Camera.CameraInUse && Animas[A_FOX].AnimaMode != 2) {
-      Animas[A_FOX].IsLockedDown = true;
+      Animas[A_FOX].IsLockedDown = TRUE;
     } else {
-      Animas[A_FOX].IsLockedDown = false;
+      Animas[A_FOX].IsLockedDown = FALSE;
     }
 }
 
@@ -212,7 +212,7 @@ func_t G_SetupRooms(void) {
                                         | ROOMBIT(RM_PIRATE_COVE) | ROOMBIT(RM_WEST_HALL) | ROOMBIT(RM_EAST_HALL)
                                         | ROOMBIT(RM_KITCHEN);
     // Back Stage, Restrooms, Kitchen, & Pirate Cove
-    Rooms[RM_BACKSTAGE].CanTravelTo = Rooms[RM_RESTROOMS].CanTravelTo = Rooms[RM_KITCHEN] =
+    Rooms[RM_BACKSTAGE].CanTravelTo = Rooms[RM_RESTROOMS].CanTravelTo = Rooms[RM_KITCHEN].CanTravelTo =
                                     Rooms[RM_PIRATE_COVE].CanTravelTo =  ROOMBIT(RM_DINING_AREA);
     // West hall
     Rooms[RM_WEST_HALL].CanTravelTo = ROOMBIT(RM_WEST_HALL_CORNER) | ROOMBIT(RM_DINING_AREA) | ROOMBIT(RM_SUPPLY_CLOSET);

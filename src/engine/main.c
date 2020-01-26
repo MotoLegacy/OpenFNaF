@@ -1,5 +1,5 @@
-#include "window.hpp"
-#include "version.hpp"
+#include "window.h"
+#include "version.h"
 
 int main(int argc, char* argv[]) {
     Window_Initialize(I_GAME_WIDTH, I_GAME_HEIGHT, I_GAME_TITLE, argc, argv);

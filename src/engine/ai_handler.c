@@ -1,4 +1,4 @@
-#include "types.hpp"
+#include "types.h"
 
 void AI_GrantMovement(anima_t Anima) {
     

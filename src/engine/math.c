@@ -2,8 +2,8 @@
 // includes
 //
 
-#include "math.hpp"
-#include "types.hpp"
+#include "math.h"
+#include "types.h"
 
 //
 // globals
@@ -35,9 +35,9 @@ bool Math_GenerateChance(u64_t percentage) {
     u64_t random = Math_Prng() % 100 + 1;
 
     if (random <= percentage)
-        return true;
+        return TRUE;
 
-    return false;
+    return FALSE;
 }
 
 //

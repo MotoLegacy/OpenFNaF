@@ -2,7 +2,7 @@
 #define _MATH_H_
 
 #include <stdlib.h>
-#include "types.hpp"
+#include "types.h"
 
 //
 // prototypes
