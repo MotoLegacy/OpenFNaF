@@ -1,2 +1,3 @@
 FMH
+*.o
 .vscode/*
