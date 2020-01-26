@@ -126,6 +126,7 @@ typedef struct {
 // holds animatronic data
 typedef struct {
   u32_t AnimaMode; // 0: Normal, 1: Attack/Running (Freddy/Foxy, respectively)
+  u64_t UpdateTime;
   bool IsLockedDown;
   u32_t AiLevel;
   u32_t MoveChance;

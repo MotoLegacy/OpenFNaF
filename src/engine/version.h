@@ -28,9 +28,15 @@
 //FNAF 2
 #ifdef GAME_FNAF2
   #define I_SUPPORT_VERSION  "0.00"
+  #define I_GAME_TITLE        "Five Nights at Freddy's 2"
+  #define I_GAME_WIDTH        1024
+  #define I_GAME_HEIGHT       768
 #endif
 
 //FNAF 3
 #ifdef GAME_FNAF3
   #define I_SUPPORT_VERSION  "0.00"
+  #define I_GAME_TITLE        "Five Nights at Freddy's 3"
+  #define I_GAME_WIDTH        1024
+  #define I_GAME_HEIGHT       768
 #endif

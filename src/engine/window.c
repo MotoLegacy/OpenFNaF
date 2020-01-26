@@ -2,6 +2,8 @@
 //#ifdef LINUX
 
 // Using GLUT instead of XLIB on Linux because it's easier
+#include "types.h"
+#include <stdio.h>
 #include <GL/glut.h>
 
 void Window_Initialize(int width, int height, char* title, int argc, char* argv[]) {
@@ -18,11 +20,15 @@ void Window_Initialize(int width, int height, char* title, int argc, char* argv[
 
     glutCreateWindow(title);
 
-	glutMainLoop();
+
 }
 
 void Window_Close() {
     glutDestroyWindow(0);
+}
+
+void Window_Update() {
+    glutMainLoopEvent();
 }
 
 //#endif //LINUX

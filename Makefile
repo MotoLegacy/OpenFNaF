@@ -1,10 +1,11 @@
 # Source file Objects
 OBJS = \
+	src/engine/game_fnaf1.o \
+	src/engine/game.o \
 	src/engine/main.o \
 	src/engine/window.o \
 	src/engine/math.o \
 	src/engine/ai_handler.o \
-	src/engine/game_fnaf1.o \
 
 # Application Name
 NAME = FMH
@@ -25,11 +26,12 @@ install:
 
 	# Create Object Files
 	# FIXME - Make automatic
+	$(CXX) $(CFLAGS) -c src/game_fnaf1.c
+	$(CXX) $(CFLAGS) -c src/engine/game.c
 	$(CXX) $(CFLAGS) -c src/engine/main.c
 	$(CXX) $(CFLAGS) -c src/engine/window.c
 	$(CXX) $(CFLAGS) -c src/engine/math.c
 	$(CXX) $(CFLAGS) -c src/engine/ai_handler.c
-	$(CXX) $(CFLAGS) -c src/game_fnaf1.c
 	mv *.o src/engine/
 
 	# Build into Executable 

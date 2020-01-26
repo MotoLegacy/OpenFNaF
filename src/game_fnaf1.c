@@ -2,6 +2,9 @@
 // includes
 //
 
+// TEMP
+#include <stdio.h>
+
 #include "engine/types.h"
 #include "engine/math.h"
 #include "engine/version.h"
@@ -228,10 +231,19 @@ func_t G_SetupRooms(void) {
 
 //
 // G_Main()
-// Basically calls everything else..
+// Game-specific initialization.
 //
 
 func_t G_Main(void) {
     G_SetupAnimatronics();
     G_SetupRooms();
+}
+
+//
+// G_GameLoop()
+// Called every frame
+//
+func_t G_GameLoop(void) {
+    printf("haha i'm being ran lol\n");
+    return;
 }

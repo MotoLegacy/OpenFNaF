@@ -3,5 +3,6 @@
 
 void Window_Initialize(int width, int height, char* title, int argc, char* argv[]);
 void Window_Close();
+void Window_Update();
 
 #endif
