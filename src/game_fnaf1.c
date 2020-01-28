@@ -187,16 +187,20 @@ func_t G_SetupAnimatronics(void) {
   //fred
   Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
   Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
+  //Animas[A_FRED].UpdateTime = ;
 
   //fox
   Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
   Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
+  //Animas[A_FRED].UpdateTime = ;
 
   //bird
   Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
+  //Animas[A_FRED].UpdateTime = ;
 
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
+  //Animas[A_FRED].UpdateTime = ;
 
   //goldfred
   Animas[A_GFRED].OnCamUpdate = &AI_GFred_OnCamUpdate;
@@ -244,6 +248,6 @@ func_t G_Main(void) {
 // Called every frame
 //
 func_t G_GameLoop(void) {
-    printf("haha i'm being ran lol\n");
+
     return;
 }
