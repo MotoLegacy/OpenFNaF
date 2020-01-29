@@ -66,16 +66,44 @@ aitrigger_t AI_Fred_OnCamUpdate(void) {
   }
 }
 
+// Fred follows the set path of:
+//
+// Show Stage > Dining Area > Restrooms >
+// Kitchen > East Hall > East Hall Corner
+//
+// Will linger, attempts to enter office that fail
+// will send him back to the East Hall.
+//
+// TODO: Flesh out attack mode, footsteps
 aitrigger_t AI_Fred_OnMove(void) {
-  printf("FRED MOVED\n");
+
+  switch(Animas[A_FRED].Location) {
+    case ROOMBIT(RM_SHOW_STAGE):
+      Animas[A_FRED].Location = ROOMBIT(RM_DINING_AREA);
+      break;
+    case ROOMBIT(RM_DINING_AREA):
+      Animas[A_FRED].Location = ROOMBIT(RM_RESTROOMS);
+      break;
+    case ROOMBIT(RM_RESTROOMS):
+      Animas[A_FRED].Location = ROOMBIT(RM_KITCHEN);
+      break;
+    case ROOMBIT(RM_KITCHEN):
+      Animas[A_FRED].Location = ROOMBIT(RM_EAST_HALL);
+      break;
+    case ROOMBIT(RM_EAST_HALL):
+      Animas[A_FRED].Location = ROOMBIT(RM_EAST_HALL_CORNER);
+      break;
+  }
+
+  printf("FRED MOVED TO ROOM WITH ID %ld\n", Animas[A_FRED].Location);
   //footstep sound, evaluate next move ahead
   // Animas[A_FRED].Location = /*add stuff here*/;
 
   // Switch in/out of Attack Mode.
-  if (Animas[A_FRED].Location == RM_EAST_HALL_CORNER)
+  if (Animas[A_FRED].Location == ROOMBIT(RM_EAST_HALL_CORNER))
     // Moto -- maybe have #defines for modes?
     Animas[A_FRED].AnimaMode = 1;
-  else if (Animas[A_FRED].Location == RM_EAST_HALL || Animas[A_FRED].Location == RM_OFFICE)
+  else if (Animas[A_FRED].Location == ROOMBIT(RM_EAST_HALL) || Animas[A_FRED].Location == ROOMBIT(RM_OFFICE))
     Animas[A_FRED].AnimaMode = 0;
 }
 
@@ -135,10 +163,50 @@ aitrigger_t AI_Bird_OnCamUpdate(void) {
   //?
 }
 
+// Bird can move randomly to any location on the right side
+// of the building. This includes:
+//
+// * Kitchen (10)
+// * Restrooms (9)
+// * Dining Area (3)
+// * East Hall (5)
+// * East Hall Corner (6)
+//
+// Bird appears on the right door of the office.
+//
+// TODO: Footsteps, enter office.
 aitrigger_t AI_Bird_OnMove(void) {
-  printf("BIRD MOVED\n");
-  //footstep sound, evaluate next move ahead
-  // Animas[A_BIRD].Location = /*add stuff here*/;
+  u16_t Loc = Math_SeedRandom(101, 5);
+
+  switch(Loc) {
+    // Dining Area
+    case 1:
+      Loc = 3;
+      break;
+    // Restrooms
+    case 2:
+      Loc = 10;
+      break;
+    // Kitchen
+    case 3:
+      Loc = 9;
+      break;
+    // East Hall
+    case 4:
+      Loc = 5;
+      break;
+    // East Hall Corner
+    case 5:
+      Loc = 6;
+      break;
+    // Failsafe - Dining Area
+    default:
+      Loc = 3;
+      break;
+  }
+
+  Animas[A_BIRD].Location = ROOMBIT(Loc);
+  printf("BIRD MOVED TO ROOM WITH ID %ld\n", Animas[A_BIRD].Location);
 }
 
 aitrigger_t AI_Bird_OnKill(void) {
@@ -157,10 +225,50 @@ aitrigger_t AI_Bun_OnCamUpdate(void) {
   //?
 }
 
+// Bun can move randomly to any location on the left side
+// of the building, excluding PC. This includes:
+//
+// * Dining Area (3)
+// * Backstage (2)
+// * West Hall (7)
+// * Supply Closet (11)
+// * West Hall Corner (8)
+//
+// Bun appears on the left door of the office.
+//
+// TODO: Footsteps, enter office.
 aitrigger_t AI_Bun_OnMove(void) {
-  printf("BUN MOVED\n");
-  //footstep sound, evaluate next move ahead
-  // Animas[A_BUN].Location = /*add stuff here*/;
+  u16_t Loc = Math_SeedRandom(101, 5);
+
+  switch(Loc) {
+    // Dining Area
+    case 1:
+      Loc = 3;
+      break;
+    // Backstage
+    case 2:
+      Loc = 2;
+      break;
+    // West Hall
+    case 3:
+      Loc = 7;
+      break;
+    // Supply Closet
+    case 4:
+      Loc = 11;
+      break;
+    // West Hall Corner
+    case 5:
+      Loc = 8;
+      break;
+    // Failsafe - Dining Area
+    default:
+      Loc = 3;
+      break;
+  }
+
+  Animas[A_BUN].Location = ROOMBIT(Loc);
+  printf("BUN MOVED TO ROOM WITH ID %ld\n", Animas[A_BUN].Location);
 }
 
 aitrigger_t AI_Bun_OnKill(void) {
@@ -178,7 +286,7 @@ aitrigger_t AI_GFred_OnCamUpdate(void) {
         if (Math_GenerateChance(5)) {
             // FIXME - insert some garbage about poster here
             // FIXME - maybe have an if to check if can tp here (for consistency)
-            Animas[A_GFRED].Location = Rooms[RM_OFFICE].guid;
+            Animas[A_GFRED].Location = ROOMBIT(RM_OFFICE);
         }
     }
 }
@@ -196,6 +304,7 @@ func_t G_SetupAnimatronics(void) {
   Animas[A_FRED].OnMove = &AI_Fred_OnMove;
   Animas[A_FRED].UpdateTime = 3.02;
   Animas[A_FRED].AiLevel = 0;
+  Animas[A_FRED].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //fox
   Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
@@ -203,18 +312,21 @@ func_t G_SetupAnimatronics(void) {
   Animas[A_FOX].OnMove = &AI_Fox_OnMove;
   Animas[A_FOX].UpdateTime = 5.01;
   Animas[A_FOX].AiLevel = 1;
+  Animas[A_FOX].Location = ROOMBIT(RM_PIRATE_COVE);
 
   //bird
   Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
   Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
   Animas[A_BIRD].UpdateTime = 4.98;
   Animas[A_BIRD].AiLevel = 1;
+  Animas[A_BIRD].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
   Animas[A_BUN].OnMove = &AI_Bun_OnMove;
   Animas[A_BUN].UpdateTime = 4.96; //FIXME - 4.97 just.. doesn't work?
   Animas[A_BUN].AiLevel = 3;
+  Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //goldfred
   Animas[A_GFRED].OnCamUpdate = &AI_GFred_OnCamUpdate;
