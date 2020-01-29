@@ -2,9 +2,6 @@
 #include "game.h"
 #include "math.h"
 
-// TEMP
-#include <stdio.h>
-
 void AI_CheckMovement(anima_t Anima) {
     float TimerFloat;
 
@@ -16,10 +13,9 @@ void AI_CheckMovement(anima_t Anima) {
     if (TimerFloat == Anima.UpdateTime) {
         u16_t Calculation = Math_SeedRandom(420, 20);
 
+        // Move if the die said we could
         if (Calculation <= Anima.AiLevel) {
-            printf("shoula moved\n");
-            // FIXME -- figure out how to execute this
-            (&Anima.OnMove);
+            Anima.OnMove();
         }
     }
         

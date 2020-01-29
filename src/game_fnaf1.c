@@ -67,7 +67,7 @@ aitrigger_t AI_Fred_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Fred_OnMove(void) {
-  printf("FRED MOVED");
+  printf("FRED MOVED\n");
   //footstep sound, evaluate next move ahead
   // Animas[A_FRED].Location = /*add stuff here*/;
 
@@ -115,7 +115,7 @@ aitrigger_t AI_Fox_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Fox_OnMove(void) {
-  printf("FOX MOVED");
+  printf("FOX MOVED\n");
   //in case we're forgetting anything special about him running down the hall
 }
 
@@ -136,7 +136,7 @@ aitrigger_t AI_Bird_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Bird_OnMove(void) {
-  printf("BIRD MOVED");
+  printf("BIRD MOVED\n");
   //footstep sound, evaluate next move ahead
   // Animas[A_BIRD].Location = /*add stuff here*/;
 }
@@ -158,7 +158,7 @@ aitrigger_t AI_Bun_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Bun_OnMove(void) {
-  printf("BUN MOVED");
+  printf("BUN MOVED\n");
   //footstep sound, evaluate next move ahead
   // Animas[A_BUN].Location = /*add stuff here*/;
 }
@@ -200,7 +200,7 @@ func_t G_SetupAnimatronics(void) {
   //fox
   Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
   Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
-  Animas[A_FOX].OnMove = &AI_Fred_OnMove;
+  Animas[A_FOX].OnMove = &AI_Fox_OnMove;
   Animas[A_FOX].UpdateTime = 5.01;
   Animas[A_FOX].AiLevel = 1;
 
@@ -213,7 +213,7 @@ func_t G_SetupAnimatronics(void) {
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
   Animas[A_BUN].OnMove = &AI_Bun_OnMove;
-  Animas[A_BUN].UpdateTime = 4.97;
+  Animas[A_BUN].UpdateTime = 4.96; //FIXME - 4.97 just.. doesn't work?
   Animas[A_BUN].AiLevel = 3;
 
   //goldfred

@@ -135,7 +135,7 @@ typedef struct {
   func_t* OnAmbientUpdate;
   func_t* OnCamUpdate;
   func_t* OnDraw;
-  func_t* OnMove;
+  void (*OnMove)(); // Why can't we use our typedef for function pointers..?
   func_t* OnKill;
   func_t* OnPowerLoss;
 } anima_t;
