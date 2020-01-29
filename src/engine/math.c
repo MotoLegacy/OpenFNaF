@@ -44,11 +44,14 @@ bool Math_GenerateChance(u64_t percentage) {
 // Math_SeedRandom(u64_t seed)
 // occasionally useful for internal randomness.
 //
-u64_t Math_SeedRandom(u64_t seed) {
+u64_t Math_SeedRandom(u64_t seed, u64_t max) {
 
-  u64_t random = (Math_Prng() << 24) & (Math_Prng() << 16) & (Math_Prng() << 8) & Math_Prng();
+  u64_t random = (Math_Prng() << 24) | (Math_Prng() << 16) | (Math_Prng() << 8) | Math_Prng();
   random << (Math_Prng()%32);
   random ^= seed;
+
+  if (max)
+    random = random % max + 1;
   
   return random;
 }

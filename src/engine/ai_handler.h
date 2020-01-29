@@ -1,6 +1,8 @@
 #ifndef _H_AIHANDLER
 #define _H_AIHANDLER
 
-//todo
+#include "types.h"
+
+void AI_CheckMovement(anima_t Anima);
 
 #endif

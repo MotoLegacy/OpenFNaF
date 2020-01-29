@@ -2,12 +2,13 @@
 // includes
 //
 
-// TEMP
-#include <stdio.h>
-
 #include "engine/types.h"
 #include "engine/math.h"
 #include "engine/version.h"
+#include "engine/ai_handler.h"
+
+// TEMP
+#include <stdio.h>
 
 //
 // externs
@@ -66,6 +67,7 @@ aitrigger_t AI_Fred_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Fred_OnMove(void) {
+  printf("FRED MOVED");
   //footstep sound, evaluate next move ahead
   // Animas[A_FRED].Location = /*add stuff here*/;
 
@@ -113,6 +115,7 @@ aitrigger_t AI_Fox_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Fox_OnMove(void) {
+  printf("FOX MOVED");
   //in case we're forgetting anything special about him running down the hall
 }
 
@@ -133,6 +136,7 @@ aitrigger_t AI_Bird_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Bird_OnMove(void) {
+  printf("BIRD MOVED");
   //footstep sound, evaluate next move ahead
   // Animas[A_BIRD].Location = /*add stuff here*/;
 }
@@ -154,6 +158,7 @@ aitrigger_t AI_Bun_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Bun_OnMove(void) {
+  printf("BUN MOVED");
   //footstep sound, evaluate next move ahead
   // Animas[A_BUN].Location = /*add stuff here*/;
 }
@@ -183,24 +188,33 @@ aitrigger_t AI_GFred_OnCamUpdate(void) {
 // Set initial stats and updates for animatronics.
 //
 
+// FIXME - just using night 2 ai levels for now
 func_t G_SetupAnimatronics(void) {
   //fred
   Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
   Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
-  //Animas[A_FRED].UpdateTime = ;
+  Animas[A_FRED].OnMove = &AI_Fred_OnMove;
+  Animas[A_FRED].UpdateTime = 3.02;
+  Animas[A_FRED].AiLevel = 0;
 
   //fox
   Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
   Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
-  //Animas[A_FRED].UpdateTime = ;
+  Animas[A_FOX].OnMove = &AI_Fred_OnMove;
+  Animas[A_FOX].UpdateTime = 5.01;
+  Animas[A_FOX].AiLevel = 1;
 
   //bird
   Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
-  //Animas[A_FRED].UpdateTime = ;
+  Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
+  Animas[A_BIRD].UpdateTime = 4.98;
+  Animas[A_BIRD].AiLevel = 1;
 
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
-  //Animas[A_FRED].UpdateTime = ;
+  Animas[A_BUN].OnMove = &AI_Bun_OnMove;
+  Animas[A_BUN].UpdateTime = 4.97;
+  Animas[A_BUN].AiLevel = 3;
 
   //goldfred
   Animas[A_GFRED].OnCamUpdate = &AI_GFred_OnCamUpdate;
@@ -248,6 +262,13 @@ func_t G_Main(void) {
 // Called every frame
 //
 func_t G_GameLoop(void) {
+    // Run the AI movement checks
+    for(int i = 0; i < G_NUM_ANIMAS; i++) {
+        // We don't wanna check for golden freddy
+        if (i == A_GFRED)
+            return;
 
+        AI_CheckMovement(Animas[i]);
+    }
     return;
 }

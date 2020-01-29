@@ -5,6 +5,9 @@
 extern void G_Main(void);
 extern void G_GameLoop(void);
 
+extern int Current_Frame;
+extern int Current_Second;
+
 // For handling Game
 void Game_Initialize(void);
 
