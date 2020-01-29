@@ -126,7 +126,7 @@ typedef struct {
 // holds animatronic data
 typedef struct {
   u32_t AnimaMode; // 0: Normal, 1: Attack/Running (Freddy/Foxy, respectively)
-  double UpdateTime; // FIXME - make typedef for doubles?
+  float UpdateTime; // FIXME - make typedef for floats?
   bool IsLockedDown;
   u32_t AiLevel;
   u32_t MoveChance;

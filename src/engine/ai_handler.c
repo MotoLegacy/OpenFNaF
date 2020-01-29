@@ -6,15 +6,15 @@
 #include <stdio.h>
 
 void AI_CheckMovement(anima_t Anima) {
-    double TimerDouble;
+    float TimerFloat;
 
-    // Get gametime in a double to easily compare with
+    // Get gametime in a float to easily compare with
     // anima's UpdateTime.
-    TimerDouble = (double) Current_Second;
-    TimerDouble += (double)(Current_Frame)/100;
+    TimerFloat = (float) Current_Second;
+    TimerFloat += (float)(Current_Frame)/100;
 
-    if (TimerDouble == Anima.UpdateTime) {
-        u64_t Calculation = Math_SeedRandom(420, 20);
+    if (TimerFloat == Anima.UpdateTime) {
+        u16_t Calculation = Math_SeedRandom(420, 20);
 
         if (Calculation <= Anima.AiLevel) {
             printf("shoula moved\n");
