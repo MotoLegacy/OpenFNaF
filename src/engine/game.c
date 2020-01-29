@@ -1,20 +1,12 @@
 #include "game.h"
+#include "time.h"
 #include "types.h"
 #include "window.h"
-
-#include <time.h>
 
 #define FRAMES_PER_SECOND       60
 
 int Current_Frame;
 int Current_Second;
-
-// Really no better way to put this unless we have more time funcs. in the
-// future.. time.c when
-void delay(unsigned int mseconds) {
-    clock_t goal = mseconds + clock();
-    while (goal > clock());
-}
 
 void Game_Initialize(void) {
     bool Running;
