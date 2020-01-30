@@ -10,12 +10,10 @@
 // TEMP
 #include <stdio.h>
 
-//
-// externs
-//
 
 anima_t Animas[G_NUM_ANIMAS];
 camera_t Camera;
+gamestate_t Game;
 
 //
 // globals
@@ -302,7 +300,7 @@ func_t G_SetupAnimatronics(void) {
   Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
   Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
   Animas[A_FRED].OnMove = &AI_Fred_OnMove;
-  Animas[A_FRED].UpdateTime = 3.02;
+  Animas[A_FRED].UpdateTime = Animas[A_FRED].UpdateInterval = 3.03;
   Animas[A_FRED].AiLevel = 0;
   Animas[A_FRED].Location = ROOMBIT(RM_SHOW_STAGE);
 
@@ -310,22 +308,22 @@ func_t G_SetupAnimatronics(void) {
   Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
   Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
   Animas[A_FOX].OnMove = &AI_Fox_OnMove;
-  Animas[A_FOX].UpdateTime = 5.01;
+  Animas[A_FOX].UpdateTime = Animas[A_FOX].UpdateInterval = 5.01;
   Animas[A_FOX].AiLevel = 1;
   Animas[A_FOX].Location = ROOMBIT(RM_PIRATE_COVE);
 
   //bird
   Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
   Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
-  Animas[A_BIRD].UpdateTime = 4.98;
+  Animas[A_BIRD].UpdateTime = Animas[A_BIRD].UpdateInterval = 4.98;
   Animas[A_BIRD].AiLevel = 1;
   Animas[A_BIRD].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
   Animas[A_BUN].OnMove = &AI_Bun_OnMove;
-  Animas[A_BUN].UpdateTime = 4.96; //FIXME - 4.97 just.. doesn't work?
-  Animas[A_BUN].AiLevel = 3;
+  Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.96; //FIXME - 4.97 just.. doesn't work?
+  Animas[A_BUN].AiLevel = 20;
   Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //goldfred
@@ -360,13 +358,44 @@ func_t G_SetupRooms(void) {
 }
 
 //
+// G_AdvanceTime()
+// Called to update the game Hour and do whatever
+// else needs done per hour, such as ai updating
+//
+func_t G_AdvanceTime(void) {
+  // Increase Hour var
+  Game.Hour++;
+
+  // Update ai values
+  switch(Game.Hour) {
+    case 2:
+      if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++;
+      break;
+    case 3:
+    case 4:
+      if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++;
+      if (Animas[A_BIRD].AiLevel != 20) Animas[A_BIRD].AiLevel++;
+      if (Animas[A_FOX].AiLevel != 20) Animas[A_FOX].AiLevel++;
+      break;
+  }
+
+  /*if (Game.Hour == 6)
+    EndGame();*/
+}
+
+//
 // G_Main()
 // Game-specific initialization.
 //
 
-func_t G_Main(void) {
+func_t G_Main(u16_t night) {
+    // Init Animas and Rooms
     G_SetupAnimatronics();
     G_SetupRooms();
+
+    // Define Night and Hour
+    Game.Night = night;
+    Game.Hour = 0;
 }
 
 //

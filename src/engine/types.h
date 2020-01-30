@@ -53,6 +53,9 @@
   #define RM_KITCHEN            10
   #define RM_SUPPLY_CLOSET      11
 
+  // clock
+  #define SECONDS_PER_HOUR      90
+
 #endif
 
 //
@@ -127,6 +130,7 @@ typedef struct {
 typedef struct {
   u32_t AnimaMode; // 0: Normal, 1: Attack/Running (Freddy/Foxy, respectively)
   float UpdateTime; // FIXME - make typedef for floats?
+  float UpdateInterval;
   bool IsLockedDown;
   u32_t AiLevel;
   u32_t MoveChance;
@@ -150,44 +154,8 @@ typedef struct {
 // gamestate_t
 // holds all the game variables
 typedef struct {
-
-  //general variables
-  u64_t State;
-  u64_t GState; //?
-  u64_t LoadState;
-  u64_t GameInit;
-  s64_t ScrollX; //scroll state of the room
-  u64_t GM_HOUR;
-  u64_t GM_NIGHT;
-  
-  //animatronic states
-  animastate_t GM_BEAR;
-  animastate_t GM_BUNNY;
-  animastate_t GM_BIRD;
-  animastate_t GM_FOX;
-
-  //light & power states
-  lightstate_e LightLeft;
-  lightstate_e LightRight;
-  u64_t power;
-  
-  //door states
-  doorstate_e DoorLeftSwitched;
-  doorstate_e DoorRightSwitched;
-  
-  //other switches
-  bool PressC;
-  bool PressT;
-  bool FredScare;
-  
-  //various game timers
-  u64_t ScareTicker;
-  u64_t StaticTicker;
-  u64_t FanTicker;
-  u64_t FlickerTicker;
-  u64_t IntroTicker;
-  u64_t HourTicker;
-
+  u16_t Hour;
+  u16_t Night;
 } gamestate_t;
 
 // vswap_t

@@ -5,41 +5,32 @@
 
 #define FRAMES_PER_SECOND       60
 
-int Current_Frame;
-int Current_Second;
-
 void Game_Initialize(void) {
     bool Running;
 
+    int hour;
+    hour = 1;
+
     Running = TRUE;
 
-    G_Main();
+    // TODO: Proper saving, just be night one for now.
+    G_Main(1);
     
     while(Running) {
         // Run our Game's loop
         G_GameLoop();
 
-        // Update our Window at the end of every frame
-        Window_Update();
+        // Increment Game Time
+        Time_Tick();
 
-        // Update our Frame and Second counter
-        // The Frame Counter works with AI handler
-        // to do movement checks
-        //
-        // Note that these frames go up to 99, because
-        // I'm bad.
-        // - Moto
-        Current_Frame++;
-
-        if (Current_Frame >= 100) {
-            Current_Second++;
-            Current_Frame = 0;
+        // Check if we should allow game time advance
+        if (Current_Second >= SECONDS_PER_HOUR * hour) {
+            G_AdvanceTime();
+            hour++;
         }
 
-        if (Current_Second == 6)
-            Current_Second = 1;
-
-        //printf("frame %f\n", (double)Current_Frame/60);
+        // Update our Window at the end of every frame
+        Window_Update();
 
         // Wait until FPS cap says we can do more
         delay(FRAMES_PER_SECOND * 300); // no clue why this is 300 lol
