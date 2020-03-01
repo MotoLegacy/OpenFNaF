@@ -1,15 +1,19 @@
+#include <stdio.h>
+
 #include "game.h"
-#include "time.h"
 #include "types.h"
+#include "time.h"
 #include "window.h"
 
-#define FRAMES_PER_SECOND       60
+#define FRAMES_PER_SECOND       30
 
 void Game_Initialize(void) {
     bool Running;
 
     int hour;
     hour = 1;
+
+    int i = 0;
 
     Running = TRUE;
 
@@ -22,6 +26,7 @@ void Game_Initialize(void) {
 
         // Increment Game Time
         Time_Tick();
+        i++;
 
         // Check if we should allow game time advance
         if (Current_Second >= SECONDS_PER_HOUR * hour) {
@@ -32,7 +37,7 @@ void Game_Initialize(void) {
         // Update our Window at the end of every frame
         Window_Update();
 
-        // Wait until FPS cap says we can do more
-        delay(FRAMES_PER_SECOND * 300); // no clue why this is 300 lol
+        // Limit interations of non-time calculating code, per FPS cap
+        delay(1000/FRAMES_PER_SECOND);
     }
 }

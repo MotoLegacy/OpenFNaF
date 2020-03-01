@@ -1,7 +1,7 @@
 #include "types.h"
 
 #include <time.h>
-#include <stdio.h>
+
 
 float Current_Tsecond;
 u16_t Current_Second;
@@ -16,6 +16,7 @@ void Time_Tick() {
 }
 
 void delay(unsigned int mseconds) {
-    clock_t goal = mseconds + clock();
-    while (goal > clock());
+    clock_t Start_Time = clock();
+
+    while(clock() < Start_Time + mseconds * 1000);
 }

@@ -294,14 +294,14 @@ aitrigger_t AI_GFred_OnCamUpdate(void) {
 // Set initial stats and updates for animatronics.
 //
 
-// FIXME - just using night 2 ai levels for now
+// FIXME - just using 4/20 values for now
 func_t G_SetupAnimatronics(void) {
   //fred
   Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
   Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
   Animas[A_FRED].OnMove = &AI_Fred_OnMove;
   Animas[A_FRED].UpdateTime = Animas[A_FRED].UpdateInterval = 3.03;
-  Animas[A_FRED].AiLevel = 0;
+  Animas[A_FRED].AiLevel = 20;
   Animas[A_FRED].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //fox
@@ -309,20 +309,20 @@ func_t G_SetupAnimatronics(void) {
   Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
   Animas[A_FOX].OnMove = &AI_Fox_OnMove;
   Animas[A_FOX].UpdateTime = Animas[A_FOX].UpdateInterval = 5.01;
-  Animas[A_FOX].AiLevel = 1;
+  Animas[A_FOX].AiLevel = 20;
   Animas[A_FOX].Location = ROOMBIT(RM_PIRATE_COVE);
 
   //bird
   Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
   Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
   Animas[A_BIRD].UpdateTime = Animas[A_BIRD].UpdateInterval = 4.98;
-  Animas[A_BIRD].AiLevel = 1;
+  Animas[A_BIRD].AiLevel = 20;
   Animas[A_BIRD].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
   Animas[A_BUN].OnMove = &AI_Bun_OnMove;
-  Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.96; //FIXME - 4.97 just.. doesn't work?
+  Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.97;
   Animas[A_BUN].AiLevel = 20;
   Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
 
