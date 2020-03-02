@@ -154,8 +154,8 @@ typedef struct {
 // gamestate_t
 // holds all the game variables
 typedef struct {
-  u16_t Hour;
-  u16_t Night;
+  u8_t Hour;
+  u8_t Night;
 } gamestate_t;
 
 // vswap_t

@@ -8,7 +8,7 @@
 void Game_Initialize(void) {
     bool Running;
 
-    u16_t hour;
+    u8_t hour;
     hour = 0;
 
     Running = TRUE;
