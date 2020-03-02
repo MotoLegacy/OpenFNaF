@@ -18,13 +18,13 @@ void Time_Tick() {
     }
 }
 
-bool Time_FrameReady(unsigned int id) {
+bool Time_FrameReady(u16_t id) {
     if (clock() > Delay_Time[id])
         return TRUE;
     
     return FALSE;
 }
 
-void Time_FrameDelay(unsigned int mseconds, unsigned int id) {
+void Time_FrameDelay(unsigned short mseconds, u16_t id) {
     Delay_Time[id] = clock() + mseconds * 1000;
 }

@@ -8,8 +8,8 @@
 void Game_Initialize(void) {
     bool Running;
 
-    int hour;
-    hour = 1;
+    u16_t hour;
+    hour = 0;
 
     Running = TRUE;
 
@@ -35,7 +35,7 @@ void Game_Initialize(void) {
         }
 
         // Check if we should allow game time advance
-        if (Current_Second >= SECONDS_PER_HOUR * hour) {
+        if (Current_Second >= SECONDS_PER_HOUR * (hour + 1)) {
             G_AdvanceTime();
             hour++;
         }
