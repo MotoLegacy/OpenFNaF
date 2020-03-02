@@ -43,7 +43,7 @@ void Game_Initialize(void) {
         // New Frame
         if (Time_FrameReady(0)) {
             // Update our Window
-            //Window_Update();
+            Window_Update();
 
             // Set time until next frame is ready
             Time_FrameDelay(1000/FRAMES_PER_SECOND, 0);
