@@ -2,6 +2,7 @@
 #include "types.h"
 #include "time.h"
 #include "window.h"
+#include "options.h"
 
 #define FRAMES_PER_SECOND       60
 
@@ -43,7 +44,8 @@ void Game_Initialize(void) {
         // New Frame
         if (Time_FrameReady(0)) {
             // Update our Window
-            Window_Update();
+            if (!OPT_NORENDER)
+                Window_Update();
 
             // Set time until next frame is ready
             Time_FrameDelay(1000/FRAMES_PER_SECOND, 0);

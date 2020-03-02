@@ -16,6 +16,8 @@ void AI_CheckMovement(anima_t Anima) {
         if (Calculation <= Anima.AiLevel) {
             Anima.OnMove();
         }
+
+        Anima.UpdateTime += Anima.UpdateInterval;
     }
         
     return;

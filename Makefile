@@ -1,6 +1,7 @@
 # Source file Objects
 OBJS = \
 	src/engine/game_fnaf1.o \
+	src/engine/options.o \
 	src/engine/time.o \
 	src/engine/game.o \
 	src/engine/main.o \
@@ -28,6 +29,7 @@ install:
 	# Create Object Files
 	# FIXME - Make automatic
 	$(CXX) $(CFLAGS) -c src/game_fnaf1.c
+	$(CXX) $(CFLAGS) -c src/engine/options.c
 	$(CXX) $(CFLAGS) -c src/engine/time.c
 	$(CXX) $(CFLAGS) -c src/engine/game.c
 	$(CXX) $(CFLAGS) -c src/engine/main.c
@@ -41,3 +43,8 @@ install:
 
 	# Move Object Files to build directory
 	mv src/engine/*.o build/
+
+# Delete binaries
+clean: 
+	rm build/*.o
+	rm $(NAME)

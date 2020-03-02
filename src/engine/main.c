@@ -1,19 +1,12 @@
-#include <string.h>
-
 #include "types.h"
 #include "window.h"
 #include "game.h"
 #include "version.h"
-
-bool OPT_NORENDER = FALSE;
+#include "options.h"
 
 int main(int argc, char* argv[]) {
     // Parse command line arguments
-    for(int i = 0; i <= (argc - 1); i++) {
-        if (strcmp("-no-render", argv[i]) == 0) {
-            OPT_NORENDER = TRUE;
-        }
-    }
+    Options_ParseCMD(argc, argv);
 
     // Initialize Game window
     if(!OPT_NORENDER)
