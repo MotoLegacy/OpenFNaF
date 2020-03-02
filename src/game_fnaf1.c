@@ -91,6 +91,7 @@ aitrigger_t AI_Fred_OnMove(void) {
     case ROOMBIT(RM_EAST_HALL):
       Animas[A_FRED].Location = ROOMBIT(RM_EAST_HALL_CORNER);
       break;
+
   }
 
   printf("FRED MOVED TO ROOM WITH ID %ld\n", Animas[A_FRED].Location);
@@ -322,7 +323,7 @@ func_t G_SetupAnimatronics(void) {
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
   Animas[A_BUN].OnMove = &AI_Bun_OnMove;
-  Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.97;
+  Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.96;
   Animas[A_BUN].AiLevel = 20;
   Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
 

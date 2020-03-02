@@ -3,20 +3,28 @@
 #include <time.h>
 
 
-float Current_Tsecond;
+u16_t Current_Tsecond;
 u16_t Current_Second;
+u32_t Delay_Time[5];
+
+clock_t Start_Time;
 
 void Time_Tick() {
-    Current_Tsecond += (float)10/6;
+    Current_Tsecond++;
 
-    if (Current_Tsecond >= 100) {
+    if (Current_Tsecond > 99) {
         Current_Second++;
         Current_Tsecond = 0;
     }
 }
 
-void delay(unsigned int mseconds) {
-    clock_t Start_Time = clock();
+bool Time_FrameReady(unsigned int id) {
+    if (clock() > Delay_Time[id])
+        return TRUE;
+    
+    return FALSE;
+}
 
-    while(clock() < Start_Time + mseconds * 1000);
+void Time_FrameDelay(unsigned int mseconds, unsigned int id) {
+    Delay_Time[id] = clock() + mseconds * 1000;
 }

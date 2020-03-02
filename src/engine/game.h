@@ -10,5 +10,6 @@ extern void G_AdvanceTime(void);
 
 // For handling Game
 void Game_Initialize(void);
+float Game_GetTime();
 
 #endif

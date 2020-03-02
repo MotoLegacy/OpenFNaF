@@ -1,11 +1,9 @@
-#include <stdio.h>
-
 #include "game.h"
 #include "types.h"
 #include "time.h"
 #include "window.h"
 
-#define FRAMES_PER_SECOND       30
+#define FRAMES_PER_SECOND       60
 
 void Game_Initialize(void) {
     bool Running;
@@ -13,20 +11,28 @@ void Game_Initialize(void) {
     int hour;
     hour = 1;
 
-    int i = 0;
-
     Running = TRUE;
 
     // TODO: Proper saving, just be night one for now.
     G_Main(1);
-    
-    while(Running) {
-        // Run our Game's loop
-        G_GameLoop();
 
-        // Increment Game Time
-        Time_Tick();
-        i++;
+    // Basically just initialize our framedelays
+    Time_FrameDelay(1, 0); // Frames per Second
+    Time_FrameDelay(1, 1); // Actual Game Timer
+
+    while(Running) {
+
+        // Non-graphics stuff
+        if (Time_FrameReady(1)) {
+            // Run our Game's loop
+            G_GameLoop();
+
+            // Increment Game Time
+            Time_Tick();
+
+            // Next Game Time iteration
+            Time_FrameDelay(10, 1);
+        }
 
         // Check if we should allow game time advance
         if (Current_Second >= SECONDS_PER_HOUR * hour) {
@@ -34,10 +40,17 @@ void Game_Initialize(void) {
             hour++;
         }
 
-        // Update our Window at the end of every frame
-        Window_Update();
+        // New Frame
+        if (Time_FrameReady(0)) {
+            // Update our Window
+            //Window_Update();
 
-        // Limit interations of non-time calculating code, per FPS cap
-        delay(1000/FRAMES_PER_SECOND);
+            // Set time until next frame is ready
+            Time_FrameDelay(1000/FRAMES_PER_SECOND, 0);
+        }
     }
+}
+
+float Game_GetTime() {
+    return (Current_Second + ((float)Current_Tsecond/100));
 }

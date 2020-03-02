@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[]) {
     // Initialize Game window
-    Window_Initialize(I_GAME_WIDTH, I_GAME_HEIGHT, I_GAME_TITLE, argc, argv);
+    //Window_Initialize(I_GAME_WIDTH, I_GAME_HEIGHT, I_GAME_TITLE, argc, argv);
 
     // Init Game handler
     Game_Initialize();
