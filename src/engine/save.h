@@ -1,6 +1,7 @@
 #ifndef _SAVE_H_
 #define _SAVE_H_
 
+#include "types.h"
 #include "version.h"
 
 //FNAF 1
@@ -19,5 +20,6 @@
 #endif
 
 extern void Save_Create(void);
+extern bool Save_Exist();
 
 #endif

@@ -9,6 +9,7 @@
 #include <sys/types.h>
 
 #include "save.h"
+#include "types.h"
 
 // Saves/freddy
 char* Save_GetDirectory() {
@@ -20,6 +21,19 @@ char* Save_GetDirectory() {
     strcat(SaveDirectory, SAVE_TITLE);
 
     return SaveDirectory;
+}
+
+bool Save_Exist() {
+    // First check - Saves directory
+    struct stat st = {0};
+
+    if (stat("Saves", &st) == -1) return FALSE;
+
+    // Second check - actual file
+    if (stat(Save_GetDirectory(), &st) == -1) return FALSE;
+
+    // They box exist, so return TRUE
+    return TRUE;
 }
 
 void Save_Create(void) {

@@ -5,6 +5,8 @@
 #include "options.h"
 #include "save.h"
 
+#include <stdio.h>
+
 #define FRAMES_PER_SECOND       60
 
 void Game_Initialize(void) {
@@ -15,9 +17,11 @@ void Game_Initialize(void) {
 
     Running = TRUE;
 
-    //if (!Save_Exist()) {
+    if (!Save_Exist()) {
         Save_Create();
-    //}
+    }
+
+    //u8_t night = Save_GetValue("level");
 
     // TODO: Proper saving, just be night one for now.
     G_Main(1);
