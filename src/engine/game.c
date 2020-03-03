@@ -21,7 +21,7 @@ void Game_Initialize(void) {
         Save_Create();
     }
 
-    //u8_t night = Save_GetValue("level");
+    u8_t night = Save_GetValue("level");
 
     // TODO: Proper saving, just be night one for now.
     G_Main(1);

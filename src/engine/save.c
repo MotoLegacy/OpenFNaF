@@ -23,6 +23,21 @@ char* Save_GetDirectory() {
     return SaveDirectory;
 }
 
+u8_t Save_GetValue(char* target) {
+    int bufferlength = 32;
+    char buffer[bufferlength];
+    // Open Save file
+    FILE *save;
+    save = fopen(Save_GetDirectory(), "r");
+
+    while(fgets(buffer, bufferlength, save)) {
+        printf("%s\n", buffer);
+    }
+
+    // FIXME
+    return 0;
+}
+
 bool Save_Exist() {
     // First check - Saves directory
     struct stat st = {0};
@@ -56,5 +71,6 @@ void Save_Create(void) {
     
     save = fopen(Save_GetDirectory(), "w+");
     fputs(SaveTitle, save);
+    fputs("level=1", save);
     fclose(save);
 }
