@@ -3,6 +3,7 @@
 #include "time.h"
 #include "window.h"
 #include "options.h"
+#include "save.h"
 
 #define FRAMES_PER_SECOND       60
 
@@ -13,6 +14,10 @@ void Game_Initialize(void) {
     hour = 0;
 
     Running = TRUE;
+
+    //if (!Save_Exist()) {
+        Save_Create();
+    //}
 
     // TODO: Proper saving, just be night one for now.
     G_Main(1);

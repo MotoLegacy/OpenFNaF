@@ -5,6 +5,7 @@ OBJS = \
 	src/engine/time.o \
 	src/engine/game.o \
 	src/engine/main.o \
+	src/engine/save.o \
 	src/engine/window.o \
 	src/engine/math.o \
 	src/engine/ai_handler.o \
@@ -33,6 +34,7 @@ install:
 	$(CXX) $(CFLAGS) -c src/engine/time.c
 	$(CXX) $(CFLAGS) -c src/engine/game.c
 	$(CXX) $(CFLAGS) -c src/engine/main.c
+	$(CXX) $(CFLAGS) -c src/engine/save.c
 	$(CXX) $(CFLAGS) -c src/engine/window.c
 	$(CXX) $(CFLAGS) -c src/engine/math.c
 	$(CXX) $(CFLAGS) -c src/engine/ai_handler.c
