@@ -3,6 +3,7 @@
 ///
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -11,7 +12,9 @@
 
 // Saves/freddy
 char* Save_GetDirectory() {
-    char* SaveDirectory[32];
+    char* SaveDirectory;
+
+    SaveDirectory = malloc(sizeof(char)*32);
 
     strcpy(SaveDirectory, "Saves/");
     strcat(SaveDirectory, SAVE_TITLE);
