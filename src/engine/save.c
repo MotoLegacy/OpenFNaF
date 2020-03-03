@@ -23,19 +23,25 @@ char* Save_GetDirectory() {
     return SaveDirectory;
 }
 
-u8_t Save_GetValue(char* target) {
+u16_t Save_GetValue(char* target) {
     int bufferlength = 32;
     char buffer[bufferlength];
+    
+    int value = 0;
     // Open Save file
     FILE *save;
     save = fopen(Save_GetDirectory(), "r");
 
+    // Check save file for target
     while(fgets(buffer, bufferlength, save)) {
-        printf("%s\n", buffer);
+        // If we found our target line
+        if (strncmp(buffer, target, strlen(target)) == 0) {
+            sscanf(buffer+(strlen(target)+1), "%d", &value);
+        }
     }
 
-    // FIXME
-    return 0;
+    // Return value
+    return value;
 }
 
 bool Save_Exist() {

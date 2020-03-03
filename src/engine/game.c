@@ -21,10 +21,8 @@ void Game_Initialize(void) {
         Save_Create();
     }
 
-    u8_t night = Save_GetValue("level");
-
     // TODO: Proper saving, just be night one for now.
-    G_Main(1);
+    G_Main(Save_GetValue("level"));
 
     // Basically just initialize our framedelays
     Time_FrameDelay(1, 0); // Frames per Second
