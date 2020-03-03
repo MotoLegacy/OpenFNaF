@@ -23,6 +23,22 @@ char* Save_GetDirectory() {
     return SaveDirectory;
 }
 
+// TODO
+void Save_SetValue(char* target, u16_t value) {
+    /*int bufferlength = 32;
+    char buffer[bufferlength];
+    FILE *save;
+    save = fopen(Save_GetDirectory(), "w+");
+
+    // See if the value is already in the file
+    while(fgets(buffer, bufferlength, save)) {
+        // Found target line
+        if (strncmp(buffer, target, strlen(target)) == 0) {
+            //
+        }
+    }*/
+}
+
 u16_t Save_GetValue(char* target) {
     int bufferlength = 32;
     char buffer[bufferlength];
@@ -39,6 +55,8 @@ u16_t Save_GetValue(char* target) {
             sscanf(buffer+(strlen(target)+1), "%d", &value);
         }
     }
+
+    fclose(save);
 
     // Return value
     return value;

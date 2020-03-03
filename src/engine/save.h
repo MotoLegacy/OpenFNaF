@@ -22,5 +22,6 @@
 extern void Save_Create(void);
 extern bool Save_Exist();
 extern u16_t Save_GetValue(char* target);
+extern void Save_SetValue(char* target, u16_t value);
 
 #endif

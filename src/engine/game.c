@@ -21,7 +21,7 @@ void Game_Initialize(void) {
         Save_Create();
     }
 
-    // TODO: Proper saving, just be night one for now.
+    // Execute game's main function with night
     G_Main(Save_GetValue("level"));
 
     // Basically just initialize our framedelays
