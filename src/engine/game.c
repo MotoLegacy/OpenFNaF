@@ -1,3 +1,6 @@
+// (c) 2020 MotoLegacy
+// This code is licensed under MIT license (see LICENSE for details)
+
 #include "game.h"
 #include "types.h"
 #include "time.h"

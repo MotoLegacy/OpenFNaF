@@ -1,4 +1,7 @@
-#define I_VERSION_STRING    "FNaFMeHarder"
+// (c) 2020 MotoLegacy
+// This code is licensed under MIT license (see LICENSE for details)
+
+#define I_VERSION_STRING    "OpenFNaF"
 #define I_VERSION_MAJOR     "0"
 #define I_VERSION_MINOR     "0"
 #define I_VERSION_BUILD     "2"

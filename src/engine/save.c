@@ -1,3 +1,6 @@
+// (c) 2020 MotoLegacy
+// This code is licensed under MIT license (see LICENSE for details)
+
 ///
 /// save.c - Saving, loading, etc. Keep compatibility with MMF saves!
 ///

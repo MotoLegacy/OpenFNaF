@@ -1,3 +1,6 @@
+// (c) 2020 MotoLegacy
+// This code is licensed under MIT license (see LICENSE for details)
+
 #ifndef _OPTIONS_H_
 #define _OPTIONS_H_
 

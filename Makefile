@@ -11,7 +11,7 @@ OBJS = \
 	src/engine/ai_handler.o \
 
 # Application Name
-NAME = FMH
+NAME = OpenFNaF
 
 # Libraries
 LIBS		= -lm -lc -lglut -IGLU -IGL
