@@ -3,6 +3,9 @@
 #include "time.h"
 #include "window.h"
 #include "options.h"
+#include "save.h"
+
+#include <stdio.h>
 
 #define FRAMES_PER_SECOND       60
 
@@ -14,8 +17,12 @@ void Game_Initialize(void) {
 
     Running = TRUE;
 
-    // TODO: Proper saving, just be night one for now.
-    G_Main(1);
+    if (!Save_Exist()) {
+        Save_Create();
+    }
+
+    // Execute game's main function with night
+    G_Main(Save_GetValue("level"));
 
     // Basically just initialize our framedelays
     Time_FrameDelay(1, 0); // Frames per Second
