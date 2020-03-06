@@ -413,7 +413,7 @@ func_t G_GameLoop(void) {
         if (i == A_GFRED)
             return;
 
-        AI_CheckMovement(Animas[i]);
+        AI_CheckMovement(&Animas[i]);
     }
     return;
 }
