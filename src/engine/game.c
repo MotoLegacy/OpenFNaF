@@ -20,8 +20,11 @@ void Game_Initialize(void) {
 
     Running = TRUE;
 
+    // Create save file and initialize some
+    // needed fields
     if (!Save_Exist()) {
         Save_Create();
+        Save_SetValue("level", 1);
     }
 
     // Execute game's main function with night

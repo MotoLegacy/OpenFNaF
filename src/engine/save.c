@@ -26,20 +26,58 @@ char* Save_GetDirectory() {
     return SaveDirectory;
 }
 
-// TODO
+// Currently we create a new save, delete the old one,
+// and then rename the new to old.. FIXME: find faster
+// method
 void Save_SetValue(char* target, u16_t value) {
-    /*int bufferlength = 32;
+    int bufferlength = 32;
     char buffer[bufferlength];
+
+    bool foundValue = FALSE;
+
     FILE *save;
-    save = fopen(Save_GetDirectory(), "w+");
+    FILE *newsave;
+
+    char* line[32];
+    char* templn[9];
+
+    // Combine target and value to form line to write
+    sprintf(templn, "%d", value);
+
+    strcpy(line, target);
+    strcat(line, "=");
+    strcat(line, templn);
+    strcat(line, "\n");
+
+    save = fopen(Save_GetDirectory(), "r");
+    newsave = fopen("Saves/temp.tmp", "w+"); 
+
+    
 
     // See if the value is already in the file
     while(fgets(buffer, bufferlength, save)) {
         // Found target line
         if (strncmp(buffer, target, strlen(target)) == 0) {
-            //
+            // we found it!
+            foundValue = TRUE;
+            fputs(line, newsave);
+        } else { // Else just write the old line
+            fputs(buffer, newsave); 
         }
-    }*/
+    }
+
+
+    // It didn't exist already, so add it to the bottom
+    if (foundValue == FALSE)
+        fputs(line, newsave);
+
+    // Close Files
+    fclose(save);
+    fclose(newsave);
+
+    // Remove save and replace with temp
+    remove(Save_GetDirectory());
+    rename("Saves/temp.tmp", Save_GetDirectory());
 }
 
 u16_t Save_GetValue(char* target) {
@@ -98,6 +136,5 @@ void Save_Create(void) {
     
     save = fopen(Save_GetDirectory(), "w+");
     fputs(SaveTitle, save);
-    fputs("level=1", save);
     fclose(save);
 }
