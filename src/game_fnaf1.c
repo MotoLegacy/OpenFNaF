@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 
-anima_t Animas[G_NUM_ANIMAS];
+anima_t *Animas[G_NUM_ANIMAS];
 camera_t Camera;
 gamestate_t Game;
 
@@ -54,16 +54,16 @@ aitrigger_t AI_Fred_OnAmbientUpdate(void) {
 
 aitrigger_t AI_Fred_OnCamUpdate(void) {
   // If we're in attack mode.
-  if (Animas[A_FRED].AnimaMode == 1) {
+  if (Animas[A_FRED]->AnimaMode == 1) {
     if (Camera.ViewLocation == CAM_4B)
-      Animas[A_FRED].IsLockedDown = TRUE;
+      Animas[A_FRED]->IsLockedDown = TRUE;
     else
-      Animas[A_FRED].IsLockedDown = FALSE;
+      Animas[A_FRED]->IsLockedDown = FALSE;
   } else { // We're roamin' like normal
     if (Camera.CameraInUse)
-      Animas[A_FRED].IsLockedDown = TRUE;
+      Animas[A_FRED]->IsLockedDown = TRUE;
     else
-      Animas[A_FRED].IsLockedDown = FALSE;
+      Animas[A_FRED]->IsLockedDown = FALSE;
   }
 }
 
@@ -78,35 +78,35 @@ aitrigger_t AI_Fred_OnCamUpdate(void) {
 // TODO: Flesh out attack mode, footsteps
 aitrigger_t AI_Fred_OnMove(void) {
 
-  switch(Animas[A_FRED].Location) {
+  switch(Animas[A_FRED]->Location) {
     case ROOMBIT(RM_SHOW_STAGE):
-      Animas[A_FRED].Location = ROOMBIT(RM_DINING_AREA);
+      Animas[A_FRED]->Location = ROOMBIT(RM_DINING_AREA);
       break;
     case ROOMBIT(RM_DINING_AREA):
-      Animas[A_FRED].Location = ROOMBIT(RM_RESTROOMS);
+      Animas[A_FRED]->Location = ROOMBIT(RM_RESTROOMS);
       break;
     case ROOMBIT(RM_RESTROOMS):
-      Animas[A_FRED].Location = ROOMBIT(RM_KITCHEN);
+      Animas[A_FRED]->Location = ROOMBIT(RM_KITCHEN);
       break;
     case ROOMBIT(RM_KITCHEN):
-      Animas[A_FRED].Location = ROOMBIT(RM_EAST_HALL);
+      Animas[A_FRED]->Location = ROOMBIT(RM_EAST_HALL);
       break;
     case ROOMBIT(RM_EAST_HALL):
-      Animas[A_FRED].Location = ROOMBIT(RM_EAST_HALL_CORNER);
+      Animas[A_FRED]->Location = ROOMBIT(RM_EAST_HALL_CORNER);
       break;
 
   }
 
-  printf("FRED MOVED TO ROOM WITH ID %ld\n", Animas[A_FRED].Location);
+  printf("FRED MOVED TO ROOM WITH ID %ld\n", Animas[A_FRED]->Location);
   //footstep sound, evaluate next move ahead
   // Animas[A_FRED].Location = /*add stuff here*/;
 
   // Switch in/out of Attack Mode.
-  if (Animas[A_FRED].Location == ROOMBIT(RM_EAST_HALL_CORNER))
+  if (Animas[A_FRED]->Location == ROOMBIT(RM_EAST_HALL_CORNER))
     // Moto -- maybe have #defines for modes?
-    Animas[A_FRED].AnimaMode = 1;
-  else if (Animas[A_FRED].Location == ROOMBIT(RM_EAST_HALL) || Animas[A_FRED].Location == ROOMBIT(RM_OFFICE))
-    Animas[A_FRED].AnimaMode = 0;
+    Animas[A_FRED]->AnimaMode = 1;
+  else if (Animas[A_FRED]->Location == ROOMBIT(RM_EAST_HALL) || Animas[A_FRED]->Location == ROOMBIT(RM_OFFICE))
+    Animas[A_FRED]->AnimaMode = 0;
 }
 
 aitrigger_t AI_Fred_OnKill(void) {
@@ -137,10 +137,10 @@ aitrigger_t AI_Fox_OnAmbientUpdate(void) {
 
 aitrigger_t AI_Fox_OnCamUpdate(void) {
     // decide whether or not to try and advance outta the cove.
-    if (Camera.CameraInUse && Animas[A_FOX].AnimaMode != 2) {
-      Animas[A_FOX].IsLockedDown = TRUE;
+    if (Camera.CameraInUse && Animas[A_FOX]->AnimaMode != 2) {
+      Animas[A_FOX]->IsLockedDown = TRUE;
     } else {
-      Animas[A_FOX].IsLockedDown = FALSE;
+      Animas[A_FOX]->IsLockedDown = FALSE;
     }
 }
 
@@ -207,8 +207,8 @@ aitrigger_t AI_Bird_OnMove(void) {
       break;
   }
 
-  Animas[A_BIRD].Location = ROOMBIT(Loc);
-  printf("BIRD MOVED TO ROOM WITH ID %ld\n", Animas[A_BIRD].Location);
+  Animas[A_BIRD]->Location = ROOMBIT(Loc);
+  printf("BIRD MOVED TO ROOM WITH ID %ld\n", Animas[A_BIRD]->Location);
 }
 
 aitrigger_t AI_Bird_OnKill(void) {
@@ -269,8 +269,8 @@ aitrigger_t AI_Bun_OnMove(void) {
       break;
   }
 
-  Animas[A_BUN].Location = ROOMBIT(Loc);
-  printf("BUN MOVED TO ROOM WITH ID %ld\n", Animas[A_BUN].Location);
+  Animas[A_BUN]->Location = ROOMBIT(Loc);
+  printf("BUN MOVED TO ROOM WITH ID %ld\n", Animas[A_BUN]->Location);
 }
 
 aitrigger_t AI_Bun_OnKill(void) {
@@ -288,7 +288,7 @@ aitrigger_t AI_GFred_OnCamUpdate(void) {
         if (Math_GenerateChance(5)) {
             // FIXME - insert some garbage about poster here
             // FIXME - maybe have an if to check if can tp here (for consistency)
-            Animas[A_GFRED].Location = ROOMBIT(RM_OFFICE);
+            Animas[A_GFRED]->Location = ROOMBIT(RM_OFFICE);
         }
     }
 }
@@ -301,37 +301,37 @@ aitrigger_t AI_GFred_OnCamUpdate(void) {
 // FIXME - just using 4/20 values for now
 func_t G_SetupAnimatronics(void) {
   //fred
-  Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
-  Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
-  Animas[A_FRED].OnMove = &AI_Fred_OnMove;
-  Animas[A_FRED].UpdateTime = Animas[A_FRED].UpdateInterval = 3.03;
-  Animas[A_FRED].AiLevel = 20;
-  Animas[A_FRED].Location = ROOMBIT(RM_SHOW_STAGE);
+  Animas[A_FRED]->OnUpdate =&= &AI_Fred_OnUpdate;
+  Animas[A_FRED]->OnCamUpdate = &AI_Fred_OnCamUpdate;
+  Animas[A_FRED]->OnMove = &AI_Fred_OnMove;
+  Animas[A_FRED]->UpdateTime = Animas[A_FRED]->UpdateInterval = 3.03;
+  Animas[A_FRED]->AiLevel = 20;
+  Animas[A_FRED]->Location = ROOMBIT(RM_SHOW_STAGE);
 
   //fox
-  Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
-  Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
-  Animas[A_FOX].OnMove = &AI_Fox_OnMove;
-  Animas[A_FOX].UpdateTime = Animas[A_FOX].UpdateInterval = 5.01;
-  Animas[A_FOX].AiLevel = 20;
-  Animas[A_FOX].Location = ROOMBIT(RM_PIRATE_COVE);
+  Animas[A_FOX]->OnUpdate = &AI_Fox_OnUpdate1;
+  Animas[A_FOX]->OnCamUpdate = &AI_Fox_OnCamUpdate;
+  Animas[A_FOX]->OnMove = &AI_Fox_OnMove;
+  Animas[A_FOX]->UpdateTime = Animas[A_FOX]->UpdateInterval = 5.01;
+  Animas[A_FOX]->AiLevel = 20;
+  Animas[A_FOX]->Location = ROOMBIT(RM_PIRATE_COVE);
 
   //bird
-  Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
-  Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
-  Animas[A_BIRD].UpdateTime = Animas[A_BIRD].UpdateInterval = 4.98;
-  Animas[A_BIRD].AiLevel = 20;
-  Animas[A_BIRD].Location = ROOMBIT(RM_SHOW_STAGE);
+  Animas[A_BIRD]->OnUpdate = &AI_Bird_OnUpdate;
+  Animas[A_BIRD]->OnMove = &AI_Bird_OnMove;
+  Animas[A_BIRD]->UpdateTime = Animas[A_BIRD]->UpdateInterval = 4.98;
+  Animas[A_BIRD]->AiLevel = 20;
+  Animas[A_BIRD]->Location = ROOMBIT(RM_SHOW_STAGE);
 
   //bun
-  Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
-  Animas[A_BUN].OnMove = &AI_Bun_OnMove;
-  Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.96;
-  Animas[A_BUN].AiLevel = 20;
-  Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
+  Animas[A_BUN]->OnUpdate = &AI_Bun_OnUpdate;
+  Animas[A_BUN]->OnMove = &AI_Bun_OnMove;
+  Animas[A_BUN]->UpdateTime = Animas[A_BUN]->UpdateInterval = 4.96;
+  Animas[A_BUN]->AiLevel = 20;
+  Animas[A_BUN]->Location = ROOMBIT(RM_SHOW_STAGE);
 
   //goldfred
-  Animas[A_GFRED].OnCamUpdate = &AI_GFred_OnCamUpdate;
+  Animas[A_GFRED]->OnCamUpdate = &AI_GFred_OnCamUpdate;
 }
 
 //
@@ -373,13 +373,13 @@ func_t G_AdvanceTime(void) {
   // Update ai values
   switch(Game.Hour) {
     case 2:
-      if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++;
+      if (Animas[A_BUN]->AiLevel != 20) Animas[A_BUN]->AiLevel++;
       break;
     case 3:
     case 4:
-      if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++;
-      if (Animas[A_BIRD].AiLevel != 20) Animas[A_BIRD].AiLevel++;
-      if (Animas[A_FOX].AiLevel != 20) Animas[A_FOX].AiLevel++;
+      if (Animas[A_BUN]->AiLevel != 20) Animas[A_BUN]->AiLevel++;
+      if (Animas[A_BIRD]->AiLevel != 20) Animas[A_BIRD]->AiLevel++;
+      if (Animas[A_FOX]->AiLevel != 20) Animas[A_FOX]->AiLevel++;
       break;
   }
 
