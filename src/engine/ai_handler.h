@@ -6,6 +6,6 @@
 
 #include "types.h"
 
-void AI_CheckMovement(anima_t* Anima);
+void AI_CheckMovement(anima_t Anima);
 
 #endif
