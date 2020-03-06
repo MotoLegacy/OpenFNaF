@@ -299,18 +299,44 @@ aitrigger_t AI_GFred_OnCamUpdate(void) {
 //
 u16_t G_GetAILevel(u16_t id) {
     if (id == A_FRED) {
-        switch(Game.Night) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
+          switch(Game.Night) {
+            case 1: return 0;
+            case 2: return 0;
+            case 3: return 1;
+            case 4: return 1; //FIXME - 50% chance of being 2 as opposed to 1
+            case 5: return 3;
+            default: return 0;
+          }
+    } else if (id == A_BUN) {
+          switch(Game.Night) {
+            case 1: return 0;
+            case 2: return 3;
+            case 3: return 0;
+            case 4: return 2;
+            case 5: return 5;
+            default: return 0;
+          }
+    } else if (id == A_BIRD) {
+          switch(Game.Night) {
+            case 1: return 0;
+            case 2: return 1;
+            case 3: return 5;
+            case 4: return 4;
+            case 5: return 12;
+            default: return 0;
+          }
+    } else if (id == A_FOX) {
+          switch(Game.Night) {
+            case 1: return 0;
+            case 2: return 1;
+            case 3: return 2;
+            case 4: return 6;
+            case 5: return 5;
+            default: return 0;
+          }
     }
+              
+    return 0;
 }
 
 //
@@ -324,7 +350,7 @@ func_t G_SetupAnimatronics(void) {
   Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
   Animas[A_FRED].OnMove = &AI_Fred_OnMove;
   Animas[A_FRED].UpdateTime = Animas[A_FRED].UpdateInterval = 3.03;
-  Animas[A_FRED].AiLevel = G_GetAILevel(Animas[A_FRED]);
+  Animas[A_FRED].AiLevel = G_GetAILevel(A_FRED);
   Animas[A_FRED].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //fox
@@ -332,21 +358,21 @@ func_t G_SetupAnimatronics(void) {
   Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
   Animas[A_FOX].OnMove = &AI_Fox_OnMove;
   Animas[A_FOX].UpdateTime = Animas[A_FOX].UpdateInterval = 5.01;
-  Animas[A_FOX].AiLevel = G_GetAILevel(Animas[A_FOX]);
+  Animas[A_FOX].AiLevel = G_GetAILevel(A_FOX);
   Animas[A_FOX].Location = ROOMBIT(RM_PIRATE_COVE);
 
   //bird
   Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
   Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
   Animas[A_BIRD].UpdateTime = Animas[A_BIRD].UpdateInterval = 4.98;
-  Animas[A_BIRD].AiLevel = G_GetAILevel(Animas[A_BIRD]);
+  Animas[A_BIRD].AiLevel = G_GetAILevel(A_BIRD);
   Animas[A_BIRD].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //bun
   Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
   Animas[A_BUN].OnMove = &AI_Bun_OnMove;
   Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.96;
-  Animas[A_BUN].AiLevel = G_GetAILevel(Animas[A_BUN]);
+  Animas[A_BUN].AiLevel = G_GetAILevel(A_BUN);
   Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
 
   //goldfred
