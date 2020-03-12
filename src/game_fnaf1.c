@@ -9,6 +9,7 @@
 #include "engine/math.h"
 #include "engine/version.h"
 #include "engine/ai_handler.h"
+#include "engine/options.h"
 
 // TEMP
 #include <stdio.h>
@@ -97,7 +98,8 @@ aitrigger_t AI_Fred_OnMove(void) {
 
   }
 
-  printf("FRED MOVED TO ROOM WITH ID %ld\n", Animas[A_FRED].Location);
+  if (OPT_VERBOSE)
+    printf("FRED MOVED TO ROOM WITH ID %ld\n", Animas[A_FRED].Location);
   //footstep sound, evaluate next move ahead
   // Animas[A_FRED].Location = /*add stuff here*/;
 
@@ -145,7 +147,8 @@ aitrigger_t AI_Fox_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Fox_OnMove(void) {
-  printf("FOX MOVED\n");
+  if (OPT_VERBOSE)
+    printf("FOX MOVED\n");
   //in case we're forgetting anything special about him running down the hall
 }
 
@@ -208,7 +211,9 @@ aitrigger_t AI_Bird_OnMove(void) {
   }
 
   Animas[A_BIRD].Location = ROOMBIT(Loc);
-  printf("BIRD MOVED TO ROOM WITH ID %ld\n", Animas[A_BIRD].Location);
+
+  if (OPT_VERBOSE)
+    printf("BIRD MOVED TO ROOM WITH ID %ld\n", Animas[A_BIRD].Location);
 }
 
 aitrigger_t AI_Bird_OnKill(void) {
@@ -270,7 +275,9 @@ aitrigger_t AI_Bun_OnMove(void) {
   }
 
   Animas[A_BUN].Location = ROOMBIT(Loc);
-  printf("BUN MOVED TO ROOM WITH ID %ld\n", Animas[A_BUN].Location);
+
+  if (OPT_VERBOSE)
+    printf("BUN MOVED TO ROOM WITH ID %ld\n", Animas[A_BUN].Location);
 }
 
 aitrigger_t AI_Bun_OnKill(void) {
@@ -346,6 +353,7 @@ u16_t G_GetAILevel(u16_t id) {
 
 func_t G_SetupAnimatronics(void) {
   //fred
+  printf("running\n");
   Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
   Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
   Animas[A_FRED].OnMove = &AI_Fred_OnMove;
