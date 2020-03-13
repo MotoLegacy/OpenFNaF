@@ -10,8 +10,8 @@
 #include "engine/version.h"
 #include "engine/ai_handler.h"
 #include "engine/options.h"
+#include "engine/print.h"
 
-// TEMP
 #include <stdio.h>
 
 
@@ -78,37 +78,35 @@ aitrigger_t AI_Fred_OnCamUpdate(void) {
 //
 // TODO: Flesh out attack mode, footsteps
 aitrigger_t AI_Fred_OnMove(void) {
+    switch(Animas[A_FRED].Location) {
+        case ROOMBIT(RM_SHOW_STAGE):
+            Animas[A_FRED].Location = ROOMBIT(RM_DINING_AREA);
+            break;
+        case ROOMBIT(RM_DINING_AREA):
+            Animas[A_FRED].Location = ROOMBIT(RM_RESTROOMS);
+            break;
+        case ROOMBIT(RM_RESTROOMS):
+            Animas[A_FRED].Location = ROOMBIT(RM_KITCHEN);
+            break;
+        case ROOMBIT(RM_KITCHEN):
+            Animas[A_FRED].Location = ROOMBIT(RM_EAST_HALL);
+            break;
+        case ROOMBIT(RM_EAST_HALL):
+            Animas[A_FRED].Location = ROOMBIT(RM_EAST_HALL_CORNER);
+            break;
+    }
 
-  switch(Animas[A_FRED].Location) {
-    case ROOMBIT(RM_SHOW_STAGE):
-      Animas[A_FRED].Location = ROOMBIT(RM_DINING_AREA);
-      break;
-    case ROOMBIT(RM_DINING_AREA):
-      Animas[A_FRED].Location = ROOMBIT(RM_RESTROOMS);
-      break;
-    case ROOMBIT(RM_RESTROOMS):
-      Animas[A_FRED].Location = ROOMBIT(RM_KITCHEN);
-      break;
-    case ROOMBIT(RM_KITCHEN):
-      Animas[A_FRED].Location = ROOMBIT(RM_EAST_HALL);
-      break;
-    case ROOMBIT(RM_EAST_HALL):
-      Animas[A_FRED].Location = ROOMBIT(RM_EAST_HALL_CORNER);
-      break;
+    Print_Normal("Freddy Moved to Room with ID %ld\n", Animas[A_FRED].Location);
 
-  }
+    //footstep sound, evaluate next move ahead
+    // Animas[A_FRED].Location = /*add stuff here*/;
 
-  if (OPT_VERBOSE)
-    printf("FRED MOVED TO ROOM WITH ID %ld\n", Animas[A_FRED].Location);
-  //footstep sound, evaluate next move ahead
-  // Animas[A_FRED].Location = /*add stuff here*/;
-
-  // Switch in/out of Attack Mode.
-  if (Animas[A_FRED].Location == ROOMBIT(RM_EAST_HALL_CORNER))
-    // Moto -- maybe have #defines for modes?
-    Animas[A_FRED].AnimaMode = 1;
-  else if (Animas[A_FRED].Location == ROOMBIT(RM_EAST_HALL) || Animas[A_FRED].Location == ROOMBIT(RM_OFFICE))
-    Animas[A_FRED].AnimaMode = 0;
+    // Switch in/out of Attack Mode.
+    if (Animas[A_FRED].Location == ROOMBIT(RM_EAST_HALL_CORNER))
+        // Moto -- maybe have #defines for modes?
+        Animas[A_FRED].AnimaMode = 1;
+    else if (Animas[A_FRED].Location == ROOMBIT(RM_EAST_HALL) || Animas[A_FRED].Location == ROOMBIT(RM_OFFICE))
+        Animas[A_FRED].AnimaMode = 0;
 }
 
 aitrigger_t AI_Fred_OnKill(void) {
@@ -147,9 +145,8 @@ aitrigger_t AI_Fox_OnCamUpdate(void) {
 }
 
 aitrigger_t AI_Fox_OnMove(void) {
-  if (OPT_VERBOSE)
-    printf("FOX MOVED\n");
-  //in case we're forgetting anything special about him running down the hall
+    Print_Normal("Foxy Moved\n");
+    //in case we're forgetting anything special about him running down the hall
 }
 
 aitrigger_t AI_Fox_OnKill(void) {
@@ -181,39 +178,38 @@ aitrigger_t AI_Bird_OnCamUpdate(void) {
 //
 // TODO: Footsteps, enter office.
 aitrigger_t AI_Bird_OnMove(void) {
-  u16_t Loc = Math_SeedRandom(101, 5);
+    u16_t Loc = Math_SeedRandom(101, 5);
 
-  switch(Loc) {
-    // Dining Area
-    case 1:
-      Loc = 3;
-      break;
-    // Restrooms
-    case 2:
-      Loc = 10;
-      break;
-    // Kitchen
-    case 3:
-      Loc = 9;
-      break;
-    // East Hall
-    case 4:
-      Loc = 5;
-      break;
-    // East Hall Corner
-    case 5:
-      Loc = 6;
-      break;
-    // Failsafe - Dining Area
-    default:
-      Loc = 3;
-      break;
-  }
+    switch(Loc) {
+        // Dining Area
+        case 1:
+            Loc = 3;
+            break;
+        // Restrooms
+        case 2:
+            Loc = 10;
+            break;
+        // Kitchen
+        case 3:
+            Loc = 9;
+            break;
+        // East Hall
+        case 4:
+            Loc = 5;
+            break;
+        // East Hall Corner
+        case 5:
+            Loc = 6;
+            break;
+        // Failsafe - Dining Area
+        default:
+            Loc = 3;
+            break;
+    }
 
-  Animas[A_BIRD].Location = ROOMBIT(Loc);
+    Animas[A_BIRD].Location = ROOMBIT(Loc);
 
-  if (OPT_VERBOSE)
-    printf("BIRD MOVED TO ROOM WITH ID %ld\n", Animas[A_BIRD].Location);
+    Print_Normal("Chica Moved to Room with ID %ld\n", Animas[A_BIRD].Location);
 }
 
 aitrigger_t AI_Bird_OnKill(void) {
@@ -245,39 +241,38 @@ aitrigger_t AI_Bun_OnCamUpdate(void) {
 //
 // TODO: Footsteps, enter office.
 aitrigger_t AI_Bun_OnMove(void) {
-  u16_t Loc = Math_SeedRandom(101, 5);
+    u16_t Loc = Math_SeedRandom(101, 5);
 
-  switch(Loc) {
-    // Dining Area
-    case 1:
-      Loc = 3;
-      break;
-    // Backstage
-    case 2:
-      Loc = 2;
-      break;
-    // West Hall
-    case 3:
-      Loc = 7;
-      break;
-    // Supply Closet
-    case 4:
-      Loc = 11;
-      break;
-    // West Hall Corner
-    case 5:
-      Loc = 8;
-      break;
-    // Failsafe - Dining Area
-    default:
-      Loc = 3;
-      break;
-  }
+    switch(Loc) {
+        // Dining Area
+        case 1:
+            Loc = 3;
+            break;
+        // Backstage
+        case 2:
+            Loc = 2;
+            break;
+        // West Hall
+        case 3:
+            Loc = 7;
+            break;
+        // Supply Closet
+        case 4:
+            Loc = 11;
+            break;
+        // West Hall Corner
+        case 5:
+            Loc = 8;
+            break;
+        // Failsafe - Dining Area
+        default:
+            Loc = 3;
+            break;
+    }
 
-  Animas[A_BUN].Location = ROOMBIT(Loc);
+    Animas[A_BUN].Location = ROOMBIT(Loc);
 
-  if (OPT_VERBOSE)
-    printf("BUN MOVED TO ROOM WITH ID %ld\n", Animas[A_BUN].Location);
+    Print_Normal("Bonnie Moved to Room with ID %ld\n", Animas[A_BUN].Location);
 }
 
 aitrigger_t AI_Bun_OnKill(void) {
@@ -353,7 +348,6 @@ u16_t G_GetAILevel(u16_t id) {
 
 func_t G_SetupAnimatronics(void) {
   //fred
-  printf("running\n");
   Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
   Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
   Animas[A_FRED].OnMove = &AI_Fred_OnMove;
@@ -415,29 +409,41 @@ func_t G_SetupRooms(void) {
 }
 
 //
+// G_GetPrettyTime()
+// Returns the AM time (12-6)
+//
+u16_t G_GetPrettyTime() {
+    if (Game.Hour == 0)
+        return 12;
+    else
+        return Game.Hour;
+}
+
+//
 // G_AdvanceTime()
 // Called to update the game Hour and do whatever
 // else needs done per hour, such as ai updating
 //
 func_t G_AdvanceTime(void) {
-  // Increase Hour var
-  Game.Hour++;
+    // Increase Hour var
+    Game.Hour++;
 
-  // Update ai values
-  switch(Game.Hour) {
-    case 2:
-      if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++;
-      break;
-    case 3:
-    case 4:
-      if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++;
-      if (Animas[A_BIRD].AiLevel != 20) Animas[A_BIRD].AiLevel++;
-      if (Animas[A_FOX].AiLevel != 20) Animas[A_FOX].AiLevel++;
-      break;
-  }
+    // Update ai values
+    switch(Game.Hour) {
+        case 2:
+            if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++; break;
+        case 3:
+        case 4:
+            if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++;
+            if (Animas[A_BIRD].AiLevel != 20) Animas[A_BIRD].AiLevel++;
+            if (Animas[A_FOX].AiLevel != 20) Animas[A_FOX].AiLevel++;
+            break;
+    }
 
-  /*if (Game.Hour == 6)
-    EndGame();*/
+    /*if (Game.Hour == 6)
+        EndGame();*/
+
+    Print_Normal("Time Advanced to %d AM\n", G_GetPrettyTime());
 }
 
 //
@@ -453,6 +459,9 @@ func_t G_Main(u16_t night) {
     // Define Night and Hour
     Game.Night = night;
     Game.Hour = 0;
+
+    // Notify game start
+    Print_Normal("Game Started on Night %d\n", Game.Night);
 }
 
 //
