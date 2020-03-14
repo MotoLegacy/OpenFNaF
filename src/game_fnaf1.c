@@ -409,6 +409,23 @@ func_t G_SetupRooms(void) {
 }
 
 //
+// G_Main()
+// Game-specific initialization.
+//
+func_t G_Main(u16_t night) {
+    // Init Animas and Rooms
+    G_SetupAnimatronics();
+    G_SetupRooms();
+
+    // Define Night and Hour
+    Game.Night = night;
+    Game.Hour = 0;
+
+    // Notify game start
+    Print_Normal("Game Started on Night %d\n", Game.Night);
+}
+
+//
 // G_GetPrettyTime()
 // Returns the AM time (12-6)
 //
@@ -417,6 +434,26 @@ u16_t G_GetPrettyTime() {
         return 12;
     else
         return Game.Hour;
+}
+
+//
+// G_EndGame()
+// Called when the game reaches 6 am
+// start new night, save, set all animas inactive
+//
+func_t G_EndGame() {
+    // Print
+    Print_Normal("Night %d Reached 6 AM, advancing..\n", Game.Night);
+
+    // Deactivate all animas
+    for(u16_t i = 0; i < G_NUM_ANIMAS; i++) {
+        Animas[i].IsLockedDown = TRUE;
+    }
+
+    // Save, reset hour, start new night
+    Game.Hour = 0;
+    Save_SetValue("level", Game.Night + 1);
+    G_Main(Game.Night + 1);
 }
 
 //
@@ -440,28 +477,10 @@ func_t G_AdvanceTime(void) {
             break;
     }
 
-    /*if (Game.Hour == 6)
-        EndGame();*/
-
-    Print_Normal("Time Advanced to %d AM\n", G_GetPrettyTime());
-}
-
-//
-// G_Main()
-// Game-specific initialization.
-//
-
-func_t G_Main(u16_t night) {
-    // Init Animas and Rooms
-    G_SetupAnimatronics();
-    G_SetupRooms();
-
-    // Define Night and Hour
-    Game.Night = night;
-    Game.Hour = 0;
-
-    // Notify game start
-    Print_Normal("Game Started on Night %d\n", Game.Night);
+    if (Game.Hour == 6)
+        G_EndGame();
+    else
+        Print_Normal("Time Advanced to %d AM\n", G_GetPrettyTime());
 }
 
 //
