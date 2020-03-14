@@ -1,18 +1,16 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-// FIXME - #ifdefs on a per-platform basis
-//#ifdef LINUX
-
-// Using GLUT instead of XLIB on Linux because it's easier
 #include "types.h"
+#include "input.h"
 #include <stdio.h>
-#include <GL/glut.h>
+#include <GL/freeglut.h> 
 
 void Window_Initialize(int width, int height, char* title, int argc, char* argv[]) {
     // Initialization
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE );
+    glEnable(GL_MULTISAMPLE);
 
     // 1280x720 for FNaF 1, 1024x768 for 2/3
     // TODO: Convert Assets to allow for GLOBAL 720p
@@ -23,7 +21,9 @@ void Window_Initialize(int width, int height, char* title, int argc, char* argv[
 
     glutCreateWindow(title);
 
-
+    // Set up keyboard input through GLUT
+    glutSpecialFunc(Input_SpecialKeyHandler);
+    glutKeyboardFunc(Input_GenericKeyHandler);
 }
 
 void Window_Close() {
@@ -33,5 +33,3 @@ void Window_Close() {
 void Window_Update() {
     glutMainLoopEvent();
 }
-
-//#endif //LINUX

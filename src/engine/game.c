@@ -12,13 +12,13 @@
 
 #define FRAMES_PER_SECOND       60
 
-void Game_Initialize(void) {
-    bool Running;
+bool Game_Running = FALSE;
 
+void Game_Initialize(void) {
     u8_t hour;
     hour = 0;
 
-    Running = TRUE;
+    Game_Running = TRUE;
 
     // Create save file and initialize some
     // needed fields
@@ -34,7 +34,7 @@ void Game_Initialize(void) {
     Time_FrameDelay(1, 0); // Frames per Second
     Time_FrameDelay(1, 1); // Actual Game Timer
 
-    while(Running) {
+    while(Game_Running) {
 
         // Non-graphics stuff
         if (Time_FrameReady(1)) {
@@ -64,6 +64,8 @@ void Game_Initialize(void) {
             Time_FrameDelay(1000/FRAMES_PER_SECOND, 0);
         }
     }
+
+    Window_Close();
 }
 
 float Game_GetTime() {

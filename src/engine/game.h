@@ -15,4 +15,6 @@ extern void G_AdvanceTime(void);
 void Game_Initialize(void);
 float Game_GetTime();
 
+extern bool Game_Running;
+
 #endif

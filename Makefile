@@ -7,6 +7,7 @@ OBJS = \
 	src/engine/game.o \
 	src/engine/main.o \
 	src/engine/save.o \
+	src/engine/input.o \
 	src/engine/window.o \
 	src/engine/math.o \
 	src/engine/ai_handler.o \
@@ -15,7 +16,7 @@ OBJS = \
 NAME = OpenFNaF
 
 # Libraries
-LIBS		= -lm -lc -lglut -IGLU -IGL
+LIBS		= -lm -lc -lglut -IGLU -IGL -lGL
 
 # Compiler (C)
 CXX			= gcc
@@ -37,6 +38,7 @@ install:
 	$(CXX) $(CFLAGS) -c src/engine/game.c
 	$(CXX) $(CFLAGS) -c src/engine/main.c
 	$(CXX) $(CFLAGS) -c src/engine/save.c
+	$(CXX) $(CFLAGS) -c src/engine/input.c
 	$(CXX) $(CFLAGS) -c src/engine/window.c
 	$(CXX) $(CFLAGS) -c src/engine/math.c
 	$(CXX) $(CFLAGS) -c src/engine/ai_handler.c
