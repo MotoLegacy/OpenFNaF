@@ -17,4 +17,6 @@ float Game_GetTime();
 
 extern bool Game_Running;
 
+extern bool Allow_Mouse_Scrolling;
+
 #endif

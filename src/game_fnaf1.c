@@ -19,6 +19,8 @@ anima_t Animas[G_NUM_ANIMAS];
 camera_t Camera;
 gamestate_t Game;
 
+bool Allow_Mouse_Scrolling = FALSE;
+
 //
 // globals
 //
@@ -420,6 +422,9 @@ func_t G_Main(u16_t night) {
     // Define Night and Hour
     Game.Night = night;
     Game.Hour = 0;
+
+    // Allow Mouse Scroll
+    Allow_Mouse_Scrolling = TRUE;
 
     // Notify game start
     Print_Normal("Game Started on Night %d\n", Game.Night);

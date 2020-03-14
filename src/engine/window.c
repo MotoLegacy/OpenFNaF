@@ -10,7 +10,7 @@ void Window_Initialize(int width, int height, char* title, int argc, char* argv[
     // Initialization
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE );
-    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_TEXTURE_2D);
 
     // 1280x720 for FNaF 1, 1024x768 for 2/3
     // TODO: Convert Assets to allow for GLOBAL 720p
@@ -21,9 +21,11 @@ void Window_Initialize(int width, int height, char* title, int argc, char* argv[
 
     glutCreateWindow(title);
 
-    // Set up keyboard input through GLUT
+    // Set up keyboard and mouse input through GLUT
     glutSpecialFunc(Input_SpecialKeyHandler);
     glutKeyboardFunc(Input_GenericKeyHandler);
+    glutMouseFunc(Input_MouseClickHandler);
+    glutPassiveMotionFunc(Input_MousePassiveHandler);
 }
 
 void Window_Close() {
