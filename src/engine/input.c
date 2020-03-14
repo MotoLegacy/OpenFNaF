@@ -20,15 +20,15 @@ void Input_GenericKeyHandler(unsigned char key, int x, int y) {
 
 // Get Mouse Movement, also handle room scrolling
 void Input_MousePassiveHandler(int x, int y) {
-    printf("MOUSE X: %d\n", x);
-    printf("MOUSE Y: %d\n", y);
+    //printf("MOUSE X: %d\n", x);
+    //printf("MOUSE Y: %d\n", y);
 }
 
 // Left/Right Click
 void Input_MouseClickHandler(int button, int state, int x, int y) {
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+    /*if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
         printf("Left Click\n");
     } else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
         printf("Right Click\n");
-    }
+    }*/
 }
