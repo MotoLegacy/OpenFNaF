@@ -16,7 +16,7 @@ OBJS = \
 NAME = OpenFNaF
 
 # Libraries
-LIBS		= -lm -lc -lglut -IGLU -IGL -lGL
+LIBS		= -lm -lc -lcsfml-graphics -lcsfml-window -lcsfml-system
 
 # Compiler (C)
 CXX			= gcc

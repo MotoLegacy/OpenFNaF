@@ -7,6 +7,7 @@
 #include "window.h"
 #include "options.h"
 #include "save.h"
+#include "input.h"
 
 #include <stdio.h>
 
@@ -43,6 +44,9 @@ void Game_Initialize(void) {
 
             // Increment Game Time
             Time_Tick();
+
+            // Input Stuff
+            Input_CheckButtons();
 
             // Next Game Time iteration
             Time_FrameDelay(10, 1);

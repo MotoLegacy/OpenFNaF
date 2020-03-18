@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 
     // Initialize Game window
     if(!OPT_NORENDER)
-        Window_Initialize(I_GAME_WIDTH, I_GAME_HEIGHT, I_GAME_TITLE, argc, argv);
+        Window_Initialize(I_GAME_WIDTH, I_GAME_HEIGHT, I_GAME_TITLE);
 
     // Init Game handler
     Game_Initialize();
