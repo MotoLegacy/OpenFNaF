@@ -24,6 +24,11 @@ CXX			= gcc
 # Compiler Flags
 CFLAGS = -Wall -g
 
+# Arguments
+ifeq ($(LINUX),1)
+CFLAGS += -DLINUX
+endif
+
 # Run
 install:
 	# Make build folder if not exist
