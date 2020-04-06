@@ -85,7 +85,7 @@ typedef func_t  aitrigger_t;
 
 //graphics types
 // FIXME - make platform independent and replace u64 - moto
-typedef u64_t texture2d_t;
+typedef char* texture2d_t;
 
 // game specific types
 typedef u64_t animastate_t;

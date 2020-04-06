@@ -2,6 +2,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 
 #include "game.h"
+#include "graphics.h"
 #include "types.h"
 #include "time.h"
 #include "window.h"
@@ -60,6 +61,12 @@ void Game_Initialize(void) {
 
         // New Frame
         if (Time_FrameReady(0)) {
+            // Clear Window
+            Window_Clear();
+            
+            // TEMP - Draw Office
+            Graphics_DrawRoom(Rooms[RM_OFFICE]);
+
             // Update our Window
             if (!OPT_NORENDER)
                 Window_Update();

@@ -1,6 +1,7 @@
 # Source file Objects
 OBJS = \
 	src/engine/game_fnaf1.o \
+	src/engine/graphics.o \
 	src/engine/print.o \
 	src/engine/options.o \
 	src/engine/time.o \
@@ -37,6 +38,7 @@ install:
 	# Create Object Files
 	# FIXME - Make automatic
 	$(CXX) $(CFLAGS) -c src/game_fnaf1.c
+	$(CXX) $(CFLAGS) -c src/engine/graphics.c
 	$(CXX) $(CFLAGS) -c src/engine/print.c
 	$(CXX) $(CFLAGS) -c src/engine/options.c
 	$(CXX) $(CFLAGS) -c src/engine/time.c

@@ -4,6 +4,7 @@
 
 #include "types.h"
 #include "input.h"
+#include "game.h"
 
 sfRenderWindow* GameWindow;
 
@@ -16,14 +17,11 @@ void Window_Initialize(int width, int height, char* title) {
 // Easy Close Function
 void Window_Close() {
     sfRenderWindow_close(GameWindow);
+    Game_Running = FALSE;
 }
-
 
 void Window_Update() {
     sfEvent WindowEvent;
-
-    // Clear
-    sfRenderWindow_clear(GameWindow, sfBlack);
 
     // Update
     sfRenderWindow_display(GameWindow);
@@ -33,4 +31,8 @@ void Window_Update() {
         if (WindowEvent.type == sfEvtClosed)
             Window_Close();
     }
+}
+
+void Window_Clear() {
+    sfRenderWindow_clear(GameWindow, sfBlack);
 }

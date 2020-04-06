@@ -26,6 +26,7 @@ bool Allow_Mouse_Scrolling = FALSE;
 //
 
 gameroom_t Rooms[G_NUM_ROOMS];
+gameroom_t Current_Room;
 
 //
 // ai functions
@@ -385,29 +386,43 @@ func_t G_SetupAnimatronics(void) {
 
 //
 // G_SetupRooms()
-// Link all of the Rooms in the pizzeria together
+// Link Rooms, set up graphics
 //
-
 func_t G_SetupRooms(void) {
     // Show Stage
     Rooms[RM_SHOW_STAGE].CanTravelTo = ROOMBIT(RM_DINING_AREA);
+    Rooms[RM_SHOW_STAGE].Graphic = "assets/textures/rooms/show_stage/normal.png";
+
     // Dining Area
     Rooms[RM_DINING_AREA].CanTravelTo = ROOMBIT(RM_SHOW_STAGE) | ROOMBIT(RM_BACKSTAGE) | ROOMBIT(RM_RESTROOMS)
                                         | ROOMBIT(RM_PIRATE_COVE) | ROOMBIT(RM_WEST_HALL) | ROOMBIT(RM_EAST_HALL)
                                         | ROOMBIT(RM_KITCHEN);
+    Rooms[RM_DINING_AREA].Graphic = "assets/textures/rooms/dining_room/normal.png";
+
     // Back Stage, Restrooms, Kitchen, & Pirate Cove
     Rooms[RM_BACKSTAGE].CanTravelTo = Rooms[RM_RESTROOMS].CanTravelTo = Rooms[RM_KITCHEN].CanTravelTo =
                                     Rooms[RM_PIRATE_COVE].CanTravelTo =  ROOMBIT(RM_DINING_AREA);
+    Rooms[RM_BACKSTAGE].Graphic = "assets/textures/rooms/back_stage/normal.png";
+
     // West hall
     Rooms[RM_WEST_HALL].CanTravelTo = ROOMBIT(RM_WEST_HALL_CORNER) | ROOMBIT(RM_DINING_AREA) | ROOMBIT(RM_SUPPLY_CLOSET);
+    Rooms[RM_WEST_HALL].Graphic = "assets/textures/rooms/west_hall/normal.png";
+
     // West Hall Corner
     Rooms[RM_WEST_HALL_CORNER].CanTravelTo = ROOMBIT(RM_OFFICE) | ROOMBIT(RM_WEST_HALL);
-    // East Hall
+    Rooms[RM_WEST_HALL_CORNER].Graphic = "assets/textures/rooms/west_hall_corner/normal.png";
+
+    // East Hall 
     Rooms[RM_EAST_HALL].CanTravelTo = ROOMBIT(RM_EAST_HALL_CORNER) | ROOMBIT(RM_DINING_AREA);
+    Rooms[RM_EAST_HALL].Graphic = "assets/textures/rooms/east_hall/normal.png";
+
     // East Hall Corner
     Rooms[RM_EAST_HALL_CORNER].CanTravelTo = ROOMBIT(RM_EAST_HALL) | ROOMBIT(RM_OFFICE);
+    Rooms[RM_EAST_HALL_CORNER].Graphic = "assets/textures/rooms/east_hall_corner/normal.png";
+
     // Office
     Rooms[RM_OFFICE].CanTravelTo = ROOMBIT(RM_EAST_HALL_CORNER) | ROOMBIT(RM_WEST_HALL_CORNER);
+    Rooms[RM_OFFICE].Graphic = "assets/textures/rooms/office/normal.png";
 }
 
 //
@@ -422,6 +437,9 @@ func_t G_Main(u16_t night) {
     // Define Night and Hour
     Game.Night = night;
     Game.Hour = 0;
+
+    // Throw us into the Office
+    Current_Room = Rooms[RM_OFFICE];
 
     // Allow Mouse Scroll
     Allow_Mouse_Scrolling = TRUE;
