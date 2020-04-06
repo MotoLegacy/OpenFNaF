@@ -7,6 +7,8 @@
 sfTexture* RoomTexture;
 sfSprite* RoomSprite;
 
+float RoomPanX;
+
 // Free and then re-init
 void Graphics_UpdateRoom(gameroom_t Room) {
     free(RoomTexture);
@@ -16,6 +18,8 @@ void Graphics_UpdateRoom(gameroom_t Room) {
 }
 
 void Graphics_InitRoom(gameroom_t Room) {
+    RoomPanX = 0;
+
     RoomTexture = sfTexture_createFromFile(Room.Graphic, NULL);
 
     // If Texture doesn't exist (TODO)
@@ -31,6 +35,8 @@ void Graphics_DrawRoom(gameroom_t Room) {
     // Initialize the Room if not already
     if (!RoomTexture || !RoomSprite)
         Graphics_InitRoom(Room);
+
+    sfSprite_setPosition(RoomSprite, (sfVector2f) {RoomPanX, 0});
 
     sfRenderWindow_drawSprite(GameWindow, RoomSprite, NULL);
 }

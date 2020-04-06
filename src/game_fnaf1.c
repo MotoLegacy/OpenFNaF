@@ -429,10 +429,13 @@ func_t G_SetupRooms(void) {
 
 // TEMP (FIXME -- Set up room GUIDs!)
 func_t G_SwapRooms() {
-    if (Current_Room.Graphic == Rooms[RM_OFFICE].Graphic)
+    if (Current_Room.Graphic == Rooms[RM_OFFICE].Graphic) {
         Current_Room = Rooms[RM_BACKSTAGE];
-    else
+        Allow_Mouse_Scrolling = FALSE;
+    } else {
         Current_Room = Rooms[RM_OFFICE];
+        Allow_Mouse_Scrolling = TRUE;
+    }
 
     Graphics_UpdateRoom(Current_Room);
 }

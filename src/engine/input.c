@@ -44,18 +44,28 @@ void Input_CheckMouse() {
     if (!Allow_Mouse_Scrolling)
         return;
 
-    //
     // 50px deadzone
-    //
+    int deadzone = 50;
 
     // Scroll Left
-    /*if (mouse.x < ((I_GAME_WIDTH/2) - 50)) {
-        printf("SCROLL LEFT\n");
-    } else if (mouse.x > ((I_GAME_WIDTH/2) + 50)) { // Scroll Right
-        printf("SCROLL RIGHT\n");
-    } else { // No Scroll
-        printf("NO SCROLL\n");
-    }*/
+    if (mouse.x < ((I_GAME_WIDTH/2) - deadzone)) {
+        RoomPanX += (float)-(mouse.x - I_GAME_WIDTH/2)/50;
+        if (RoomPanX >= 0)
+            RoomPanX = 0;
+    } 
+    // Scroll Right
+    else if (mouse.x > ((I_GAME_WIDTH/2) + deadzone)) {
+        RoomPanX -= (float)(mouse.x - I_GAME_WIDTH/2)/50;
+        if (RoomPanX <= -320)
+            RoomPanX = -320; 
+    }
+
+    // Scroll Borders (FIXME - replace fixed vals.)
+    if (RoomPanX >= 0)
+        RoomPanX = 0;
+
+    if (RoomPanX <= -320)
+        RoomPanX = -320;         
 }
 
 void Input_CheckButtons() {

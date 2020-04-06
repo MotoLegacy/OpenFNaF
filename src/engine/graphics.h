@@ -7,6 +7,8 @@
 #include <SFML/Graphics.h>
 #include "types.h"
 
+extern float RoomPanX;
+
 extern sfTexture* RoomTexture;
 extern sfSprite* RoomSprite;
 extern void Graphics_UpdateRoom(gameroom_t Room);
