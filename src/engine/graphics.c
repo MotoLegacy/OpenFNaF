@@ -7,6 +7,14 @@
 sfTexture* RoomTexture;
 sfSprite* RoomSprite;
 
+// Free and then re-init
+void Graphics_UpdateRoom(gameroom_t Room) {
+    free(RoomTexture);
+    free(RoomSprite);
+
+    Graphics_InitRoom(Room);
+}
+
 void Graphics_InitRoom(gameroom_t Room) {
     RoomTexture = sfTexture_createFromFile(Room.Graphic, NULL);
 

@@ -64,8 +64,8 @@ void Game_Initialize(void) {
             // Clear Window
             Window_Clear();
             
-            // TEMP - Draw Office
-            Graphics_DrawRoom(Rooms[RM_OFFICE]);
+            // Draw Current Room before All Else
+            Graphics_DrawRoom(Current_Room);
 
             // Update our Window
             if (!OPT_NORENDER)

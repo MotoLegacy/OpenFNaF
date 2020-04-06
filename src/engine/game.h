@@ -7,7 +7,7 @@
 #include "types.h"
 
 // Game-specific
-extern gameroom_t Rooms[G_NUM_ROOMS];
+extern gameroom_t Current_Room;
 extern void G_Main(u16_t night);
 extern void G_GameLoop(void);
 extern void G_AdvanceTime(void);

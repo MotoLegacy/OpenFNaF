@@ -11,6 +11,8 @@
 #include "engine/ai_handler.h"
 #include "engine/options.h"
 #include "engine/print.h"
+#include "engine/input.h"
+#include "engine/graphics.h"
 
 #include <stdio.h>
 
@@ -425,6 +427,16 @@ func_t G_SetupRooms(void) {
     Rooms[RM_OFFICE].Graphic = "assets/textures/rooms/office/normal.png";
 }
 
+// TEMP (FIXME -- Set up room GUIDs!)
+func_t G_SwapRooms() {
+    if (Current_Room.Graphic == Rooms[RM_OFFICE].Graphic)
+        Current_Room = Rooms[RM_BACKSTAGE];
+    else
+        Current_Room = Rooms[RM_OFFICE];
+
+    Graphics_UpdateRoom(Current_Room);
+}
+
 //
 // G_Main()
 // Game-specific initialization.
@@ -437,6 +449,9 @@ func_t G_Main(u16_t night) {
     // Define Night and Hour
     Game.Night = night;
     Game.Hour = 0;
+
+    // Set up controls
+    Input_RegisterKey(KEY_RIGHT, G_SwapRooms);
 
     // Throw us into the Office
     Current_Room = Rooms[RM_OFFICE];

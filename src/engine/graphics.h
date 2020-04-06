@@ -9,6 +9,7 @@
 
 extern sfTexture* RoomTexture;
 extern sfSprite* RoomSprite;
+extern void Graphics_UpdateRoom(gameroom_t Room);
 extern void Graphics_DrawRoom(gameroom_t Room);
 
 #endif
