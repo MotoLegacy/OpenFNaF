@@ -13,6 +13,7 @@
 #include "engine/print.h"
 #include "engine/input.h"
 #include "engine/graphics.h"
+#include "engine/game.h"
 
 #include <stdio.h>
 
@@ -21,7 +22,7 @@ anima_t Animas[G_NUM_ANIMAS];
 camera_t Camera;
 gamestate_t Game;
 
-bool Allow_Mouse_Scrolling = FALSE;
+int Scroll_Method = SCROLL_DISABLED;
 
 //
 // globals
@@ -431,10 +432,10 @@ func_t G_SetupRooms(void) {
 func_t G_SwapRooms() {
     if (Current_Room.Graphic == Rooms[RM_OFFICE].Graphic) {
         Current_Room = Rooms[RM_BACKSTAGE];
-        Allow_Mouse_Scrolling = FALSE;
+        Scroll_Method = SCROLL_AUTOMATIC;
     } else {
         Current_Room = Rooms[RM_OFFICE];
-        Allow_Mouse_Scrolling = TRUE;
+        Scroll_Method = SCROLL_MANUAL;
     }
 
     Graphics_UpdateRoom(Current_Room);
@@ -459,8 +460,8 @@ func_t G_Main(u16_t night) {
     // Throw us into the Office
     Current_Room = Rooms[RM_OFFICE];
 
-    // Allow Mouse Scroll
-    Allow_Mouse_Scrolling = TRUE;
+    // Manual Room Scrolling
+    Scroll_Method = SCROLL_MANUAL;
 
     // Notify game start
     Print_Normal("Game Started on Night %d\n", Game.Night);

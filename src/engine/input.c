@@ -3,7 +3,6 @@
 
 #include "input.h"
 #include "game.h"
-#include "version.h"
 
 // 16 should be enough.. right?
 keydata_t KeyFunctions[16];
@@ -36,36 +35,21 @@ void Input_CheckKeyboard() {
     }
 }
 
-// Room Scrolling
+// Mouse-Related functions
 void Input_CheckMouse() {
     sfVector2i mouse = sfMouse_getPositionRenderWindow(GameWindow);
 
-    // Scrolling Stuff, Kill if we can't Scroll.
-    if (!Allow_Mouse_Scrolling)
-        return;
-
-    // 50px deadzone
-    int deadzone = 50;
-
-    // Scroll Left
-    if (mouse.x < ((I_GAME_WIDTH/2) - deadzone)) {
-        RoomPanX += (float)-(mouse.x - I_GAME_WIDTH/2)/50;
-        if (RoomPanX >= 0)
-            RoomPanX = 0;
-    } 
-    // Scroll Right
-    else if (mouse.x > ((I_GAME_WIDTH/2) + deadzone)) {
-        RoomPanX -= (float)(mouse.x - I_GAME_WIDTH/2)/50;
-        if (RoomPanX <= -320)
-            RoomPanX = -320; 
-    }
-
-    // Scroll Borders (FIXME - replace fixed vals.)
-    if (RoomPanX >= 0)
-        RoomPanX = 0;
-
-    if (RoomPanX <= -320)
-        RoomPanX = -320;         
+    // Scroll Stuff
+    switch (Scroll_Method) {
+        case SCROLL_AUTOMATIC:
+            Game_AutoScroll();
+            break;
+        case SCROLL_MANUAL:
+            Game_ManualScroll(mouse);
+            break;
+        default:
+            break;
+    }   
 }
 
 void Input_CheckButtons() {

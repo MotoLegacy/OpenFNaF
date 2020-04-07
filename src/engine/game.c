@@ -8,7 +8,6 @@
 #include "window.h"
 #include "options.h"
 #include "save.h"
-#include "input.h"
 
 #include <stdio.h>
 
@@ -16,6 +15,10 @@
 
 bool Game_Running = FALSE;
 
+//
+// Game_Intialize
+// Set up our back-end and run out game loop
+//
 void Game_Initialize(void) {
     u8_t hour;
     hour = 0;
@@ -79,6 +82,76 @@ void Game_Initialize(void) {
     Window_Close();
 }
 
+//
+// Game_GetTime
+// Returns the in-game time
+//
 float Game_GetTime() {
     return (Current_Second + ((float)Current_Tsecond/100));
+}
+
+
+//
+// Game_ManualScroll
+// Handles Determining RoomPan Distance
+//
+void Game_ManualScroll(sfVector2i mouse) {
+    // center buffer and pan dist. calculation
+    int deadzone = 50;
+    int distance = mouse.x - I_GAME_WIDTH/2;
+
+    // Scroll Left
+    if (mouse.x < ((I_GAME_WIDTH/2) - deadzone)) {
+        RoomPanX += -distance/(I_GAME_WIDTH/8);
+    } 
+    // Scroll Right
+    else if (mouse.x > ((I_GAME_WIDTH/2) + deadzone)) {
+        RoomPanX -= distance/(I_GAME_WIDTH/8);
+    }
+
+    // Scroll Borders (FIXME - replace fixed vals.)
+    if (RoomPanX >= 0)
+        RoomPanX = 0;
+
+    if (RoomPanX <= -320)
+        RoomPanX = -320;      
+}
+
+//
+// Game_AutoScroll
+// Automatic Scrolling
+// (~8s movement, linger for 2 on edge)
+// FIXME - This is MEGA UGLY
+//
+bool Other_Way = FALSE;
+bool Scroll_Lingering = FALSE;
+void Game_AutoScroll() {
+    if (!Scroll_Lingering) {
+        // Left to Right
+        if (!Other_Way) {
+            RoomPanX += I_GAME_WIDTH * (0.00025);
+
+            // Edge Check (FIXME - replace fixed vals)
+            if (RoomPanX >= 0) {
+                Scroll_Lingering = TRUE;
+                Time_FrameDelay(2000, 2); // 2 second linger
+            }
+        }
+        // Right to Left
+        else {
+            RoomPanX -= I_GAME_WIDTH * (0.00025);
+
+            // Edge Check (FIXME - replace fixed vals)
+            if (RoomPanX <= -320) {
+                Scroll_Lingering = TRUE;
+                Time_FrameDelay(2000, 2); // 2 second linger
+            }
+        }
+    } else {
+        // if we've lingered long enough
+        if (Time_FrameReady(2)) {
+            Scroll_Lingering = FALSE;
+            Other_Way = !Other_Way;
+        }
+    }    
 }
