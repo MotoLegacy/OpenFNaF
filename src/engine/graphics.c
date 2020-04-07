@@ -3,11 +3,13 @@
 
 #include "graphics.h"
 #include "window.h"
+#include "game.h"
 
 sfTexture* RoomTexture;
 sfSprite* RoomSprite;
 
-float RoomPanX;
+float RoomPanX = 0;
+float CameraPanX = 0;
 
 // Free and then re-init
 void Graphics_UpdateRoom(gameroom_t Room) {
@@ -18,7 +20,6 @@ void Graphics_UpdateRoom(gameroom_t Room) {
 }
 
 void Graphics_InitRoom(gameroom_t Room) {
-    RoomPanX = 0;
 
     RoomTexture = sfTexture_createFromFile(Room.Graphic, NULL);
 
@@ -36,7 +37,12 @@ void Graphics_DrawRoom(gameroom_t Room) {
     if (!RoomTexture || !RoomSprite)
         Graphics_InitRoom(Room);
 
-    sfSprite_setPosition(RoomSprite, (sfVector2f) {RoomPanX, 0});
+    if (Scroll_Method == SCROLL_MANUAL)
+        sfSprite_setPosition(RoomSprite, (sfVector2f) {RoomPanX, 0});
+    else if (Scroll_Method == SCROLL_AUTOMATIC)
+        sfSprite_setPosition(RoomSprite, (sfVector2f) {CameraPanX, 0});
+    else
+        sfSprite_setPosition(RoomSprite, (sfVector2f) {0, 0});
 
     sfRenderWindow_drawSprite(GameWindow, RoomSprite, NULL);
 }

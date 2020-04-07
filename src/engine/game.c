@@ -129,20 +129,20 @@ void Game_AutoScroll() {
     if (!Scroll_Lingering) {
         // Left to Right
         if (!Other_Way) {
-            RoomPanX += I_GAME_WIDTH * (0.00025);
+            CameraPanX += I_GAME_WIDTH * (0.00025);
 
             // Edge Check (FIXME - replace fixed vals)
-            if (RoomPanX >= 0) {
+            if (CameraPanX >= 0) {
                 Scroll_Lingering = TRUE;
                 Time_FrameDelay(2000, 2); // 2 second linger
             }
         }
         // Right to Left
         else {
-            RoomPanX -= I_GAME_WIDTH * (0.00025);
+            CameraPanX -= I_GAME_WIDTH * (0.00025);
 
             // Edge Check (FIXME - replace fixed vals)
-            if (RoomPanX <= -320) {
+            if (CameraPanX <= -320) {
                 Scroll_Lingering = TRUE;
                 Time_FrameDelay(2000, 2); // 2 second linger
             }

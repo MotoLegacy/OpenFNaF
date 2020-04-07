@@ -8,6 +8,7 @@
 #include "types.h"
 
 extern float RoomPanX;
+extern float CameraPanX;
 
 extern sfTexture* RoomTexture;
 extern sfSprite* RoomSprite;
