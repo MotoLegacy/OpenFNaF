@@ -3,9 +3,11 @@
 
 #include "input.h"
 #include "game.h"
+#include "graphics.h"
 
-// 16 should be enough.. right?
-keydata_t KeyFunctions[16];
+#include <stdio.h>
+
+keydata_t KeyFunctions[MAX_KEYFUNCTIONS];
 int Current_Key;
 
 // Handle game input registration
@@ -24,7 +26,7 @@ void Input_CheckKeyboard() {
     }
 
     // Check our game-defined keys
-    for (int i = 0; i < Current_Key; i++) {
+    for (int i = 0; i < Current_Key; ++i) {
         if (sfKeyboard_isKeyPressed(KeyFunctions[i].key) && KeyFunctions[i].pressed == FALSE) {
             KeyFunctions[i].func();
             KeyFunctions[i].pressed = TRUE;
@@ -50,6 +52,43 @@ void Input_CheckMouse() {
         default:
             break;
     }   
+
+    // Check UI Elements
+    int MinX;
+    int MaxX;
+    int MinY;
+    int MaxY;
+    for (int i = 0; i < Current_Element; ++i) {
+        // Set Up Boundaries
+        MinX = sfSprite_getPosition(UIElements[i].Sprite).x;
+        MaxX = MinX + sfTexture_getSize(UIElements[i].Texture).x;
+        MinY = sfSprite_getPosition(UIElements[i].Sprite).y;
+        MaxY = MinY + sfTexture_getSize(UIElements[i].Texture).y;
+        // Our Cursor is on the X Pos
+        if (mouse.x >= MinX && mouse.x <= MaxX) {
+            // Our Cursor is on the Y Pos
+            if (mouse.y >= MinY &&  mouse.y <= MaxY) {
+                // Remove Spam
+                if (UIElements[i].Activated)
+                    return;
+                
+                // Check for Click if needbe
+                if (UIElements[i].Need_Clicked) {
+                    if (sfMouse_isButtonPressed(sfMouseLeft)) {
+                        UIElements[i].func();
+                        UIElements[i].Activated = TRUE;
+                    }
+                } else {
+                    UIElements[i].func();
+                    UIElements[i].Activated = TRUE;
+                }
+            } else {
+                UIElements[i].Activated = FALSE;
+            }
+        } else {
+            UIElements[i].Activated = FALSE;
+        }
+    }
 }
 
 void Input_CheckButtons() {

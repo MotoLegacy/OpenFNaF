@@ -5,6 +5,9 @@
 #include "window.h"
 #include "types.h"
 
+// 16 should be enough.. right?
+#define MAX_KEYFUNCTIONS       16
+
 typedef struct {
   sfKeyCode key;
   void (*func)();

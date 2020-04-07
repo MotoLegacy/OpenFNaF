@@ -70,6 +70,9 @@ void Game_Initialize(void) {
             // Draw Current Room before All Else
             Graphics_DrawRoom(Current_Room);
 
+            // Lastly, Update any UI Elements
+            Graphics_DrawUI();
+
             // Update our Window
             if (!OPT_NORENDER)
                 Window_Update();

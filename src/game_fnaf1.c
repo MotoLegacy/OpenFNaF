@@ -457,6 +457,10 @@ func_t G_Main(u16_t night) {
     // Set up controls
     Input_RegisterKey(KEY_RIGHT, G_SwapRooms);
 
+    // Camera Enter Button
+    Graphics_RegisterUIElement("assets/textures/ui/misc/open_camera.png", 50, 100, 
+                                UI_ANCHOR_CENTER, UI_ANCHOR_BOTTOM, FALSE, G_SwapRooms);
+
     // Throw us into the Office
     Current_Room = Rooms[RM_OFFICE];
 

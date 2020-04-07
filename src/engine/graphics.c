@@ -5,6 +5,11 @@
 #include "window.h"
 #include "game.h"
 
+#include <stdio.h>
+
+uidata_t UIElements[MAX_UI_ELEMENTS];
+int Current_Element = 0;
+
 sfTexture* RoomTexture;
 sfSprite* RoomSprite;
 
@@ -19,6 +24,7 @@ void Graphics_UpdateRoom(gameroom_t Room) {
     Graphics_InitRoom(Room);
 }
 
+// Initialization of Room drawings
 void Graphics_InitRoom(gameroom_t Room) {
 
     RoomTexture = sfTexture_createFromFile(Room.Graphic, NULL);
@@ -32,6 +38,7 @@ void Graphics_InitRoom(gameroom_t Room) {
     sfSprite_setTexture(RoomSprite, RoomTexture, sfTrue);
 }
 
+// Do the actual Room Drawing
 void Graphics_DrawRoom(gameroom_t Room) {
     // Initialize the Room if not already
     if (!RoomTexture || !RoomSprite)
@@ -45,4 +52,94 @@ void Graphics_DrawRoom(gameroom_t Room) {
         sfSprite_setPosition(RoomSprite, (sfVector2f) {0, 0});
 
     sfRenderWindow_drawSprite(GameWindow, RoomSprite, NULL);
+}
+
+// Initialize UI Elements if not already done
+void Graphics_InitializeUIElement(uidata_t* UIElement) {
+    // If we don't have a graphic, don't bother
+    if (!UIElement->Graphic)
+        return;
+
+    // Set it's sprites and textures
+    UIElement->Texture = sfTexture_createFromFile(UIElement->Graphic, NULL);
+    UIElement->Sprite = sfSprite_create();
+
+    // Bind Sprite and Texture
+    sfSprite_setTexture(UIElement->Sprite, UIElement->Texture, sfTrue);
+
+    // Determine Our Offset values
+    int OffsetX;
+    int OffsetY;
+
+    switch(UIElement->XAnchor) {
+        case UI_ANCHOR_LEFT:
+            OffsetX = 0;
+            break;
+        case UI_ANCHOR_CENTER:
+            OffsetX = (sfTexture_getSize(UIElement->Texture).x)/2;
+            break;
+        case UI_ANCHOR_RIGHT:
+            OffsetX = sfTexture_getSize(UIElement->Texture).x;
+            break;
+        default:
+            OffsetX = 0;
+            break;
+    }
+
+    switch(UIElement->YAnchor) {
+        case UI_ANCHOR_TOP:
+            OffsetY = 0;
+            break;
+        case UI_ANCHOR_CENTER:
+            OffsetY = (sfTexture_getSize(UIElement->Texture).y)/2;
+            break;
+        case UI_ANCHOR_BOTTOM:
+            OffsetY = sfTexture_getSize(UIElement->Texture).y;
+            break;
+        default:
+            OffsetY = 0;
+            break;
+    }
+
+    // Get our X & Y based on Anchors and Percentage
+
+    int XPosition = I_GAME_WIDTH;
+    int YPosition = I_GAME_HEIGHT;
+
+    XPosition /= (100/UIElement->XPosPercent);
+    YPosition /= (100/UIElement->YPosPercent);
+
+    XPosition -= OffsetX;
+    YPosition -= OffsetY;
+
+    // Finally, set our Position
+    sfSprite_setPosition(UIElement->Sprite, (sfVector2f) {XPosition, YPosition});
+    
+
+    // We're Initialized! Ready to Draw.
+    UIElement->Initialized = TRUE;
+}
+
+// Scan our UI array/structs and draw accordingly
+void Graphics_DrawUI() {
+    for (int i = 0; i < Current_Element; ++i) {
+        if (!UIElements[i].Initialized) 
+            Graphics_InitializeUIElement(&UIElements[i]);
+
+        sfRenderWindow_drawSprite(GameWindow, UIElements[i].Sprite, NULL);
+    }
+}
+
+// Registration of UI Elements to the array
+void Graphics_RegisterUIElement(char* Graphic, int XPosPercent, int YPosPercent, int XAnchor, int YAnchor, bool Need_Clicked, void (*func)) {
+    UIElements[Current_Element].Graphic = Graphic;
+    UIElements[Current_Element].XPosPercent = XPosPercent;
+    UIElements[Current_Element].YPosPercent = YPosPercent;
+    UIElements[Current_Element].XAnchor = XAnchor;
+    UIElements[Current_Element].YAnchor = YAnchor;
+    UIElements[Current_Element].func = func;
+    UIElements[Current_Element].Need_Clicked = Need_Clicked;
+    UIElements[Current_Element].Activated = FALSE;
+
+    Current_Element++;
 }
