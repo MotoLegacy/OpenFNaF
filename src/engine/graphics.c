@@ -7,11 +7,17 @@
 
 #include <stdio.h>
 
+textelement_t TextElements[MAX_UI_ELEMENTS];
 uidata_t UIElements[MAX_UI_ELEMENTS];
+
+// FIXME - cleanup
 int Current_Element = 0;
+int Current_TextElement = 0;
 
 sfTexture* RoomTexture;
 sfSprite* RoomSprite;
+
+sfFont* GameFont;
 
 float RoomPanX = 0;
 float CameraPanX = 0;
@@ -142,4 +148,92 @@ void Graphics_RegisterUIElement(char* Graphic, int XPosPercent, int YPosPercent,
     UIElements[Current_Element].Activated = FALSE;
 
     Current_Element++;
+}
+
+// Font stuff
+void Graphics_InitializeFont() {
+    GameFont = sfFont_createFromFile("assets/font.ttf");
+}
+
+// Set up Text Element and bind to TextElem field/lib
+void Graphics_InitializeTextElement(textelement_t* Element) {
+    // init text
+    Element->TextElem = sfText_create();
+
+    // text content
+    sfText_setString(Element->TextElem, Element->Text);
+    sfText_setFont(Element->TextElem, GameFont);
+
+    // size
+    sfText_setCharacterSize(Element->TextElem, Element->Size);
+
+    // color
+    sfText_setColor(Element->TextElem, Element->Color);
+
+    // Determine Our Offset values
+    int OffsetX;
+    int OffsetY;
+
+    switch(Element->XAnchor) {
+        case UI_ANCHOR_LEFT:
+            OffsetX = 0;
+            break;
+        case UI_ANCHOR_CENTER:
+            OffsetX = (sfText_getGlobalBounds(Element->TextElem).width)/2;
+            break;
+        case UI_ANCHOR_RIGHT:
+            OffsetX = sfText_getGlobalBounds(Element->TextElem).width;
+            break;
+        default:
+            OffsetX = 0;
+            break;
+    }
+
+    switch(Element->YAnchor) {
+        case UI_ANCHOR_TOP:
+            OffsetY = 0;
+            break;
+        case UI_ANCHOR_CENTER:
+            OffsetY = (sfText_getGlobalBounds(Element->TextElem).height)/2;
+            break;
+        case UI_ANCHOR_BOTTOM:
+            OffsetY = sfText_getGlobalBounds(Element->TextElem).height;
+            break;
+        default:
+            OffsetY = 0;
+            break;
+    }
+
+    // Get our X & Y based on Anchors and Percentage
+    double XPosition = I_GAME_WIDTH;
+    double YPosition = I_GAME_HEIGHT;
+
+    XPosition *= (Element->XPosPercent/(double)100);
+    YPosition *= (Element->YPosPercent/(double)100);
+
+    XPosition -= OffsetX;
+    YPosition -= OffsetY;
+
+    // Finally, set our Position
+    sfText_setPosition(Element->TextElem, (sfVector2f) {XPosition, YPosition});
+
+    // we're intialized! ready to draw
+    Element->Initialized = TRUE;
+}
+
+// Draw our Text Elements
+void Graphics_DrawText() {
+    for (int i = 0; i < Current_TextElement; ++i) {
+        if (!TextElements[i].Initialized)
+            Graphics_InitializeTextElement(&TextElements[i]);
+
+        sfRenderWindow_drawText(GameWindow, TextElements[i].TextElem, NULL);
+    }
+}
+
+// Register Text elements and add to array to draw
+void Graphics_RegisterTextElement(textelement_t Element) {
+    TextElements[Current_TextElement] = Element;
+
+    Current_TextElement++;
 }

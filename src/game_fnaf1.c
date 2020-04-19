@@ -14,6 +14,7 @@
 #include "engine/input.h"
 #include "engine/graphics.h"
 #include "engine/game.h"
+#include "engine/convert.h"
 
 #include <stdio.h>
 
@@ -21,6 +22,8 @@
 anima_t Animas[G_NUM_ANIMAS];
 camera_t Camera;
 gamestate_t Game;
+textelement_t Hour_Text;
+textelement_t Night_Text;
 
 int Scroll_Method = SCROLL_DISABLED;
 
@@ -442,6 +445,36 @@ func_t G_SwapRooms() {
 }
 
 //
+// G_SetupText()
+// Set up HUD Text
+//
+
+// FIXME - ideally the time and night should be
+// automatic, using an int.
+func_t G_SetupText() {
+    // X AM
+    Hour_Text.Text = "12 AM";
+    Hour_Text.XAnchor = UI_ANCHOR_RIGHT;
+    Hour_Text.YAnchor = UI_ANCHOR_TOP;
+    Hour_Text.Color = COLOR_BLUE;
+    Hour_Text.Size = 35;
+    Hour_Text.XPosPercent = 99;
+    Hour_Text.YPosPercent = 0;
+
+    // Night X
+    Night_Text.Text = "Night 1";
+    Night_Text.XAnchor = UI_ANCHOR_RIGHT;
+    Night_Text.YAnchor = UI_ANCHOR_TOP;
+    Night_Text.Color = COLOR_GREEN;
+    Night_Text.Size = 25;
+    Night_Text.XPosPercent = 99;
+    Night_Text.YPosPercent = 5;
+
+    Graphics_RegisterTextElement(Hour_Text);
+    Graphics_RegisterTextElement(Night_Text);
+}
+
+//
 // G_Main()
 // Game-specific initialization.
 //
@@ -460,6 +493,9 @@ func_t G_Main(u16_t night) {
     // Camera Enter Button
     Graphics_RegisterUIElement("assets/textures/ui/misc/open_camera.png", 50, 100, 
                                 UI_ANCHOR_CENTER, UI_ANCHOR_BOTTOM, FALSE, G_SwapRooms);
+
+    // Our Text Elements
+    G_SetupText();
 
     // Throw us into the Office
     Current_Room = Rooms[RM_OFFICE];
