@@ -53,6 +53,8 @@ typedef struct {
     void (*func)();
 } uidata_t;
 
+
+
 extern uidata_t UIElements[MAX_UI_ELEMENTS];
 extern int Current_Element;
 
@@ -67,6 +69,7 @@ extern void Graphics_RegisterTextElement(textelement_t* Element);
 extern void Graphics_UpdateTextElement(textelement_t* Element);
 extern void Graphics_UpdateRoom(gameroom_t Room);
 extern void Graphics_DrawRoom(gameroom_t Room);
+extern void Graphics_DrawPatches();
 extern void Graphics_DrawUI();
 extern void Graphics_DrawText();
 extern void Graphics_RegisterUIElement(char* Graphic, int XPosPercent, int YPosPercent, int XAnchor, int YAnchor, bool Need_Clicked, void (*func));

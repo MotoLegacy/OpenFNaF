@@ -4,6 +4,7 @@
 #include "graphics.h"
 #include "window.h"
 #include "game.h"
+#include "ai_handler.h"
 
 #include <stdio.h>
 
@@ -13,6 +14,8 @@ uidata_t UIElements[MAX_UI_ELEMENTS];
 // FIXME - cleanup
 int Current_Element = 0;
 int Current_TextElement = 0;
+
+extern 
 
 sfTexture* RoomTexture;
 sfSprite* RoomSprite;
@@ -32,8 +35,12 @@ void Graphics_UpdateRoom(gameroom_t Room) {
 
 // Initialization of Room drawings
 void Graphics_InitRoom(gameroom_t Room) {
+    // GraphicDirectory + normal.png for room in normal state
+    char* RoomTogether = malloc(128);
+    strcpy(RoomTogether, Room.GraphicDirectory);
+    strcat(RoomTogether, "/normal.png");
 
-    RoomTexture = sfTexture_createFromFile(Room.Graphic, NULL);
+    RoomTexture = sfTexture_createFromFile(RoomTogether, NULL);
 
     // If Texture doesn't exist (TODO)
     /*if (!RoomTexture)
@@ -248,4 +255,14 @@ void Graphics_UpdateTextElement(textelement_t* Element) {
             TextElements[i]->Initialized = FALSE;
         }
     }
+}
+
+// Animatronic-specific patches
+void Graphics_DrawAnimaPatches() {
+
+}
+
+// Draw from our List of Patches
+void Graphics_DrawPatches() {
+    Graphics_DrawAnimaPatches();
 }

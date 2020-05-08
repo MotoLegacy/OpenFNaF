@@ -5,23 +5,16 @@
 // includes
 //
 
-#include "engine/types.h"
-#include "engine/math.h"
-#include "engine/version.h"
-#include "engine/ai_handler.h"
-#include "engine/options.h"
-#include "engine/print.h"
-#include "engine/input.h"
-#include "engine/graphics.h"
-#include "engine/game.h"
-#include "engine/convert.h"
+#include "game_fnaf1.h"
 
-#include <stdio.h>
-
+//
+// defs
+//
 
 anima_t Animas[G_NUM_ANIMAS];
 camera_t Camera;
 gamestate_t Game;
+
 textelement_t Hour_Text;
 textelement_t Night_Text;
 
@@ -253,6 +246,8 @@ aitrigger_t AI_Bun_OnCamUpdate(void) {
 //
 // TODO: Footsteps, enter office.
 aitrigger_t AI_Bun_OnMove(void) {
+    // FIXME - re-enable this after patch testing
+    return;
     u16_t Loc = Math_SeedRandom(101, 5);
 
     switch(Loc) {
@@ -359,38 +354,38 @@ u16_t G_GetAILevel(u16_t id) {
 //
 
 func_t G_SetupAnimatronics(void) {
-  //fred
-  Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
-  Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
-  Animas[A_FRED].OnMove = &AI_Fred_OnMove;
-  Animas[A_FRED].UpdateTime = Animas[A_FRED].UpdateInterval = 3.03;
-  Animas[A_FRED].AiLevel = G_GetAILevel(A_FRED);
-  Animas[A_FRED].Location = ROOMBIT(RM_SHOW_STAGE);
+    //fred
+    Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
+    Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
+    Animas[A_FRED].OnMove = &AI_Fred_OnMove;
+    Animas[A_FRED].UpdateTime = Animas[A_FRED].UpdateInterval = 3.03;
+    Animas[A_FRED].AiLevel = G_GetAILevel(A_FRED);
+    Animas[A_FRED].Location = ROOMBIT(RM_SHOW_STAGE);
 
-  //fox
-  Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
-  Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
-  Animas[A_FOX].OnMove = &AI_Fox_OnMove;
-  Animas[A_FOX].UpdateTime = Animas[A_FOX].UpdateInterval = 5.01;
-  Animas[A_FOX].AiLevel = G_GetAILevel(A_FOX);
-  Animas[A_FOX].Location = ROOMBIT(RM_PIRATE_COVE);
+    //fox
+    Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
+    Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
+    Animas[A_FOX].OnMove = &AI_Fox_OnMove;
+    Animas[A_FOX].UpdateTime = Animas[A_FOX].UpdateInterval = 5.01;
+    Animas[A_FOX].AiLevel = G_GetAILevel(A_FOX);
+    Animas[A_FOX].Location = ROOMBIT(RM_PIRATE_COVE);
 
-  //bird
-  Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
-  Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
-  Animas[A_BIRD].UpdateTime = Animas[A_BIRD].UpdateInterval = 4.98;
-  Animas[A_BIRD].AiLevel = G_GetAILevel(A_BIRD);
-  Animas[A_BIRD].Location = ROOMBIT(RM_SHOW_STAGE);
+    //bird
+    Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
+    Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
+    Animas[A_BIRD].UpdateTime = Animas[A_BIRD].UpdateInterval = 4.98;
+    Animas[A_BIRD].AiLevel = G_GetAILevel(A_BIRD);
+    Animas[A_BIRD].Location = ROOMBIT(RM_SHOW_STAGE);
 
-  //bun
-  Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
-  Animas[A_BUN].OnMove = &AI_Bun_OnMove;
-  Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.96;
-  Animas[A_BUN].AiLevel = G_GetAILevel(A_BUN);
-  Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
+    //bun
+    Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
+    Animas[A_BUN].OnMove = &AI_Bun_OnMove;
+    Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.96;
+    Animas[A_BUN].AiLevel = G_GetAILevel(A_BUN);
+    Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
 
-  //goldfred
-  Animas[A_GFRED].OnCamUpdate = &AI_GFred_OnCamUpdate;
+    //goldfred
+    Animas[A_GFRED].OnCamUpdate = &AI_GFred_OnCamUpdate;
 }
 
 //
@@ -400,43 +395,43 @@ func_t G_SetupAnimatronics(void) {
 func_t G_SetupRooms(void) {
     // Show Stage
     Rooms[RM_SHOW_STAGE].CanTravelTo = ROOMBIT(RM_DINING_AREA);
-    Rooms[RM_SHOW_STAGE].Graphic = "assets/textures/rooms/show_stage/normal.png";
+    Rooms[RM_SHOW_STAGE].GraphicDirectory = "assets/textures/rooms/show_stage";
 
     // Dining Area
     Rooms[RM_DINING_AREA].CanTravelTo = ROOMBIT(RM_SHOW_STAGE) | ROOMBIT(RM_BACKSTAGE) | ROOMBIT(RM_RESTROOMS)
                                         | ROOMBIT(RM_PIRATE_COVE) | ROOMBIT(RM_WEST_HALL) | ROOMBIT(RM_EAST_HALL)
                                         | ROOMBIT(RM_KITCHEN);
-    Rooms[RM_DINING_AREA].Graphic = "assets/textures/rooms/dining_room/normal.png";
+    Rooms[RM_DINING_AREA].GraphicDirectory = "assets/textures/rooms/dining_room";
 
     // Back Stage, Restrooms, Kitchen, & Pirate Cove
     Rooms[RM_BACKSTAGE].CanTravelTo = Rooms[RM_RESTROOMS].CanTravelTo = Rooms[RM_KITCHEN].CanTravelTo =
                                     Rooms[RM_PIRATE_COVE].CanTravelTo =  ROOMBIT(RM_DINING_AREA);
-    Rooms[RM_BACKSTAGE].Graphic = "assets/textures/rooms/back_stage/normal.png";
+    Rooms[RM_BACKSTAGE].GraphicDirectory = "assets/textures/rooms/back_stage";
 
     // West hall
     Rooms[RM_WEST_HALL].CanTravelTo = ROOMBIT(RM_WEST_HALL_CORNER) | ROOMBIT(RM_DINING_AREA) | ROOMBIT(RM_SUPPLY_CLOSET);
-    Rooms[RM_WEST_HALL].Graphic = "assets/textures/rooms/west_hall/normal.png";
+    Rooms[RM_WEST_HALL].GraphicDirectory = "assets/textures/rooms/west_hall";
 
     // West Hall Corner
     Rooms[RM_WEST_HALL_CORNER].CanTravelTo = ROOMBIT(RM_OFFICE) | ROOMBIT(RM_WEST_HALL);
-    Rooms[RM_WEST_HALL_CORNER].Graphic = "assets/textures/rooms/west_hall_corner/normal.png";
+    Rooms[RM_WEST_HALL_CORNER].GraphicDirectory = "assets/textures/rooms/west_hall_corner";
 
     // East Hall 
     Rooms[RM_EAST_HALL].CanTravelTo = ROOMBIT(RM_EAST_HALL_CORNER) | ROOMBIT(RM_DINING_AREA);
-    Rooms[RM_EAST_HALL].Graphic = "assets/textures/rooms/east_hall/normal.png";
+    Rooms[RM_EAST_HALL].GraphicDirectory = "assets/textures/rooms/east_hall";
 
     // East Hall Corner
     Rooms[RM_EAST_HALL_CORNER].CanTravelTo = ROOMBIT(RM_EAST_HALL) | ROOMBIT(RM_OFFICE);
-    Rooms[RM_EAST_HALL_CORNER].Graphic = "assets/textures/rooms/east_hall_corner/normal.png";
+    Rooms[RM_EAST_HALL_CORNER].GraphicDirectory = "assets/textures/rooms/east_hall_corner";
 
     // Office
     Rooms[RM_OFFICE].CanTravelTo = ROOMBIT(RM_EAST_HALL_CORNER) | ROOMBIT(RM_WEST_HALL_CORNER);
-    Rooms[RM_OFFICE].Graphic = "assets/textures/rooms/office/normal.png";
+    Rooms[RM_OFFICE].GraphicDirectory = "assets/textures/rooms/office";
 }
 
 // TEMP (FIXME -- Set up room GUIDs!)
 func_t G_SwapRooms() {
-    if (Current_Room.Graphic == Rooms[RM_OFFICE].Graphic) {
+    if (Current_Room.GraphicDirectory == Rooms[RM_OFFICE].GraphicDirectory) {
         Current_Room = Rooms[RM_BACKSTAGE];
         Scroll_Method = SCROLL_AUTOMATIC;
     } else {
@@ -490,6 +485,25 @@ func_t G_SetupText() {
 }
 
 //
+// G_ToggleBonnieTest()
+// Throw Bonnie into current room to test patches
+//
+func_t G_ToggleBonnieTest() {
+    // just throw him in showstage if in office
+    if (Animas[A_BUN].Location = ROOMBIT(0)) {
+        Animas[A_BUN].Location = ROOMBIT(1);
+        //Animas[A_BUN].AnimaState = bonnie_in_showstage;
+        Animas[A_BUN].AnimaState = NONE;
+    } else {
+        Animas[A_BUN].Location = ROOMBIT(0);
+        Animas[A_BUN].AnimaState = bonnie_in_office;
+    }
+    
+    // send anima and state to engine
+    AI_RegisterStateChange(&Animas[A_BUN], Animas[A_BUN].AnimaState);
+}
+
+//
 // G_Main()
 // Game-specific initialization.
 //
@@ -508,6 +522,10 @@ func_t G_Main(u16_t night) {
     // Camera Enter Button
     Graphics_RegisterUIElement("assets/textures/ui/misc/open_camera.png", 50, 100, 
                                 UI_ANCHOR_CENTER, UI_ANCHOR_BOTTOM, FALSE, G_SwapRooms);
+
+    // Test Patches with toggle
+    Graphics_RegisterUIElement("assets/textures/ui/misc/toggle_bonnie.png", 25, 25, 
+                            UI_ANCHOR_TOP, UI_ANCHOR_LEFT, TRUE, G_ToggleBonnieTest);
 
     // Our Text Elements
     G_SetupText();

@@ -42,20 +42,6 @@
   #define CAM_2B    14
   #define CAM_4B    15
 
-  // rooms
-  #define RM_OFFICE             0
-  #define RM_SHOW_STAGE         1
-  #define RM_BACKSTAGE          2
-  #define RM_DINING_AREA        3
-  #define RM_PIRATE_COVE        4
-  #define RM_EAST_HALL          5
-  #define RM_EAST_HALL_CORNER   6
-  #define RM_WEST_HALL          7
-  #define RM_WEST_HALL_CORNER   8
-  #define RM_RESTROOMS          9
-  #define RM_KITCHEN            10
-  #define RM_SUPPLY_CLOSET      11
-
   // clock
   #define SECONDS_PER_HOUR      90
 
@@ -119,11 +105,20 @@ typedef enum {
 // structs
 //
 
+// state_t
+// 
+typedef struct {
+  char* StateName;
+  char* Graphic;
+  int   Room;
+  void (*Function)();
+} state_t;
+
 // gameroom_t
 // holds information on rooms
 typedef struct {
   bitfield_t CanTravelTo : 64;
-  texture2d_t Graphic;
+  texture2d_t GraphicDirectory;
   s32_t CamBound;    //negative for left, positive for right. assumes we can go CamBound pixels right and (CamBound)(-1) pixels left
   u64_t guid;
 } gameroom_t;
@@ -134,6 +129,7 @@ typedef struct {
   u32_t AnimaMode; // 0: Normal, 1: Attack/Running (Freddy/Foxy, respectively)
   float UpdateTime; // FIXME - make typedef for floats?
   float UpdateInterval;
+  char* PatchGraphic;
   bool IsLockedDown;
   u32_t AiLevel;
   u32_t MoveChance;
@@ -145,6 +141,7 @@ typedef struct {
   void (*OnMove)(); // Why can't we use our typedef for function pointers..?
   func_t* OnKill;
   func_t* OnPowerLoss;
+  animastate_t AnimaState;
 } anima_t;
 
 // camera_t

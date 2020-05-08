@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 
+// Check whether or not anima can move
 void AI_CheckMovement(anima_t* Anima) {
     // Get gametime to compare with update time
     float GameTime = Game_GetTime();
