@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-textelement_t TextElements[MAX_UI_ELEMENTS];
+textelement_t* TextElements[MAX_UI_ELEMENTS];
 uidata_t UIElements[MAX_UI_ELEMENTS];
 
 // FIXME - cleanup
@@ -224,16 +224,28 @@ void Graphics_InitializeTextElement(textelement_t* Element) {
 // Draw our Text Elements
 void Graphics_DrawText() {
     for (int i = 0; i < Current_TextElement; ++i) {
-        if (!TextElements[i].Initialized)
-            Graphics_InitializeTextElement(&TextElements[i]);
+        if (!TextElements[i]->Initialized)
+            Graphics_InitializeTextElement(TextElements[i]);
 
-        sfRenderWindow_drawText(GameWindow, TextElements[i].TextElem, NULL);
+        sfRenderWindow_drawText(GameWindow, TextElements[i]->TextElem, NULL);
     }
 }
 
 // Register Text elements and add to array to draw
-void Graphics_RegisterTextElement(textelement_t Element) {
+void Graphics_RegisterTextElement(textelement_t* Element) {
     TextElements[Current_TextElement] = Element;
 
+    Element->id = Current_TextElement;
+
     Current_TextElement++;
+}
+
+// Update Text Elements (color, text, etc.)
+void Graphics_UpdateTextElement(textelement_t* Element) {
+    for (int i = 0; i < Current_TextElement; ++i) {
+        if (TextElements[i]->id == Element->id) {
+            TextElements[i] = Element;
+            TextElements[i]->Initialized = FALSE;
+        }
+    }
 }

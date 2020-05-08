@@ -25,6 +25,9 @@ gamestate_t Game;
 textelement_t Hour_Text;
 textelement_t Night_Text;
 
+char* NightString;
+char* HourString;
+
 int Scroll_Method = SCROLL_DISABLED;
 
 //
@@ -461,7 +464,6 @@ u16_t G_GetPrettyTime() {
 //
 func_t G_SetupText() {
     // X AM
-    char* HourString;
     HourString = append_int_to_char("", G_GetPrettyTime());
     HourString = append_char_to_char(HourString, " AM");
     Hour_Text.Text = HourString;
@@ -473,7 +475,6 @@ func_t G_SetupText() {
     Hour_Text.YPosPercent = 0;
 
     // Night X
-    char* NightString;
     NightString = "Night ";
     NightString = append_int_to_char(NightString, Game.Night);
     Night_Text.Text = NightString;
@@ -484,8 +485,8 @@ func_t G_SetupText() {
     Night_Text.XPosPercent = 99;
     Night_Text.YPosPercent = 5;
 
-    Graphics_RegisterTextElement(Hour_Text);
-    Graphics_RegisterTextElement(Night_Text);
+    Graphics_RegisterTextElement(&Hour_Text);
+    Graphics_RegisterTextElement(&Night_Text);
 }
 
 //
@@ -562,10 +563,20 @@ func_t G_AdvanceTime(void) {
             break;
     }
 
+    // End Game or update time on HUD
     if (Game.Hour == 6)
         G_EndGame();
     else
         Print_Normal("Time Advanced to %d AM\n", G_GetPrettyTime());
+
+    HourString = append_int_to_char("", G_GetPrettyTime());
+    HourString = append_char_to_char(HourString, " AM");
+    Hour_Text.Text = HourString;
+    NightString = "Night ";
+    NightString = append_int_to_char(NightString, Game.Night);
+    Night_Text.Text = NightString;
+    Graphics_UpdateTextElement(&Hour_Text);
+    Graphics_UpdateTextElement(&Night_Text);
 }
 
 //

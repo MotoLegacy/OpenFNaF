@@ -35,6 +35,7 @@ typedef struct {
     int XPosPercent;
     int YPosPercent;
     int Size;
+    int id;
 } textelement_t;
 
 // UI struct
@@ -62,7 +63,8 @@ extern sfTexture* RoomTexture;
 extern sfSprite* RoomSprite;
 
 extern void Graphics_InitializeFont();
-extern void Graphics_RegisterTextElement(textelement_t Element);
+extern void Graphics_RegisterTextElement(textelement_t* Element);
+extern void Graphics_UpdateTextElement(textelement_t* Element);
 extern void Graphics_UpdateRoom(gameroom_t Room);
 extern void Graphics_DrawRoom(gameroom_t Room);
 extern void Graphics_DrawUI();
