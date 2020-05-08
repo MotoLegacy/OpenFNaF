@@ -445,15 +445,26 @@ func_t G_SwapRooms() {
 }
 
 //
+// G_GetPrettyTime()
+// Returns the AM time (12-6)
+//
+u16_t G_GetPrettyTime() {
+    if (Game.Hour == 0)
+        return 12;
+    else
+        return Game.Hour;
+}
+
+//
 // G_SetupText()
 // Set up HUD Text
 //
-
-// FIXME - ideally the time and night should be
-// automatic, using an int.
 func_t G_SetupText() {
     // X AM
-    Hour_Text.Text = "12 AM";
+    char* HourString;
+    HourString = append_int_to_char("", G_GetPrettyTime());
+    HourString = append_char_to_char(HourString, " AM");
+    Hour_Text.Text = HourString;
     Hour_Text.XAnchor = UI_ANCHOR_RIGHT;
     Hour_Text.YAnchor = UI_ANCHOR_TOP;
     Hour_Text.Color = COLOR_BLUE;
@@ -462,7 +473,10 @@ func_t G_SetupText() {
     Hour_Text.YPosPercent = 0;
 
     // Night X
-    Night_Text.Text = "Night 1";
+    char* NightString;
+    NightString = "Night ";
+    NightString = append_int_to_char(NightString, Game.Night);
+    Night_Text.Text = NightString;
     Night_Text.XAnchor = UI_ANCHOR_RIGHT;
     Night_Text.YAnchor = UI_ANCHOR_TOP;
     Night_Text.Color = COLOR_GREEN;
@@ -505,17 +519,6 @@ func_t G_Main(u16_t night) {
 
     // Notify game start
     Print_Normal("Game Started on Night %d\n", Game.Night);
-}
-
-//
-// G_GetPrettyTime()
-// Returns the AM time (12-6)
-//
-u16_t G_GetPrettyTime() {
-    if (Game.Hour == 0)
-        return 12;
-    else
-        return Game.Hour;
 }
 
 //
