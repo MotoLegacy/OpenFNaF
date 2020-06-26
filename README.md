@@ -2,7 +2,7 @@
 A (WiP) Open-Source Reimplementation of Scott Cawthon's Five Nights at Freddy's. Written in C. Licensed under MIT.
 
 # In It's Current State
-Part of the first [Five Night's at Freddy's](https://store.steampowered.com/app/319510/Five_Nights_at_Freddys/) title has been implemented, the OpenFNaF engine can interact with game code (src/game_fnaf1.c) and Animas can move to designated locations. At this time there is no renderer, but an OpenGL Window (provided by SFML) will open.
+Part of the first [Five Night's at Freddy's](https://store.steampowered.com/app/319510/Five_Nights_at_Freddys/) title has been implemented. The OpenFNaF engine will initialize a game window, and the game code will load the player into the office room. The room will pan with the player's cursor, and there is a camera button that will enter the WiP camera system. Animatronics will roam around, althought this is not yet shown visually.
 
 # Building
 OpenFNaF requires the following additional libraries to build:
