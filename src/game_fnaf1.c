@@ -312,13 +312,12 @@ aitrigger_t AI_GFred_OnCamUpdate(void) {
 // Return AI Level based on Anima and Night
 //
 u16_t G_GetAILevel(u16_t id) {
-    return 20;
     if (id == A_FRED) {
           switch(Game.Night) {
             case 1: return 0;
             case 2: return 0;
             case 3: return 1;
-            case 4: return 1; //FIXME - 50% chance of being 2 as opposed to 1
+            case 4: return ((Math_GenerateChance(50)) ? 1 : 2);
             case 5: return 3;
             default: return 0;
           }
