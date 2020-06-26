@@ -13,7 +13,7 @@ void AI_CheckMovement(anima_t* Anima) {
     float GameTime = Game_GetTime();
 
     if (GameTime == Anima->UpdateTime) {
-        u16_t Calculation = Math_SeedRandom(420, 20);
+        u16_t Calculation = Math_SeedRandom(20);
 
         // Move if the die said we could
         if (Calculation <= Anima->AiLevel) {

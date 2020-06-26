@@ -190,7 +190,7 @@ aitrigger_t AI_Bird_OnCamUpdate(void) {
 //
 // TODO: Footsteps, enter office.
 aitrigger_t AI_Bird_OnMove(void) {
-    u16_t Loc = Math_SeedRandom(101, 5);
+    u16_t Loc = Math_SeedRandom(5);
 
     switch(Loc) {
         // Dining Area
@@ -253,7 +253,7 @@ aitrigger_t AI_Bun_OnCamUpdate(void) {
 //
 // TODO: Footsteps, enter office.
 aitrigger_t AI_Bun_OnMove(void) {
-    u16_t Loc = Math_SeedRandom(101, 5);
+    u16_t Loc = Math_SeedRandom(5);
 
     switch(Loc) {
         // Dining Area
@@ -312,6 +312,7 @@ aitrigger_t AI_GFred_OnCamUpdate(void) {
 // Return AI Level based on Anima and Night
 //
 u16_t G_GetAILevel(u16_t id) {
+    return 20;
     if (id == A_FRED) {
           switch(Game.Night) {
             case 1: return 0;

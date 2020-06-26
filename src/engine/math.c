@@ -27,6 +27,7 @@ u8_t Prng[255] = {
 };
 
 u8_t PrngIndex = 0;
+u64_t seed;
 
 
 //
@@ -44,26 +45,37 @@ bool Math_GenerateChance(u64_t percentage) {
 }
 
 //
-// Math_SeedRandom(u64_t seed)
+// Math_SetSeed(u64_t dseed)
+// Sets the RNG Seed.
+//
+void Math_SetSeed(u64_t dseed) {
+    seed = dseed;
+}
+
+//
+// Math_SeedRandom(u64_t max)
 // occasionally useful for internal randomness.
 //
-u64_t Math_SeedRandom(u64_t seed, u64_t max) {
+u64_t Math_SeedRandom(u64_t max) {
+    if (!seed) {
+        Print_Normal("ERR: Tried to call Math_SeedRandom without setting seed!\n");
+        return 0;
+    }
 
-  u64_t random = (Math_Prng() << 24) | (Math_Prng() << 16) | (Math_Prng() << 8) | Math_Prng();
-  random << (Math_Prng()%32);
-  random ^= seed;
+    u64_t random = (Math_Prng() << 24) | (Math_Prng() << 16) | (Math_Prng() << 8) | Math_Prng();
+    random << (Math_Prng()%32);
+    random ^= seed;
 
-  if (max)
-    random = random % max + 1;
-  
-  return random;
+    if (max)
+        random = random % max + 1;
+    
+    return random;
 }
 
 //
 // Math_Prng()
 //
-
 u8_t Math_Prng(void) {
-  u8_t get = Prng[++PrngIndex];
-  return get;
+    u8_t get = Prng[++PrngIndex];
+    return get;
 }

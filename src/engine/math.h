@@ -12,7 +12,8 @@
 //
 
 bool    Math_GenerateChance(u64_t percent);
-u64_t   Math_SeedRandom(u64_t seed, u64_t max);
+void    Math_SetSeed(u64_t dseed);
+u64_t   Math_SeedRandom(u64_t max);
 u8_t    Math_Prng(void);
 
 #endif

@@ -39,6 +39,10 @@ void Game_Initialize(void) {
     Time_FrameDelay(1, 0); // Frames per Second
     Time_FrameDelay(1, 1); // Actual Game Timer
 
+    // Seed the Random Number Generator
+    Math_SetSeed(clock());
+
+    // Load our Font System
     Graphics_InitializeFont();
 
     while(Game_Running) {
