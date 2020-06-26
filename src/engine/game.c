@@ -110,7 +110,7 @@ void Game_ManualScroll(sfVector2i mouse) {
     // center buffer and pan dist. calculation
     int deadzone = 50;
     int distance = mouse.x - I_GAME_WIDTH/2;
-    LeftScreenThreshold = I_GAME_WIDTH - sfTexture_getSize(RoomTexture).x;
+    LeftScreenThreshold = I_GAME_WIDTH - Graphics_GetTextureWidth(RoomTexture);
 
     // Scroll Left
     if (mouse.x < ((I_GAME_WIDTH/2) - deadzone)) {
@@ -138,7 +138,7 @@ void Game_ManualScroll(sfVector2i mouse) {
 bool Other_Way = FALSE;
 bool Scroll_Lingering = FALSE;
 void Game_AutoScroll() {
-    LeftScreenThreshold = I_GAME_WIDTH - sfTexture_getSize(RoomTexture).x;
+    LeftScreenThreshold = I_GAME_WIDTH - Graphics_GetTextureWidth(RoomTexture);
     float PanAmount = I_GAME_WIDTH/(I_GAME_WIDTH*3);
 
     if (!Scroll_Lingering) {

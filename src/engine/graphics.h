@@ -4,7 +4,10 @@
 #ifndef _GRAPHICS_H_
 #define _GRAPHICS_H_
 
-#include <SFML/Graphics.h>
+#ifdef DESKTOP
+#include "pc/graphics_wrapper.h"
+#endif
+
 #include "types.h"
 
 // Total max number of UI elements in game

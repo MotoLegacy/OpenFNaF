@@ -83,10 +83,6 @@ typedef u64_t bitfield_t;
 typedef void    func_t;
 typedef func_t  aitrigger_t;
 
-//graphics types
-// FIXME - make platform independent and replace u64 - moto
-typedef char* texture2d_t;
-
 // game specific types
 typedef u64_t animastate_t;
   
@@ -123,7 +119,7 @@ typedef enum {
 // holds information on rooms
 typedef struct {
   bitfield_t CanTravelTo : 64;
-  texture2d_t Graphic;
+  char* Graphic;
   s32_t CamBound;    //negative for left, positive for right. assumes we can go CamBound pixels right and (CamBound)(-1) pixels left
   u64_t guid;
 } gameroom_t;
@@ -174,86 +170,6 @@ typedef struct {
   func_t* DrawTexture;
   func_t* Free;
   func_t* Load;
-
-  //static texture pages start
-  //scene
-  texture2d_t gfont;
-  texture2d_t clock;
-  texture2d_t office_on;
-  texture2d_t office_onL;
-  texture2d_t office_onR;
-  texture2d_t fan1;
-  texture2d_t fan2;
-  texture2d_t fan3;
-  texture2d_t ldoor1;
-  texture2d_t ldoor2;
-  texture2d_t ldoor3;
-  texture2d_t ldoor4;
-  texture2d_t ldoor5;
-  texture2d_t ldoor6;
-  texture2d_t ldoor7;
-  texture2d_t ldoor8;
-  texture2d_t ldoor9;
-  texture2d_t ldoor10;
-  texture2d_t ldoor11;
-  texture2d_t ldoor12;
-  texture2d_t ldoor13;
-  texture2d_t rdoor1;
-  texture2d_t rdoor2;
-  texture2d_t rdoor3;
-  texture2d_t rdoor4;
-  texture2d_t rdoor5;
-  texture2d_t rdoor6;
-  texture2d_t rdoor7;
-  texture2d_t rdoor8;
-  texture2d_t rdoor9;
-  texture2d_t rdoor10;
-  texture2d_t rdoor11;
-  texture2d_t rdoor12;
-  texture2d_t rdoor13;
-
-  //static
-  texture2d_t staticc0;
-  texture2d_t staticc1;
-  texture2d_t staticc2;
-  texture2d_t staticc3;
-  texture2d_t staticc4;
-  texture2d_t staticc5;
-  texture2d_t staticc6;
-  texture2d_t staticc7;
-
-  //fredly fazman
-  texture2d_t fredscare1;
-  texture2d_t fredscare2;
-  texture2d_t fredscare3;
-  texture2d_t fredscare4;
-  texture2d_t fredscare5;
-  texture2d_t fredscare6;
-  texture2d_t fredscare7;
-  texture2d_t fredscare8;
-  texture2d_t fredscare9;
-  texture2d_t fredscare10;
-  texture2d_t fredscare11;
-  texture2d_t fredscare12;
-  texture2d_t fredscare13;
-  texture2d_t fredscare14;
-  texture2d_t fredscare15;
-  texture2d_t fredscare16;
-  texture2d_t fredscare17;
-  texture2d_t fredscare18;
-  texture2d_t fredscare19;
-  texture2d_t fredscare20;
-  texture2d_t fredscare21;
-  texture2d_t fredscare22;
-  texture2d_t fredscare23;
-  texture2d_t fredscare24;
-  texture2d_t fredscare25;
-  texture2d_t fredscare26;
-  texture2d_t fredscare27;
-  texture2d_t fredscare28;
-  texture2d_t fredscare29;
-  texture2d_t fredscare30;
-
 } vswap_t;
 
 #endif

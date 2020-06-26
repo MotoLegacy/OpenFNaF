@@ -82,10 +82,10 @@ void Graphics_InitializeUIElement(uidata_t* UIElement) {
             OffsetX = 0;
             break;
         case UI_ANCHOR_CENTER:
-            OffsetX = (sfTexture_getSize(UIElement->Texture).x)/2;
+            OffsetX = (Graphics_GetTextureWidth(UIElement->Texture))/2;
             break;
         case UI_ANCHOR_RIGHT:
-            OffsetX = sfTexture_getSize(UIElement->Texture).x;
+            OffsetX = Graphics_GetTextureWidth(UIElement->Texture);
             break;
         default:
             OffsetX = 0;
@@ -97,10 +97,10 @@ void Graphics_InitializeUIElement(uidata_t* UIElement) {
             OffsetY = 0;
             break;
         case UI_ANCHOR_CENTER:
-            OffsetY = (sfTexture_getSize(UIElement->Texture).y)/2;
+            OffsetY = (Graphics_GetTextureHeight(UIElement->Texture))/2;
             break;
         case UI_ANCHOR_BOTTOM:
-            OffsetY = sfTexture_getSize(UIElement->Texture).y;
+            OffsetY = Graphics_GetTextureHeight(UIElement->Texture);
             break;
         default:
             OffsetY = 0;

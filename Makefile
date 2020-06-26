@@ -1,6 +1,7 @@
 # Source file Objects
 OBJS = \
 	src/engine/game_fnaf1.o \
+	src/engine/graphics_wrapper.o \
 	src/engine/convert.o \
 	src/engine/graphics.o \
 	src/engine/print.o \
@@ -27,8 +28,8 @@ CXX			= gcc
 CFLAGS = -Wall -g
 
 # Arguments
-ifeq ($(LINUX),1)
-CFLAGS += -DLINUX
+ifeq ($(DESKTOP),1)
+CFLAGS += -DDESKTOP
 endif
 
 # Run
@@ -39,6 +40,7 @@ install:
 	# Create Object Files
 	# FIXME - Make automatic
 	$(CXX) $(CFLAGS) -c src/game_fnaf1.c
+	$(CXX) $(CFLAGS) -c src/engine/pc/graphics_wrapper.c
 	$(CXX) $(CFLAGS) -c src/engine/convert.c
 	$(CXX) $(CFLAGS) -c src/engine/graphics.c
 	$(CXX) $(CFLAGS) -c src/engine/print.c
@@ -51,6 +53,7 @@ install:
 	$(CXX) $(CFLAGS) -c src/engine/window.c
 	$(CXX) $(CFLAGS) -c src/engine/math.c
 	$(CXX) $(CFLAGS) -c src/engine/ai_handler.c
+
 	mv *.o src/engine/
 
 	# Build into Executable 
