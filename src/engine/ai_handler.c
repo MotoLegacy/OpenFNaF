@@ -20,7 +20,9 @@ void AI_CheckMovement(anima_t* Anima) {
             Anima->OnMove();
         }
 
+        // Increase Update Time, round to nearest hundreth.
         Anima->UpdateTime += Anima->UpdateInterval;
+        Anima->UpdateTime = floor(Anima->UpdateTime*100+0.5)/100;
     }
         
     return;
