@@ -2,10 +2,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 
 #include "types.h"
-#include "time.h"
+#include "time_manager.h"
 #include "math.h"
 #include "game.h"
-
 #include <stdio.h>
 
 void AI_CheckMovement(anima_t* Anima) {
@@ -16,6 +15,7 @@ void AI_CheckMovement(anima_t* Anima) {
         u16_t Calculation = Math_SeedRandom(20);
 
         // Move if the die said we could
+
         if (Calculation <= Anima->AiLevel) {
             Anima->OnMove();
         }

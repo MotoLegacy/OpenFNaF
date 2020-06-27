@@ -8,7 +8,7 @@ Part of the first [Five Night's at Freddy's](https://store.steampowered.com/app/
 OpenFNaF requires the following additional libraries to build:
 * [libcsfml-dev](https://www.sfml-dev.org/) (zlib/png license)
 
-Simply run `make`; if provided all additional libraries OpenFNaF should build without issue. Object files will be stored in the created `build` directory, an executable will be located in the root directory of the project.
+Simply run `make DESKTOP=1`; if provided all additional libraries, OpenFNaF should build without issue. Object files will be stored in the created `build` directory, an executable will be located in the root directory of the project.
 
 OpenFNaF also supports `make clean`.
 

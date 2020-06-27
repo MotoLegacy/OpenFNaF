@@ -1,68 +1,55 @@
-# Source file Objects
-OBJS = \
-	src/engine/game_fnaf1.o \
-	src/engine/graphics_wrapper.o \
-	src/engine/convert.o \
-	src/engine/graphics.o \
-	src/engine/print.o \
-	src/engine/options.o \
-	src/engine/time.o \
-	src/engine/game.o \
-	src/engine/main.o \
-	src/engine/save.o \
-	src/engine/input.o \
-	src/engine/window.o \
-	src/engine/math.o \
-	src/engine/ai_handler.o \
+NAME            := OpenFNaF
 
-# Application Name
-NAME = OpenFNaF
+#------------------------------------------------
 
-# Libraries
-LIBS		= -lm -lc -lcsfml-graphics -lcsfml-window -lcsfml-system
+BUILD          := build
+SOURCE         := src/
+PC_WRAPPER_SRC := src/engine/pc/
 
-# Compiler (C)
-CXX			= gcc
+#------------------------------------------------
 
-# Compiler Flags
-CFLAGS = -Wall -g
+SOURCES        := $(shell find $(SOURCE) -maxdepth 2 -name '*.c')
 
-# Arguments
+# PLATFORM: PC
 ifeq ($(DESKTOP),1)
-CFLAGS += -DDESKTOP
+SOURCES        += $(shell find $(PC_WRAPPER_SRC) -name '*.c')
+CFLAGS         := -DDESKTOP
 endif
 
-# Run
-install:
-	# Make build folder if not exist
-	mkdir -p build
+OBJECTS        := $(addprefix $(BUILD)/,$(SOURCES:%.c=%.o))
 
-	# Create Object Files
-	# FIXME - Make automatic
-	$(CXX) $(CFLAGS) -c src/game_fnaf1.c
-	$(CXX) $(CFLAGS) -c src/engine/pc/graphics_wrapper.c
-	$(CXX) $(CFLAGS) -c src/engine/convert.c
-	$(CXX) $(CFLAGS) -c src/engine/graphics.c
-	$(CXX) $(CFLAGS) -c src/engine/print.c
-	$(CXX) $(CFLAGS) -c src/engine/options.c
-	$(CXX) $(CFLAGS) -c src/engine/time.c
-	$(CXX) $(CFLAGS) -c src/engine/game.c
-	$(CXX) $(CFLAGS) -c src/engine/main.c
-	$(CXX) $(CFLAGS) -c src/engine/save.c
-	$(CXX) $(CFLAGS) -c src/engine/input.c
-	$(CXX) $(CFLAGS) -c src/engine/window.c
-	$(CXX) $(CFLAGS) -c src/engine/math.c
-	$(CXX) $(CFLAGS) -c src/engine/ai_handler.c
+#-------------------------------------------------
 
-	mv *.o src/engine/
+CFLAGS         += -Wall -g -fPIC 
+LDFLAGS        := -lm -lc $(subst sfml,csfml,$(shell pkg-config sfml-all --libs --silence-errors)) $(shell pkg-config sfml-all --libs --silence-errors)
 
-	# Build into Executable 
-	$(CXX) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
+#-------------------------------------------------
 
-	# Move Object Files to build directory
-	mv src/engine/*.o build/
+OUTPUT_BOLD    := `tput bold`
+OUTPUT_GREEN   := `tput setaf 2`
+OUTPUT_BLUE    := `tput setaf 6`
+OUTPUT_NORMAL  := `tput sgr0`
 
-# Delete binaries
-clean: 
-	rm build/*.o
-	rm $(NAME)
+#-------------------------------------------------
+all: $(NAME)
+#-------------------------------------------------
+
+#-------------------------------------------------
+$(NAME): $(OBJECTS)
+#-------------------------------------------------
+	@echo Linking...
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LDFLAGS)
+	@echo $(OUTPUT_BOLD)$(OUTPUT_GREEN)Build done.$(OUTPUT_NORMAL)
+
+#-------------------------------------------------
+$(BUILD)/%.o: %.c
+#-------------------------------------------------
+	@echo $(OUTPUT_BOLD)- $(subst $(SOURCE)/,,$<)$(OUTPUT_NORMAL)
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -I$(dir $<) -c $< -o $@
+
+#-------------------------------------------------
+clean:
+#-------------------------------------------------
+	@echo $(OUTPUT_BLUE)$(OUTPUT_BOLD)Cleaning...$(OUTPUT_NORMAL)
+	@rm -rf $(BUILD) $(NAME)

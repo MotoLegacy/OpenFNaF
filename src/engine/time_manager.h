@@ -1,8 +1,8 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#ifndef _TIME_H_
-#define _TIME_H_
+#ifndef _TIME_MANAGER_H_
+#define _TIME_MANAGER_H_
 
 #include "types.h"
 

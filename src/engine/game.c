@@ -4,7 +4,7 @@
 #include "game.h"
 #include "graphics.h"
 #include "types.h"
-#include "time.h"
+#include "time_manager.h"
 #include "window.h"
 #include "options.h"
 #include "save.h"
