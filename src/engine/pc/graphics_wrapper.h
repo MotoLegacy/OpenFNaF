@@ -1,11 +1,6 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#ifndef _GRAPHICS_WRAPPER_H_
-#define _GRAPHICS_WRAPPER_H_
-
-#include <SFML/Graphics.h>
-
 // Typedefs
 typedef sfColor             color_t;
 typedef sfText              text_t;
@@ -41,5 +36,3 @@ extern void Graphics_SetTextColor(text_t* Elem, color_t Color);
 extern void Graphics_SetTextPosition(text_t* Elem, double x, double y);
 extern int Graphics_GetTextWidth(text_t* Elem);
 extern int Graphics_GetTextHeight(text_t* Elem);
-
-#endif

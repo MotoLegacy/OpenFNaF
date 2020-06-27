@@ -5,18 +5,7 @@
 // includes
 //
 
-#include "engine/types.h"
-#include "engine/math_manager.h"
-#include "engine/version.h"
-#include "engine/ai_handler.h"
-#include "engine/options.h"
-#include "engine/print.h"
-#include "engine/input.h"
-#include "engine/graphics.h"
-#include "engine/game.h"
-#include "engine/convert.h"
-#include "engine/save.h"
-
+#include "engine/defs.h"
 #include <stdio.h>
 
 

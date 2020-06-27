@@ -1,9 +1,7 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#include "general_wrapper.h"
-#include "graphics_wrapper.h"
-#include "../types.h"
+#include "../defs.h"
 
 bool Input_ButtonPressed(keycode_t key)
 {

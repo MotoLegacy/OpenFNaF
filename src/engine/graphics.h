@@ -1,17 +1,6 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#ifndef _GRAPHICS_H_
-#define _GRAPHICS_H_
-
-#ifdef DESKTOP
-#include "pc/graphics_wrapper.h"
-// FIXME move this
-#include "pc/general_wrapper.h"
-#endif
-
-#include "types.h"
-
 // Total max number of UI elements in game
 #define MAX_UI_ELEMENTS     64
 
@@ -68,5 +57,3 @@ extern void Graphics_DrawRoom(gameroom_t Room);
 extern void Graphics_DrawUI();
 extern void Graphics_DrawTextElements();
 extern void Graphics_RegisterUIElement(char* Graphic, int XPosPercent, int YPosPercent, int XAnchor, int YAnchor, bool Need_Clicked, void (*func));
-
-#endif

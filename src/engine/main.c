@@ -1,13 +1,7 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#include "types.h"
-#ifdef DESKTOP
-#include "pc/window.h"
-#endif
-#include "game.h"
-#include "version.h"
-#include "options.h"
+#include "defs.h"
 
 int main(int argc, char* argv[]) {
     // Parse command line arguments

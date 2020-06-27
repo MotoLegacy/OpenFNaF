@@ -1,12 +1,6 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#ifndef _SAVE_H_
-#define _SAVE_H_
-
-#include "types.h"
-#include "version.h"
-
 //FNAF 1
 #ifdef GAME_FNAF1
   #define SAVE_TITLE   "freddy"
@@ -26,5 +20,3 @@ extern void Save_Create(void);
 extern bool Save_Exist();
 extern u16_t Save_GetValue(char* target);
 extern void Save_SetValue(char* target, u16_t value);
-
-#endif

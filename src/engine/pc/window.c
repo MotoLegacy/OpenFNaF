@@ -1,10 +1,8 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
-#include <SFML/Graphics.h>
 
-#include "../types.h"
-#include "../input.h"
-#include "../game.h"
+#include "../defs.h"
+#include <SFML/Graphics.h>
 
 sfRenderWindow* GameWindow;
 

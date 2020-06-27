@@ -1,8 +1,7 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#include "types.h"
-
+#include "defs.h"
 #include <time.h>
 
 

@@ -5,7 +5,7 @@
 // graphics_wrapper.c - Redirect basic bindings to SFML equivalents for Win, Mac, Linux
 //
 
-#include "graphics_wrapper.h"
+#include "../defs.h"
 
 texture2d_t* Graphics_CreateTextureFromFile(char* Directory)
 {

@@ -1,11 +1,7 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#include "types.h"
-#include "time_manager.h"
-#include "math_manager.h"
-#include "game.h"
-
+#include "defs.h"
 #include <math.h>
 #include <stdio.h>
 

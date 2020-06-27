@@ -1,18 +1,9 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#include "game.h"
-#include "graphics.h"
-#include "types.h"
-#include "time_manager.h"
-#ifdef DESKTOP
-#include "pc/window.h"
-#endif
-#include "options.h"
-#include "math_manager.h"
-#include "save.h"
-
+#include "defs.h"
 #include <stdio.h>
+#include <time.h>
 
 #define FRAMES_PER_SECOND       60
 

@@ -1,17 +1,6 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#ifndef _GAME_H_
-#define _GAME_H_
-
-#include "input.h"
-#include "types.h"
-#include "version.h"
-
-#ifdef DESKTOP
-#include "pc/general_wrapper.h"
-#endif
-
 // Game-specific
 extern gameroom_t Current_Room;
 extern void G_Main(u16_t night);
@@ -37,5 +26,3 @@ extern bool Game_Running;
 #define SCROLL_AUTOMATIC    2
 
 extern int Scroll_Method;
-
-#endif

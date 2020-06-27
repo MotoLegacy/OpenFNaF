@@ -1,8 +1,7 @@
 
+#include "defs.h"
 #include <stdio.h>
 #include <stdarg.h>
-
-#include "options.h"
 
 // Normal printf, but with a verbose check.
 void Print_Normal(char* message,...) {

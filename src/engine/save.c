@@ -5,14 +5,12 @@
 /// save.c - Saving, loading, etc. Keep compatibility with MMF saves!
 ///
 
+#include "defs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-
-#include "save.h"
-#include "types.h"
 
 // Saves/freddy
 char* Save_GetDirectory() {

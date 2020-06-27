@@ -1,9 +1,8 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
+#include "defs.h"
 #include <string.h>
-
-#include "types.h"
 
 bool OPT_NORENDER = FALSE;
 bool OPT_VERBOSE = FALSE;

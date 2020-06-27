@@ -7,11 +7,6 @@
 // added anima defs. -xaa 12/4/2019
 //
 
-#ifndef _TYPES_H_
-#define _TYPES_H_
-
-#include "version.h"
-
 #define TRUE    1
 #define FALSE   0
 
@@ -171,5 +166,3 @@ typedef struct {
   func_t* Free;
   func_t* Load;
 } vswap_t;
-
-#endif

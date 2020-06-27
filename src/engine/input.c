@@ -1,10 +1,7 @@
 // (c) 2020 MotoLegacy
 // This code is licensed under MIT license (see LICENSE for details)
 
-#include "input.h"
-#include "game.h"
-#include "graphics.h"
-
+#include "defs.h"
 #include <stdio.h>
 
 keydata_t KeyFunctions[MAX_KEYFUNCTIONS];

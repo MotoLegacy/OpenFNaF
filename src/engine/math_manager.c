@@ -5,9 +5,8 @@
 // includes
 //
 
-#include "print.h"
-#include "math_manager.h"
-#include "types.h"
+#include "defs.h"
+#include <stdlib.h>
 
 //
 // globals
