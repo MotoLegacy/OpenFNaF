@@ -3,8 +3,10 @@
 
 #include "types.h"
 #include "time_manager.h"
-#include "math.h"
+#include "math_manager.h"
 #include "game.h"
+
+#include <math.h>
 #include <stdio.h>
 
 void AI_CheckMovement(anima_t* Anima) {

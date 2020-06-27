@@ -6,6 +6,8 @@
 
 #include "types.h"
 
+#include <time.h>
+
 extern u16_t Current_Tsecond;
 extern u16_t Current_Second;
 

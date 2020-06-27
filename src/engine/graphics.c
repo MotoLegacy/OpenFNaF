@@ -6,6 +6,7 @@
 #include "game.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 textelement_t* TextElements[MAX_UI_ELEMENTS];
 uidata_t UIElements[MAX_UI_ELEMENTS];
@@ -22,14 +23,6 @@ sfFont* GameFont;
 float RoomPanX = 0;
 float CameraPanX = 0;
 
-// Free and then re-init
-void Graphics_UpdateRoom(gameroom_t Room) {
-    free(RoomTexture);
-    free(RoomSprite);
-
-    Graphics_InitRoom(Room);
-}
-
 // Initialization of Room drawings
 void Graphics_InitRoom(gameroom_t Room) {
 
@@ -43,6 +36,14 @@ void Graphics_InitRoom(gameroom_t Room) {
     RoomSprite = sfSprite_create();
 
     Graphics_BindTextureToSprite(RoomTexture, RoomSprite);
+}
+
+// Free and then re-init
+void Graphics_UpdateRoom(gameroom_t Room) {
+    free(RoomTexture);
+    free(RoomSprite);
+
+    Graphics_InitRoom(Room);
 }
 
 // Do the actual Room Drawing

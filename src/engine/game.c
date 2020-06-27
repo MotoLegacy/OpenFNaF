@@ -7,6 +7,7 @@
 #include "time_manager.h"
 #include "window.h"
 #include "options.h"
+#include "math_manager.h"
 #include "save.h"
 
 #include <stdio.h>

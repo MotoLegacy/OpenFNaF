@@ -5,7 +5,8 @@
 // includes
 //
 
-#include "math.h"
+#include "print.h"
+#include "math_manager.h"
 #include "types.h"
 
 //
@@ -63,7 +64,7 @@ u64_t Math_SeedRandom(u64_t max) {
     }
 
     u64_t random = (Math_Prng() << 24) | (Math_Prng() << 16) | (Math_Prng() << 8) | Math_Prng();
-    random << (Math_Prng()%32);
+    random = random << (Math_Prng()%32);
     random ^= seed;
 
     if (max)

@@ -6,7 +6,7 @@
 //
 
 #include "engine/types.h"
-#include "engine/math.h"
+#include "engine/math_manager.h"
 #include "engine/version.h"
 #include "engine/ai_handler.h"
 #include "engine/options.h"
@@ -15,6 +15,7 @@
 #include "engine/graphics.h"
 #include "engine/game.h"
 #include "engine/convert.h"
+#include "engine/save.h"
 
 #include <stdio.h>
 
@@ -554,12 +555,12 @@ func_t G_AdvanceTime(void) {
     // Update ai values
     switch(Game.Hour) {
         case 2:
-            if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++; break;
+            if (Animas[A_BUN].AiLevel != 20) { Animas[A_BUN].AiLevel++; } break;
         case 3:
         case 4:
-            if (Animas[A_BUN].AiLevel != 20) Animas[A_BUN].AiLevel++;
-            if (Animas[A_BIRD].AiLevel != 20) Animas[A_BIRD].AiLevel++;
-            if (Animas[A_FOX].AiLevel != 20) Animas[A_FOX].AiLevel++;
+            if (Animas[A_BUN].AiLevel != 20) { Animas[A_BUN].AiLevel++ ; }
+            if (Animas[A_BIRD].AiLevel != 20) { Animas[A_BIRD].AiLevel++ ; }
+            if (Animas[A_FOX].AiLevel != 20) { Animas[A_FOX].AiLevel++ ; }
             break;
     }
 
