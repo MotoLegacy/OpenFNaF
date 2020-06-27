@@ -46,8 +46,8 @@ typedef struct {
     bool Activated;
     bool Initialized;
     bool Need_Clicked;
-    sfTexture* Texture;
-    sfSprite* Sprite;
+    texture2d_t* Texture;
+    sprite_t* Sprite;
     int XAnchor;
     int YAnchor;
     int XPosPercent;
@@ -62,8 +62,8 @@ extern int Current_Element;
 extern float RoomPanX;
 extern float CameraPanX;
 
-extern sfTexture* RoomTexture;
-extern sfSprite* RoomSprite;
+extern texture2d_t* RoomTexture;
+extern sprite_t* RoomSprite;
 
 extern void Graphics_InitializeFont();
 extern void Graphics_RegisterTextElement(textelement_t* Element);

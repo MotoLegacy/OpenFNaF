@@ -14,8 +14,8 @@ uidata_t UIElements[MAX_UI_ELEMENTS];
 int Current_Element = 0;
 int Current_TextElement = 0;
 
-sfTexture* RoomTexture;
-sfSprite* RoomSprite;
+texture2d_t* RoomTexture;
+sprite_t* RoomSprite;
 
 sfFont* GameFont;
 
@@ -41,7 +41,8 @@ void Graphics_InitRoom(gameroom_t Room) {
 
     // Init Sprite, bind Texture to it
     RoomSprite = sfSprite_create();
-    sfSprite_setTexture(RoomSprite, RoomTexture, sfTrue);
+
+    Graphics_BindTextureToSprite(RoomTexture, RoomSprite);
 }
 
 // Do the actual Room Drawing
@@ -51,11 +52,11 @@ void Graphics_DrawRoom(gameroom_t Room) {
         Graphics_InitRoom(Room);
 
     if (Scroll_Method == SCROLL_MANUAL)
-        sfSprite_setPosition(RoomSprite, (sfVector2f) {RoomPanX, 0});
+        Graphics_SetSpritePosition(RoomSprite, RoomPanX, 0);
     else if (Scroll_Method == SCROLL_AUTOMATIC)
-        sfSprite_setPosition(RoomSprite, (sfVector2f) {CameraPanX, 0});
+        Graphics_SetSpritePosition(RoomSprite, CameraPanX, 0);
     else
-        sfSprite_setPosition(RoomSprite, (sfVector2f) {0, 0});
+        Graphics_SetSpritePosition(RoomSprite, 0, 0);
 
     sfRenderWindow_drawSprite(GameWindow, RoomSprite, NULL);
 }
@@ -71,7 +72,7 @@ void Graphics_InitializeUIElement(uidata_t* UIElement) {
     UIElement->Sprite = sfSprite_create();
 
     // Bind Sprite and Texture
-    sfSprite_setTexture(UIElement->Sprite, UIElement->Texture, sfTrue);
+    Graphics_BindTextureToSprite(UIElement->Texture, UIElement->Sprite);
 
     // Determine Our Offset values
     int OffsetX;
@@ -119,7 +120,7 @@ void Graphics_InitializeUIElement(uidata_t* UIElement) {
     YPosition -= OffsetY;
 
     // Finally, set our Position
-    sfSprite_setPosition(UIElement->Sprite, (sfVector2f) {XPosition, YPosition});
+    Graphics_SetSpritePosition(UIElement->Sprite, XPosition, YPosition);
     
 
     // We're Initialized! Ready to Draw.

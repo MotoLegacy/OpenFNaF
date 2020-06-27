@@ -139,7 +139,7 @@ bool Other_Way = FALSE;
 bool Scroll_Lingering = FALSE;
 void Game_AutoScroll() {
     LeftScreenThreshold = I_GAME_WIDTH - Graphics_GetTextureWidth(RoomTexture);
-    float PanAmount = I_GAME_WIDTH/(I_GAME_WIDTH*3);
+    float PanAmount = (float)I_GAME_WIDTH/(I_GAME_WIDTH*2.5);
 
     if (!Scroll_Lingering) {
         // Left to Right

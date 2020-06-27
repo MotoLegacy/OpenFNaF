@@ -60,10 +60,10 @@ void Input_CheckMouse() {
     int MaxY;
     for (int i = 0; i < Current_Element; ++i) {
         // Set Up Boundaries
-        MinX = sfSprite_getPosition(UIElements[i].Sprite).x;
-        MaxX = MinX + sfTexture_getSize(UIElements[i].Texture).x;
-        MinY = sfSprite_getPosition(UIElements[i].Sprite).y;
-        MaxY = MinY + sfTexture_getSize(UIElements[i].Texture).y;
+        MinX = Graphics_GetSpriteXPosition(UIElements[i].Sprite);
+        MaxX = MinX + Graphics_GetTextureWidth(UIElements[i].Texture);
+        MinY =  Graphics_GetSpriteYPosition(UIElements[i].Sprite);
+        MaxY = MinY + Graphics_GetTextureHeight(UIElements[i].Texture);
         // Our Cursor is on the X Pos
         if (mouse.x >= MinX && mouse.x <= MaxX) {
             // Our Cursor is on the Y Pos
