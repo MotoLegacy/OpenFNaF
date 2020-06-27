@@ -8,6 +8,8 @@
 #include "engine/defs.h"
 #include <stdio.h>
 
+#include <SFML/Audio.h>
+
 
 anima_t Animas[G_NUM_ANIMAS];
 camera_t Camera;
@@ -349,38 +351,38 @@ u16_t G_GetAILevel(u16_t id) {
 //
 
 func_t G_SetupAnimatronics(void) {
-  //fred
-  Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
-  Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
-  Animas[A_FRED].OnMove = &AI_Fred_OnMove;
-  Animas[A_FRED].UpdateTime = Animas[A_FRED].UpdateInterval = 3.02;
-  Animas[A_FRED].AiLevel = G_GetAILevel(A_FRED);
-  Animas[A_FRED].Location = ROOMBIT(RM_SHOW_STAGE);
+    //fred
+    Animas[A_FRED].OnUpdate = &AI_Fred_OnUpdate;
+    Animas[A_FRED].OnCamUpdate = &AI_Fred_OnCamUpdate;
+    Animas[A_FRED].OnMove = &AI_Fred_OnMove;
+    Animas[A_FRED].UpdateTime = Animas[A_FRED].UpdateInterval = 3.02;
+    Animas[A_FRED].AiLevel = G_GetAILevel(A_FRED);
+    Animas[A_FRED].Location = ROOMBIT(RM_SHOW_STAGE);
 
-  //fox
-  Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
-  Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
-  Animas[A_FOX].OnMove = &AI_Fox_OnMove;
-  Animas[A_FOX].UpdateTime = Animas[A_FOX].UpdateInterval = 5.01;
-  Animas[A_FOX].AiLevel = G_GetAILevel(A_FOX);
-  Animas[A_FOX].Location = ROOMBIT(RM_PIRATE_COVE);
+    //fox
+    Animas[A_FOX].OnUpdate = &AI_Fox_OnUpdate1;
+    Animas[A_FOX].OnCamUpdate = &AI_Fox_OnCamUpdate;
+    Animas[A_FOX].OnMove = &AI_Fox_OnMove;
+    Animas[A_FOX].UpdateTime = Animas[A_FOX].UpdateInterval = 5.01;
+    Animas[A_FOX].AiLevel = G_GetAILevel(A_FOX);
+    Animas[A_FOX].Location = ROOMBIT(RM_PIRATE_COVE);
 
-  //bird
-  Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
-  Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
-  Animas[A_BIRD].UpdateTime = Animas[A_BIRD].UpdateInterval = 4.98;
-  Animas[A_BIRD].AiLevel = G_GetAILevel(A_BIRD);
-  Animas[A_BIRD].Location = ROOMBIT(RM_SHOW_STAGE);
+    //bird
+    Animas[A_BIRD].OnUpdate = &AI_Bird_OnUpdate;
+    Animas[A_BIRD].OnMove = &AI_Bird_OnMove;
+    Animas[A_BIRD].UpdateTime = Animas[A_BIRD].UpdateInterval = 4.98;
+    Animas[A_BIRD].AiLevel = G_GetAILevel(A_BIRD);
+    Animas[A_BIRD].Location = ROOMBIT(RM_SHOW_STAGE);
 
-  //bun
-  Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
-  Animas[A_BUN].OnMove = &AI_Bun_OnMove;
-  Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.97;
-  Animas[A_BUN].AiLevel = G_GetAILevel(A_BUN);
-  Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
+    //bun
+    Animas[A_BUN].OnUpdate = &AI_Bun_OnUpdate;
+    Animas[A_BUN].OnMove = &AI_Bun_OnMove;
+    Animas[A_BUN].UpdateTime = Animas[A_BUN].UpdateInterval = 4.97;
+    Animas[A_BUN].AiLevel = G_GetAILevel(A_BUN);
+    Animas[A_BUN].Location = ROOMBIT(RM_SHOW_STAGE);
 
-  //goldfred
-  Animas[A_GFRED].OnCamUpdate = &AI_GFred_OnCamUpdate;
+    //goldfred
+    Animas[A_GFRED].OnCamUpdate = &AI_GFred_OnCamUpdate;
 }
 
 //
@@ -480,6 +482,25 @@ func_t G_SetupText() {
 }
 
 //
+// G_PlayCall()
+// Stream Phone OGG.
+//
+func_t G_PlayCall() {
+    char* Sound;
+
+    switch(Game.Night) {
+        case 1:
+            Sound = "assets/sounds/vo/night1.ogg";
+            break;
+        default:
+            Sound = "assets/sounds/vo/night1.ogg";
+            break;
+    }
+
+    Sound_Stream(0, Sound, FALSE, 1, 100);
+}
+
+//
 // G_Main()
 // Game-specific initialization.
 //
@@ -507,6 +528,9 @@ func_t G_Main(u16_t night) {
 
     // Manual Room Scrolling
     Scroll_Method = SCROLL_MANUAL;
+
+    // Play Phone Call
+    G_PlayCall();
 
     // Notify game start
     Print_Normal("Game Started on Night %d\n", Game.Night);

@@ -5,13 +5,16 @@
 #include "types.h"
 
 #ifdef DESKTOP
+#include <SFML/Audio.h>
 #include <SFML/Graphics.h>
 #include "pc/graphics_wrapper.h"
 #include "pc/general_wrapper.h"
+#include "pc/sound_wrapper.h"
 #include "keys.h"
 #include "pc/window.h"
 #endif
 
+#include "sound.h"
 #include "ai_handler.h"
 #include "convert.h"
 #include "time_manager.h"

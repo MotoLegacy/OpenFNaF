@@ -83,6 +83,10 @@ void Game_Initialize(void) {
         }
     }
 
+    // Clean All Sounds
+    Sound_Clean();
+
+    // Close Window
     Window_Close();
 }
 
