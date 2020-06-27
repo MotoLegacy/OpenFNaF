@@ -8,8 +8,6 @@
 #include "engine/defs.h"
 #include <stdio.h>
 
-#include <SFML/Audio.h>
-
 
 anima_t Animas[G_NUM_ANIMAS];
 camera_t Camera;
