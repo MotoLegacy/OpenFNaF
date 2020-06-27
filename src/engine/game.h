@@ -8,6 +8,10 @@
 #include "types.h"
 #include "version.h"
 
+#ifdef DESKTOP
+#include "pc/general_wrapper.h"
+#endif
+
 // Game-specific
 extern gameroom_t Current_Room;
 extern void G_Main(u16_t night);
@@ -18,7 +22,7 @@ extern void G_AdvanceTime(void);
 extern void Game_Initialize(void);
 extern float Game_GetTime();
 extern void Game_AutoScroll();
-extern void Game_ManualScroll(sfVector2i mouse);
+extern void Game_ManualScroll(vec2_t mouse);
 
 extern bool Game_Running;
 

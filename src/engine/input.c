@@ -11,7 +11,7 @@ keydata_t KeyFunctions[MAX_KEYFUNCTIONS];
 int Current_Key;
 
 // Handle game input registration
-void Input_RegisterKey(sfKeyCode key, void (*func)) {
+void Input_RegisterKey(keycode_t key, void (*func)) {
     KeyFunctions[Current_Key].key = key;
     KeyFunctions[Current_Key].func = func;
 
@@ -21,16 +21,16 @@ void Input_RegisterKey(sfKeyCode key, void (*func)) {
 // Check game-defined key presses
 void Input_CheckKeyboard() {
     // Escape is a global, non-controllable key.. always quit.
-    if (sfKeyboard_isKeyPressed(sfKeyEscape)) {
+    if (Input_ButtonPressed(Key_Escape)) {
         Game_Running = FALSE;
     }
 
     // Check our game-defined keys
     for (int i = 0; i < Current_Key; ++i) {
-        if (sfKeyboard_isKeyPressed(KeyFunctions[i].key) && KeyFunctions[i].pressed == FALSE) {
+        if (Input_ButtonPressed(KeyFunctions[i].key) && KeyFunctions[i].pressed == FALSE) {
             KeyFunctions[i].func();
             KeyFunctions[i].pressed = TRUE;
-        } else if (!sfKeyboard_isKeyPressed(KeyFunctions[i].key)) {
+        } else if (!Input_ButtonPressed(KeyFunctions[i].key)) {
             // Key lifted, ready to press again!
             KeyFunctions[i].pressed = FALSE;
         }      
@@ -39,7 +39,7 @@ void Input_CheckKeyboard() {
 
 // Mouse-Related functions
 void Input_CheckMouse() {
-    sfVector2i mouse = sfMouse_getPositionRenderWindow(GameWindow);
+    vec2_t mouse = Input_GetCursorPosition(GameWindow);
 
     // Scroll Stuff
     switch (Scroll_Method) {
@@ -74,7 +74,7 @@ void Input_CheckMouse() {
                 
                 // Check for Click if needbe
                 if (UIElements[i].Need_Clicked) {
-                    if (sfMouse_isButtonPressed(sfMouseLeft)) {
+                    if (Input_ButtonPressed(Mouse_Left)) {
                         UIElements[i].func();
                         UIElements[i].Activated = TRUE;
                     }

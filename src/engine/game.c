@@ -5,7 +5,9 @@
 #include "graphics.h"
 #include "types.h"
 #include "time_manager.h"
-#include "window.h"
+#ifdef DESKTOP
+#include "pc/window.h"
+#endif
 #include "options.h"
 #include "math_manager.h"
 #include "save.h"
@@ -78,7 +80,7 @@ void Game_Initialize(void) {
             Graphics_DrawRoom(Current_Room);
 
             // Lastly, Update any UI Elements (including Text)
-            Graphics_DrawText();
+            Graphics_DrawTextElements();
             Graphics_DrawUI();
 
             // Update our Window
@@ -107,7 +109,7 @@ float Game_GetTime() {
 // Handles Determining RoomPan Distance
 //
 int LeftScreenThreshold;
-void Game_ManualScroll(sfVector2i mouse) {
+void Game_ManualScroll(vec2_t mouse) {
     // center buffer and pan dist. calculation
     int deadzone = 50;
     int distance = mouse.x - I_GAME_WIDTH/2;

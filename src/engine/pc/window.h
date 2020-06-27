@@ -3,9 +3,9 @@
 #ifndef _WINDOW_H_
 #define _WINDOW_H_
 
-#include "graphics.h"
+#include "../graphics.h"
 
-extern sfRenderWindow* GameWindow;
+extern window_t* GameWindow;
 
 extern void Window_Initialize(int width, int height, char* title);
 extern void Window_Close();

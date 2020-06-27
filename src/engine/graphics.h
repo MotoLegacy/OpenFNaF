@@ -6,19 +6,14 @@
 
 #ifdef DESKTOP
 #include "pc/graphics_wrapper.h"
+// FIXME move this
+#include "pc/general_wrapper.h"
 #endif
 
 #include "types.h"
 
 // Total max number of UI elements in game
 #define MAX_UI_ELEMENTS     64
-
-// Colors
-#define COLOR_RED           (sfColor) {255, 0, 0, 255}
-#define COLOR_GREEN         (sfColor) {0, 255, 0, 255}
-#define COLOR_BLUE          (sfColor) {0, 0, 255, 255}
-#define COLOR_WHITE         (sfColor) {0, 0, 0, 255}
-#define COLOR_BLACK         (sfColor) {255, 255, 255, 255}
 
 // UI Anchor Points
 #define UI_ANCHOR_LEFT      0
@@ -29,9 +24,9 @@
 
 // Text struct
 typedef struct {
-    sfColor Color;
+    color_t Color;
     bool Initialized;
-    sfText* TextElem;
+    text_t* TextElem;
     char* Text;
     int XAnchor;
     int YAnchor;
@@ -71,7 +66,7 @@ extern void Graphics_UpdateTextElement(textelement_t* Element);
 extern void Graphics_UpdateRoom(gameroom_t Room);
 extern void Graphics_DrawRoom(gameroom_t Room);
 extern void Graphics_DrawUI();
-extern void Graphics_DrawText();
+extern void Graphics_DrawTextElements();
 extern void Graphics_RegisterUIElement(char* Graphic, int XPosPercent, int YPosPercent, int XAnchor, int YAnchor, bool Need_Clicked, void (*func));
 
 #endif

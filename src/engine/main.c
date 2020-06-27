@@ -2,7 +2,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 
 #include "types.h"
-#include "window.h"
+#ifdef DESKTOP
+#include "pc/window.h"
+#endif
 #include "game.h"
 #include "version.h"
 #include "options.h"

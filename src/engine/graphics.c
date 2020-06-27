@@ -2,7 +2,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 
 #include "graphics.h"
-#include "window.h"
+#ifdef DESKTOP
+#include "pc/window.h"
+#endif
 #include "game.h"
 
 #include <stdio.h>
@@ -18,7 +20,7 @@ int Current_TextElement = 0;
 texture2d_t* RoomTexture;
 sprite_t* RoomSprite;
 
-sfFont* GameFont;
+font_t* GameFont;
 
 float RoomPanX = 0;
 float CameraPanX = 0;
@@ -26,14 +28,14 @@ float CameraPanX = 0;
 // Initialization of Room drawings
 void Graphics_InitRoom(gameroom_t Room) {
 
-    RoomTexture = sfTexture_createFromFile(Room.Graphic, NULL);
+    RoomTexture = Graphics_CreateTextureFromFile(Room.Graphic);
 
     // If Texture doesn't exist (TODO)
     /*if (!RoomTexture)
         Sys_Error("Failed to initialize texture %s\n", Room.Graphic);*/
 
     // Init Sprite, bind Texture to it
-    RoomSprite = sfSprite_create();
+    RoomSprite = Graphics_CreateSprite();
 
     Graphics_BindTextureToSprite(RoomTexture, RoomSprite);
 }
@@ -59,7 +61,7 @@ void Graphics_DrawRoom(gameroom_t Room) {
     else
         Graphics_SetSpritePosition(RoomSprite, 0, 0);
 
-    sfRenderWindow_drawSprite(GameWindow, RoomSprite, NULL);
+    Graphics_DrawSprite(RoomSprite, GameWindow);
 }
 
 // Initialize UI Elements if not already done
@@ -69,8 +71,8 @@ void Graphics_InitializeUIElement(uidata_t* UIElement) {
         return;
 
     // Set it's sprites and textures
-    UIElement->Texture = sfTexture_createFromFile(UIElement->Graphic, NULL);
-    UIElement->Sprite = sfSprite_create();
+    UIElement->Texture = Graphics_CreateTextureFromFile(UIElement->Graphic);
+    UIElement->Sprite = Graphics_CreateSprite();
 
     // Bind Sprite and Texture
     Graphics_BindTextureToSprite(UIElement->Texture, UIElement->Sprite);
@@ -134,7 +136,7 @@ void Graphics_DrawUI() {
         if (!UIElements[i].Initialized) 
             Graphics_InitializeUIElement(&UIElements[i]);
 
-        sfRenderWindow_drawSprite(GameWindow, UIElements[i].Sprite, NULL);
+        Graphics_DrawSprite(UIElements[i].Sprite, GameWindow);
     }
 }
 
@@ -154,23 +156,23 @@ void Graphics_RegisterUIElement(char* Graphic, int XPosPercent, int YPosPercent,
 
 // Font stuff
 void Graphics_InitializeFont() {
-    GameFont = sfFont_createFromFile("assets/font.ttf");
+    GameFont = Graphics_CreateFontFromFile("assets/font.ttf");
 }
 
 // Set up Text Element and bind to TextElem field/lib
 void Graphics_InitializeTextElement(textelement_t* Element) {
     // init text
-    Element->TextElem = sfText_create();
+    Element->TextElem = Graphics_CreateText();
 
     // text content
-    sfText_setString(Element->TextElem, Element->Text);
-    sfText_setFont(Element->TextElem, GameFont);
+    Graphics_SetTextString(Element->TextElem, Element->Text);
+    Graphics_SetTextFont(Element->TextElem, GameFont);
 
     // size
-    sfText_setCharacterSize(Element->TextElem, Element->Size);
+    Graphics_SetTextSize(Element->TextElem, Element->Size);
 
     // color
-    sfText_setColor(Element->TextElem, Element->Color);
+    Graphics_SetTextColor(Element->TextElem, Element->Color);
 
     // Determine Our Offset values
     int OffsetX;
@@ -181,10 +183,10 @@ void Graphics_InitializeTextElement(textelement_t* Element) {
             OffsetX = 0;
             break;
         case UI_ANCHOR_CENTER:
-            OffsetX = (sfText_getGlobalBounds(Element->TextElem).width)/2;
+            OffsetX = Graphics_GetTextWidth(Element->TextElem)/2;
             break;
         case UI_ANCHOR_RIGHT:
-            OffsetX = sfText_getGlobalBounds(Element->TextElem).width;
+            OffsetX = Graphics_GetTextWidth(Element->TextElem);
             break;
         default:
             OffsetX = 0;
@@ -196,10 +198,10 @@ void Graphics_InitializeTextElement(textelement_t* Element) {
             OffsetY = 0;
             break;
         case UI_ANCHOR_CENTER:
-            OffsetY = (sfText_getGlobalBounds(Element->TextElem).height)/2;
+            OffsetY = Graphics_GetTextHeight(Element->TextElem)/2;
             break;
         case UI_ANCHOR_BOTTOM:
-            OffsetY = sfText_getGlobalBounds(Element->TextElem).height;
+            OffsetY = Graphics_GetTextHeight(Element->TextElem);
             break;
         default:
             OffsetY = 0;
@@ -217,19 +219,19 @@ void Graphics_InitializeTextElement(textelement_t* Element) {
     YPosition -= OffsetY;
 
     // Finally, set our Position
-    sfText_setPosition(Element->TextElem, (sfVector2f) {XPosition, YPosition});
+    Graphics_SetTextPosition(Element->TextElem, XPosition, YPosition);
 
     // we're intialized! ready to draw
     Element->Initialized = TRUE;
 }
 
 // Draw our Text Elements
-void Graphics_DrawText() {
+void Graphics_DrawTextElements() {
     for (int i = 0; i < Current_TextElement; ++i) {
         if (!TextElements[i]->Initialized)
             Graphics_InitializeTextElement(TextElements[i]);
 
-        sfRenderWindow_drawText(GameWindow, TextElements[i]->TextElem, NULL);
+        Graphics_DrawText(TextElements[i]->TextElem, GameWindow);
     }
 }
 
