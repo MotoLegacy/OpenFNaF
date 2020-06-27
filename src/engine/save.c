@@ -38,8 +38,8 @@ void Save_SetValue(char* target, u16_t value) {
     FILE *save;
     FILE *newsave;
 
-    char* line[32];
-    char* templn[9];
+    char line[32];
+    char templn[9];
 
     // Combine target and value to form line to write
     sprintf(templn, "%d", value);
@@ -118,7 +118,7 @@ bool Save_Exist() {
 
 void Save_Create(void) {
     // Establish chars for save names
-    char* SaveTitle[16];
+    char SaveTitle[16];
 
     strcpy(SaveTitle, "[");
     strcat(SaveTitle, SAVE_TITLE);

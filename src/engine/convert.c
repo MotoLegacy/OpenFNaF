@@ -9,7 +9,7 @@
 // FIXME - ugly lol
 char* append_int_to_char(char* str, int i) {
     char* tempc = malloc(128);
-    char* itoc[32];
+    char itoc[32];
     sprintf(itoc, "%d", i);
     strcpy(tempc, str);
     strcat(tempc, itoc);
