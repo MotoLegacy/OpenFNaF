@@ -2,9 +2,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 
 #include "defs.h"
+#include <stdio.h>
 
+int Current_Precache_Amount = 0;
 int Channels[MAX_SOUND_CHANNELS];
+
 streamelement_t StreamElements[MAX_SOUND_CHANNELS];
+soundelement_t SoundElements[MAX_PRECACHED_SOUNDS];
 
 void Sound_FreeChannelStream(int Channel)
 {
@@ -52,4 +56,31 @@ void Sound_Stream(int Channel, char* Sound, bool Loop, float Pitch, float Volume
 
     // Occupy the Channel
     Channels[Channel] = TRUE;
+}
+
+void Sound_Precache(char* Directory)
+{
+    if (Current_Precache_Amount >= MAX_PRECACHED_SOUNDS) {
+        Print_Normal("Sound_Precache: Too many Precached Sounds!\n");
+    }
+
+    // Try To Load Sound, Fail if not exist.
+    sndbuffer_t* SoundBuffer;
+    SoundBuffer = Sound_LoadSound(Directory);
+
+    if (!SoundBuffer) {
+        Print_Normal("Sound_Precache: Tried to load a sound that doesn't exist! (%s)\n", Directory);
+        return;
+    }
+
+    // Bind the Sound to the SoundBuffer
+    sound_t* Sound;
+    Sound_BindSoundToBuffer(Sound, SoundBuffer);
+
+    // Add to Sound list
+    SoundElements[Current_Precache_Amount].Sound = Sound;
+    SoundElements[Current_Precache_Amount].SoundBuffer = SoundBuffer;
+
+    // Increment Precache list
+    ++Current_Precache_Amount;
 }
