@@ -26,6 +26,9 @@ void Game_Initialize(void) {
         Save_SetValue("level", 1);
     }
 
+    // Initialize the Zone memory manager
+    Zone_Init();
+
     // Execute game's main function with night
     G_Main(Save_GetValue("level"));
 

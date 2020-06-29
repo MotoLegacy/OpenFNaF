@@ -3,6 +3,7 @@
 
 #include "version.h"
 #include "types.h"
+#include "zone.h"
 
 #ifdef DESKTOP
 #include <SFML/Audio.h>
