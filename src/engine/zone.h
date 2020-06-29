@@ -7,8 +7,8 @@ struct block_s {
     int                size;       // Size of the block
     int                tag;        // Block tags
     int                id;         // The block's ID
-    block_t*           previous;          // Previous block in list
-    block_t*           next;              // Next block in list
+    block_t*           previous;   // Previous block in list
+    block_t*           next;       // Next block in list
 };
 
 // Tags for block_t
