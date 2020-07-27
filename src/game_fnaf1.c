@@ -36,11 +36,11 @@ gameroom_t Current_Room;
 //
 
 aitrigger_t AI_Generic_OnMove(void) {
-  //evaluate next possible moves in a more generic way
+    //evaluate next possible moves in a more generic way
 }
 
 aitrigger_t AI_Generic_NoAction(void) {
-  //do nothing
+    //do nothing
 }
 
 //
@@ -48,26 +48,26 @@ aitrigger_t AI_Generic_NoAction(void) {
 //
 
 aitrigger_t AI_Fred_OnUpdate(void) {
-  //move if allowed
+    //move if allowed
 }
 
 aitrigger_t AI_Fred_OnAmbientUpdate(void) {
-  //play creepy laugh
+    //play creepy laugh
 }
 
 aitrigger_t AI_Fred_OnCamUpdate(void) {
-  // If we're in attack mode.
-  if (Animas[A_FRED].AnimaMode == 1) {
-    if (Camera.ViewLocation == CAM_4B)
-      Animas[A_FRED].IsLockedDown = TRUE;
-    else
-      Animas[A_FRED].IsLockedDown = FALSE;
-  } else { // We're roamin' like normal
-    if (Camera.CameraInUse)
-      Animas[A_FRED].IsLockedDown = TRUE;
-    else
-      Animas[A_FRED].IsLockedDown = FALSE;
-  }
+    // If we're in attack mode.
+    if (Animas[A_FRED].AnimaMode == 1) {
+        if (Camera.ViewLocation == CAM_4B)
+        Animas[A_FRED].IsLockedDown = TRUE;
+        else
+        Animas[A_FRED].IsLockedDown = FALSE;
+    } else { // We're roamin' like normal
+        if (Camera.CameraInUse)
+        Animas[A_FRED].IsLockedDown = TRUE;
+        else
+        Animas[A_FRED].IsLockedDown = FALSE;
+    }
 }
 
 // Fred follows the set path of:
@@ -112,12 +112,12 @@ aitrigger_t AI_Fred_OnMove(void) {
 }
 
 aitrigger_t AI_Fred_OnKill(void) {
-  //does fred set any specific game over variables?
-  //jumpscare trigger
+    //does fred set any specific game over variables?
+    //jumpscare trigger
 }
 
 aitrigger_t AI_Fred_OnPowerLoss(void) {
-  //the usual that happens when you lose power
+    //the usual that happens when you lose power
 }
 
 //
@@ -125,24 +125,24 @@ aitrigger_t AI_Fred_OnPowerLoss(void) {
 //
 
 aitrigger_t AI_Fox_OnUpdate1(void) {
-  //phases of leaving PC
-  //if we've totally left PC, retarget OnUpdate = OnUpdate2
+    //phases of leaving PC
+    //if we've totally left PC, retarget OnUpdate = OnUpdate2
 }
 
 aitrigger_t AI_Fox_OnUpdate2(void) {
-  //run down the hall, drain door power if moving into office prohibited
+    //run down the hall, drain door power if moving into office prohibited
 }
 
 aitrigger_t AI_Fox_OnAmbientUpdate(void) {
-  //pirate jig sound
+    //pirate jig sound
 }
 
 aitrigger_t AI_Fox_OnCamUpdate(void) {
     // decide whether or not to try and advance outta the cove.
     if (Camera.CameraInUse && Animas[A_FOX].AnimaMode != 2) {
-      Animas[A_FOX].IsLockedDown = TRUE;
+        Animas[A_FOX].IsLockedDown = TRUE;
     } else {
-      Animas[A_FOX].IsLockedDown = FALSE;
+        Animas[A_FOX].IsLockedDown = FALSE;
     }
 }
 
@@ -152,7 +152,7 @@ aitrigger_t AI_Fox_OnMove(void) {
 }
 
 aitrigger_t AI_Fox_OnKill(void) {
-  //jumpscare trigger
+    //jumpscare trigger
 }
 
 //
@@ -160,11 +160,11 @@ aitrigger_t AI_Fox_OnKill(void) {
 //
 
 aitrigger_t AI_Bird_OnUpdate(void) {
-  //move if allowed
+    //move if allowed
 }
 
 aitrigger_t AI_Bird_OnCamUpdate(void) {
-  //?
+    //?
 }
 
 // Bird can move randomly to any location on the right side
@@ -215,7 +215,7 @@ aitrigger_t AI_Bird_OnMove(void) {
 }
 
 aitrigger_t AI_Bird_OnKill(void) {
-  //jumpscare trigger
+    //jumpscare trigger
 }
 
 //
@@ -223,11 +223,11 @@ aitrigger_t AI_Bird_OnKill(void) {
 //
 
 aitrigger_t AI_Bun_OnUpdate(void) {
-  //move if allowed
+    //move if allowed
 }
 
 aitrigger_t AI_Bun_OnCamUpdate(void) {
-  //?
+    //?
 }
 
 // Bun can move randomly to any location on the left side
@@ -278,7 +278,7 @@ aitrigger_t AI_Bun_OnMove(void) {
 }
 
 aitrigger_t AI_Bun_OnKill(void) {
-  //jumpscare trigger
+    //jumpscare trigger
 }
 
 //
@@ -424,6 +424,14 @@ func_t G_SetupRooms(void) {
     Rooms[RM_OFFICE].Graphic = "assets/textures/rooms/office/normal.png";
 }
 
+//
+// G_PrecacheSounds()
+// Precache all loaded (non-streamed) sounds
+//
+func_t G_PrecacheSounds() {
+    Sound_Precache("assets/sounds/vo/night1.ogg");
+}
+
 // TEMP (FIXME -- Set up room GUIDs!)
 func_t G_SwapRooms() {
     if (Current_Room.Graphic == Rooms[RM_OFFICE].Graphic) {
@@ -506,6 +514,9 @@ func_t G_Main(u16_t night) {
     // Init Animas and Rooms
     G_SetupAnimatronics();
     G_SetupRooms();
+
+    // Precache Sounds
+    G_PrecacheSounds();
 
     // Define Night and Hour
     Game.Night = night;
