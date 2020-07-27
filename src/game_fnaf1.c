@@ -426,11 +426,10 @@ func_t G_SetupRooms(void) {
 
 //
 // G_PrecacheSounds()
-// Preache all loaded (non-streamed) sounds
+// Precache all loaded (non-streamed) sounds
 //
 func_t G_PrecacheSounds() {
     Sound_Precache("assets/sounds/vo/night1.ogg");
-    Sound_Precache("assets/sounds/misc/footsteps.ogg");
 }
 
 // TEMP (FIXME -- Set up room GUIDs!)

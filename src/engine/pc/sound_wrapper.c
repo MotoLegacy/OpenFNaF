@@ -39,7 +39,37 @@ sndbuffer_t* Sound_LoadSound(char* Directory)
     return sfSoundBuffer_createFromFile(Directory);
 }
 
+sound_t* Sound_Create()
+{
+    return sfSound_create();
+}
+
 void Sound_BindSoundToBuffer(sound_t* Sound, sndbuffer_t* SoundBuffer)
 {
     sfSound_setBuffer(Sound, SoundBuffer);
+}
+
+void Sound_SetSoundLoop(sound_t* Sound, bool Loop)
+{
+    sfSound_setLoop(Sound, Loop);
+}
+
+void Sound_SetSoundPitch(sound_t* Sound, float Pitch)
+{
+    sfSound_setPitch(Sound, Pitch);
+}
+
+void Sound_SetSoundVolume(sound_t* Sound, float Volume)
+{
+    sfSound_setVolume(Sound, Volume);
+}
+
+void Sound_PlaySound(sound_t* Sound)
+{
+    sfSound_play(Sound);
+}
+
+void Sound_StopSound(sound_t* Sound)
+{
+    sfSound_stop(Sound);
 }

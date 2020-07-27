@@ -15,8 +15,10 @@ typedef struct {
 typedef struct {
     sound_t* Sound;
     sndbuffer_t* SoundBuffer;
+    char* File;
 } soundelement_t;
 
 extern void Sound_Stream(int Channel, char* Sound, bool Loop, float Pitch, float Volume);
 extern void Sound_Clean();
 extern void Sound_Precache(char* Directory);
+extern void Sound_Play(int Channel, char* Directory, bool Loop, float Pitch, float Volume);

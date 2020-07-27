@@ -2,6 +2,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 
 #include "defs.h"
+#include <string.h>
 #include <stdio.h>
 
 int Current_Precache_Amount = 0;
@@ -13,6 +14,12 @@ soundelement_t SoundElements[MAX_PRECACHED_SOUNDS];
 void Sound_FreeChannelStream(int Channel)
 {
     Sound_StopStream(StreamElements[Channel].Stream);
+    Channels[Channel] = FALSE;
+}
+
+void Sound_FreeChannel(int Channel, sound_t* Sound)
+{
+    Sound_StopSound(Sound);
     Channels[Channel] = FALSE;
 }
 
@@ -75,12 +82,52 @@ void Sound_Precache(char* Directory)
 
     // Bind the Sound to the SoundBuffer
     sound_t* Sound;
+    Sound = Sound_Create();
     Sound_BindSoundToBuffer(Sound, SoundBuffer);
 
     // Add to Sound list
     SoundElements[Current_Precache_Amount].Sound = Sound;
     SoundElements[Current_Precache_Amount].SoundBuffer = SoundBuffer;
+    SoundElements[Current_Precache_Amount].File = Directory;
 
     // Increment Precache list
     ++Current_Precache_Amount;
+}
+
+void Sound_Play(int Channel, char* Directory, bool Loop, float Pitch, float Volume)
+{
+    // Quit if channel provided is too high
+    if (Channel >= MAX_SOUND_CHANNELS) {
+        Print_Normal("ERR: Tried to Play Cached Sound in Channel %i when max is %i!\n", Channel, MAX_SOUND_CHANNELS - 1);
+        return;
+    }
+
+    // Find the precache index associated with the file path.
+    sound_t* Sound;
+    for(int i = 0; i < Current_Precache_Amount; ++i) {
+        if (strcmp(SoundElements[i].File, Directory) == 0) {
+            Sound = SoundElements[i].Sound;
+        }
+    }
+
+    // Ensure the Sound is valid
+    if (!Sound) {
+        Print_Normal("ERR: Sound '%s' does not exist, is invalid, or was not precached!\n", Sound);
+        return;
+    }
+
+    // Free whatever is in this channel if its occupied already.
+    if (Channels[Channel] == TRUE)
+        Sound_FreeChannel(Channel, Sound);
+
+    // Set Fields
+    Sound_SetSoundPitch(Sound, Pitch);
+    Sound_SetSoundLoop(Sound, Loop);
+    Sound_SetSoundVolume(Sound, Volume);
+
+    // Play
+    Sound_PlaySound(Sound);
+
+    // Occupy the Channel
+    Channels[Channel] = TRUE;
 }
