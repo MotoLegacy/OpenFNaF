@@ -13,8 +13,8 @@ typedef sfFont              font_t;
 #define COLOR_RED           (sfColor) {255, 0, 0, 255}
 #define COLOR_GREEN         (sfColor) {0, 255, 0, 255}
 #define COLOR_BLUE          (sfColor) {0, 0, 255, 255}
-#define COLOR_WHITE         (sfColor) {0, 0, 0, 255}
-#define COLOR_BLACK         (sfColor) {255, 255, 255, 255}
+#define COLOR_WHITE         (sfColor) {255, 255, 255, 255}
+#define COLOR_BLACK         (sfColor) {0, 0, 0, 255}
 
 // Wrapped Functions
 extern texture2d_t* Graphics_CreateTextureFromFile(char* Directory);

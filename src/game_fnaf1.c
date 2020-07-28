@@ -15,10 +15,24 @@ gamestate_t Game;
 textelement_t Hour_Text;
 textelement_t Night_Text;
 
+textelement_t Power_Text;
+textelement_t Power_Percent_Text;
+
 char* NightString;
 char* HourString;
 
+char* PowerString;
+char* PowerPercentString;
+
 int Scroll_Method = SCROLL_DISABLED;
+
+// Power
+int Power;
+int PowerDecreaseRate;
+
+// Relating to Freddy after Power's out
+int FreddyPowerCounter;
+int FreddyState;
 
 //
 // globals
@@ -117,8 +131,14 @@ aitrigger_t AI_Fred_OnKill(void) {
     //jumpscare trigger
 }
 
+// Kill the player, spooky!
 aitrigger_t AI_Fred_OnPowerLoss(void) {
-    //the usual that happens when you lose power
+    // Set the graphic to a spooky face (temporary)
+    Current_Room.Graphic = "assets/textures/temp/spooky.png";
+    Graphics_UpdateRoom(Current_Room);
+
+    // Play the spooky scream
+    Sound_Play(0, "assets/sounds/anima/scream.ogg", FALSE, 1, 100);
 }
 
 //
@@ -439,10 +459,15 @@ func_t G_SetupRooms(void) {
 //
 func_t G_PrecacheSounds() {
     Sound_Precache("assets/sounds/misc/footsteps.ogg");
+    Sound_Precache("assets/sounds/misc/power_out.ogg");
+    Sound_Precache("assets/sounds/anima/scream.ogg");
 }
 
 // TEMP (FIXME -- Set up room GUIDs!)
 func_t G_SwapRooms() {
+    if (Game.State != 0)
+        return;
+
     if (Current_Room.Graphic == Rooms[RM_OFFICE].Graphic) {
         Current_Room = Rooms[RM_BACKSTAGE];
         Scroll_Method = SCROLL_AUTOMATIC;
@@ -466,17 +491,17 @@ u16_t G_GetPrettyTime() {
 }
 
 //
-// G_SetupText()
-// Set up HUD Text
+// G_NightText()
+// Set up Night-related HUD things
 //
-func_t G_SetupText() {
+func_t G_NightText() {
     // X AM
     HourString = append_int_to_char("", G_GetPrettyTime());
     HourString = append_char_to_char(HourString, " AM");
     Hour_Text.Text = HourString;
     Hour_Text.XAnchor = UI_ANCHOR_RIGHT;
     Hour_Text.YAnchor = UI_ANCHOR_TOP;
-    Hour_Text.Color = COLOR_BLUE;
+    Hour_Text.Color = COLOR_GREEN;
     Hour_Text.Size = 35;
     Hour_Text.XPosPercent = 99;
     Hour_Text.YPosPercent = 0;
@@ -494,6 +519,35 @@ func_t G_SetupText() {
 
     Graphics_RegisterTextElement(&Hour_Text);
     Graphics_RegisterTextElement(&Night_Text);
+}
+
+//
+// G_PowerText()
+// Text related to the Power meter
+// TODO: Draw the meter bars
+//
+func_t G_PowerText() {
+    PowerString = "Power left: ";
+    Power_Text.Text = PowerString;
+    Power_Text.XAnchor = UI_ANCHOR_LEFT;
+    Power_Text.YAnchor = UI_ANCHOR_BOTTOM;
+    Power_Text.Color = COLOR_GREEN;
+    Power_Text.Size = 25;
+    Power_Text.XPosPercent = 2;
+    Power_Text.YPosPercent = 90;
+
+    PowerPercentString = append_int_to_char("", Power);
+    PowerPercentString = append_char_to_char(PowerPercentString, "%");
+    Power_Percent_Text.Text = PowerPercentString;
+    Power_Percent_Text.XAnchor = UI_ANCHOR_LEFT;
+    Power_Percent_Text.YAnchor = UI_ANCHOR_BOTTOM;
+    Power_Percent_Text.Color = COLOR_GREEN;
+    Power_Percent_Text.Size = 30;
+    Power_Percent_Text.XPosPercent = 12;
+    Power_Percent_Text.YPosPercent = 90;
+
+    Graphics_RegisterTextElement(&Power_Text);
+    Graphics_RegisterTextElement(&Power_Percent_Text);
 }
 
 //
@@ -527,9 +581,19 @@ func_t G_Main(u16_t night) {
     // Precache Sounds
     G_PrecacheSounds();
 
-    // Define Night and Hour
+    // Define Game States
     Game.Night = night;
     Game.Hour = 0;
+    Game.State = 0;
+
+    // Power Percentage
+    Power = 100;
+
+    // Power Decrease Rate (in seconds)
+    PowerDecreaseRate = ((Game.Night < 5) ? (6 - (Game.Night - 2)) : 3);
+
+    if (Game.Night == 1)
+        PowerDecreaseRate = 1000;
 
     // Set up controls
     Input_RegisterKey(KEY_RIGHT, G_SwapRooms);
@@ -538,8 +602,9 @@ func_t G_Main(u16_t night) {
     Graphics_RegisterUIElement("assets/textures/ui/misc/open_camera.png", 50, 100, 
                                 UI_ANCHOR_CENTER, UI_ANCHOR_BOTTOM, FALSE, G_SwapRooms);
 
-    // Our Text Elements
-    G_SetupText();
+    // Our HUD Elements
+    G_NightText();
+    G_PowerText();
 
     // Throw us into the Office
     Current_Room = Rooms[RM_OFFICE];
@@ -552,6 +617,9 @@ func_t G_Main(u16_t night) {
 
     // Notify game start
     Print_Normal("Game Started on Night %d\n", Game.Night);
+
+    // Reserve timedelay id 3 for power drain
+    Time_FrameDelay(1000*PowerDecreaseRate, 3);
 }
 
 //
@@ -612,17 +680,124 @@ func_t G_AdvanceTime(void) {
 }
 
 //
+// G_PowerOut
+// Called when the Player runs out of Power
+// TODO: Fred patch, hide camera button
+//
+func_t G_PowerOut() {
+    // Cull all sounds
+    for (int i = 0; i < MAX_SOUND_CHANNELS; ++i) {
+        Sound_Stream(i, "assets/sounds/null.ogg", FALSE, 1, 100);
+    }
+
+    // Play the power shutoff sound
+    Sound_Play(1, "assets/sounds/misc/power_out.ogg", FALSE, 1, 100);
+
+    // Update room graphic and send us back to the office
+    Current_Room = Rooms[RM_OFFICE];
+    Scroll_Method = SCROLL_MANUAL;
+    Current_Room.Graphic = "assets/textures/rooms/office/lights_out/whos_there.png";
+    Graphics_UpdateRoom(Current_Room);
+
+    // Hide all HUD elements
+    Hour_Text.Text = "";
+    Night_Text.Text = "";
+    Power_Percent_Text.Text = "";
+    Power_Text.Text = "";
+    Graphics_UpdateTextElement(&Hour_Text);
+    Graphics_UpdateTextElement(&Night_Text);
+    Graphics_UpdateTextElement(&Power_Percent_Text);
+    Graphics_UpdateTextElement(&Power_Text);
+
+    // Update the Game State
+    Game.State = 1;
+}
+
+//
+// G_BlackOut()
+// Looks like we didn't make it, wait to DIE
+//
+func_t G_BlackOut() {
+    // Make room completely dark
+    Scroll_Method = SCROLL_DISABLED;
+    Current_Room.Graphic = "assets/textures/misc/black.png";
+    Graphics_UpdateRoom(Current_Room);
+
+    // Stop the marchin'!
+    Sound_Stream(0, "assets/sounds/null.ogg", FALSE, 1, 100);
+
+    // Update Game state
+    Game.State = 2;
+}
+
+//
 // G_GameLoop()
 // Called every frame
 //
 func_t G_GameLoop(void) {
-    // Run the AI movement checks
-    for(int i = 0; i < G_NUM_ANIMAS; i++) {
-        // We don't wanna check for golden freddy
-        if (i == A_GFRED)
-            return;
+    // Normal Game Loop
+    if (Game.State == 0) {
+        // Run the AI movement checks
+        for(int i = 0; i < G_NUM_ANIMAS; i++) {
+            // We don't wanna check for golden freddy
+            if (i != A_GFRED) {
+                AI_CheckMovement(&Animas[i]);
+            }
+        }
+        
+        // Decrease Power over time
+        if (Time_FrameReady(3)) {
+            //Power--;
+            Power -= 35;
 
-        AI_CheckMovement(&Animas[i]);
+            // Update the HUD
+            PowerPercentString = append_int_to_char("", Power);
+            PowerPercentString = append_char_to_char(PowerPercentString, "%");
+            Power_Percent_Text.Text = PowerPercentString;
+            Graphics_UpdateTextElement(&Power_Percent_Text);
+
+            // Keep progressing through the night
+            if (Power > 0) {
+                Time_FrameDelay(PowerDecreaseRate*1000, 3);
+            } else {
+                // Power's Out!
+                G_PowerOut();
+                FreddyState = 0;
+                Time_FrameDelay(5000, 3);
+            }
+        }
     }
-    return;
+    // Power Out Game Loop
+    else if (Game.State == 1) {
+        // Every 5s, there is a 20% chance freddy can do something
+        if (Time_FrameReady(3)) {
+            if (Math_GenerateChance(20) || FreddyPowerCounter >= 4) {
+                if (FreddyState == 0) {
+                    FreddyState = 1;
+                    FreddyPowerCounter = 0;
+                    Sound_Stream(0, "assets/sounds/music/toreador.ogg", FALSE, 1, 100);
+                } else if (FreddyState == 1) {
+                    G_BlackOut();
+                    Time_FrameDelay(2000, 3);
+                } 
+            } else {
+                FreddyPowerCounter++;
+            }
+
+            Time_FrameDelay(5000, 3);
+        }
+    }
+    // Wait to die after BlackOut
+    else if (Game.State == 2) {
+        if (Time_FrameReady(3)) {
+            // We're Losers ;(
+            if (Math_GenerateChance(20)) {
+                AI_Fred_OnPowerLoss();
+                Game.State = 100; //temporary
+                Time_FrameDelay(34464, 3);
+            } else {
+                Time_FrameDelay(2000, 3);
+            }
+        }
+    }
 }

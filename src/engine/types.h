@@ -150,6 +150,7 @@ typedef struct {
 typedef struct {
   u8_t Hour;
   u8_t Night;
+  u8_t State;
 } gamestate_t;
 
 // vswap_t
