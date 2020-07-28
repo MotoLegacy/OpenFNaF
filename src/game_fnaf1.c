@@ -747,8 +747,7 @@ func_t G_GameLoop(void) {
         
         // Decrease Power over time
         if (Time_FrameReady(3)) {
-            //Power--;
-            Power -= 35;
+            Power--;
 
             // Update the HUD
             PowerPercentString = append_int_to_char("", Power);
