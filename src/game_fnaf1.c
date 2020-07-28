@@ -78,7 +78,7 @@ aitrigger_t AI_Fred_OnCamUpdate(void) {
 // Will linger, attempts to enter office that fail
 // will send him back to the East Hall.
 //
-// TODO: Flesh out attack mode, footsteps
+// TODO: Flesh out attack mode
 aitrigger_t AI_Fred_OnMove(void) {
     switch(Animas[A_FRED].Location) {
         case ROOMBIT(RM_SHOW_STAGE):
@@ -100,8 +100,9 @@ aitrigger_t AI_Fred_OnMove(void) {
 
     Print_Normal("Freddy Moved to Room with ID %ld\n", Animas[A_FRED].Location);
 
-    //footstep sound, evaluate next move ahead
-    // Animas[A_FRED].Location = /*add stuff here*/;
+    // Footstep Sound
+    // TODO: Change volume dependent on distance(?)
+    Sound_Play(1, "assets/sounds/misc/footsteps.ogg", FALSE, 1, 100);
 
     // Switch in/out of Attack Mode.
     if (Animas[A_FRED].Location == ROOMBIT(RM_EAST_HALL_CORNER))
@@ -178,7 +179,7 @@ aitrigger_t AI_Bird_OnCamUpdate(void) {
 //
 // Bird appears on the right door of the office.
 //
-// TODO: Footsteps, enter office.
+// TODO: enter office.
 aitrigger_t AI_Bird_OnMove(void) {
     u16_t Loc = Math_SeedRandom(5);
 
@@ -211,6 +212,10 @@ aitrigger_t AI_Bird_OnMove(void) {
 
     Animas[A_BIRD].Location = ROOMBIT(Loc);
 
+    // Footstep Sound
+    // TODO: Change volume dependent on distance(?)
+    Sound_Play(1, "assets/sounds/misc/footsteps.ogg", FALSE, 1, 100);
+
     Print_Normal("Chica Moved to Room with ID %ld\n", Animas[A_BIRD].Location);
 }
 
@@ -241,7 +246,7 @@ aitrigger_t AI_Bun_OnCamUpdate(void) {
 //
 // Bun appears on the left door of the office.
 //
-// TODO: Footsteps, enter office.
+// TODO: enter office.
 aitrigger_t AI_Bun_OnMove(void) {
     u16_t Loc = Math_SeedRandom(5);
 
@@ -273,6 +278,10 @@ aitrigger_t AI_Bun_OnMove(void) {
     }
 
     Animas[A_BUN].Location = ROOMBIT(Loc);
+
+    // Footstep Sound
+    // TODO: Change volume dependent on distance(?)
+    Sound_Play(1, "assets/sounds/misc/footsteps.ogg", FALSE, 1, 100);
 
     Print_Normal("Bonnie Moved to Room with ID %ld\n", Animas[A_BUN].Location);
 }
@@ -429,7 +438,7 @@ func_t G_SetupRooms(void) {
 // Precache all loaded (non-streamed) sounds
 //
 func_t G_PrecacheSounds() {
-    Sound_Precache("assets/sounds/vo/night1.ogg");
+    Sound_Precache("assets/sounds/misc/footsteps.ogg");
 }
 
 // TEMP (FIXME -- Set up room GUIDs!)
