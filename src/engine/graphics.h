@@ -30,6 +30,7 @@ typedef struct {
     bool Activated;
     bool Initialized;
     bool Need_Clicked;
+    bool Visible;
     texture2d_t* Texture;
     sprite_t* Sprite;
     int XAnchor;
@@ -38,9 +39,10 @@ typedef struct {
     int YPosPercent;
     char* Graphic;
     void (*func)();
+    int id;
 } uidata_t;
 
-extern uidata_t UIElements[MAX_UI_ELEMENTS];
+extern uidata_t* UIElements[MAX_UI_ELEMENTS];
 extern int Current_Element;
 
 extern float RoomPanX;
@@ -56,4 +58,5 @@ extern void Graphics_UpdateRoom(gameroom_t Room);
 extern void Graphics_DrawRoom(gameroom_t Room);
 extern void Graphics_DrawUI();
 extern void Graphics_DrawTextElements();
-extern void Graphics_RegisterUIElement(char* Graphic, int XPosPercent, int YPosPercent, int XAnchor, int YAnchor, bool Need_Clicked, void (*func));
+extern void Graphics_RegisterUIElement(uidata_t* Element);
+extern void Graphics_UpdateUIElement(uidata_t* Element);

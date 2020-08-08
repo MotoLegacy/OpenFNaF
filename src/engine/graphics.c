@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 textelement_t* TextElements[MAX_UI_ELEMENTS];
-uidata_t UIElements[MAX_UI_ELEMENTS];
+uidata_t* UIElements[MAX_UI_ELEMENTS];
 
 // FIXME - cleanup
 int Current_Element = 0;
@@ -128,25 +128,31 @@ void Graphics_InitializeUIElement(uidata_t* UIElement) {
 // Scan our UI array/structs and draw accordingly
 void Graphics_DrawUI() {
     for (int i = 0; i < Current_Element; ++i) {
-        if (!UIElements[i].Initialized) 
-            Graphics_InitializeUIElement(&UIElements[i]);
+        if (!UIElements[i]->Initialized) 
+            Graphics_InitializeUIElement(UIElements[i]);
 
-        Graphics_DrawSprite(UIElements[i].Sprite, GameWindow);
+        if (UIElements[i]->Visible)
+            Graphics_DrawSprite(UIElements[i]->Sprite, GameWindow);
     }
 }
 
 // Registration of UI Elements to the array
-void Graphics_RegisterUIElement(char* Graphic, int XPosPercent, int YPosPercent, int XAnchor, int YAnchor, bool Need_Clicked, void (*func)) {
-    UIElements[Current_Element].Graphic = Graphic;
-    UIElements[Current_Element].XPosPercent = XPosPercent;
-    UIElements[Current_Element].YPosPercent = YPosPercent;
-    UIElements[Current_Element].XAnchor = XAnchor;
-    UIElements[Current_Element].YAnchor = YAnchor;
-    UIElements[Current_Element].func = func;
-    UIElements[Current_Element].Need_Clicked = Need_Clicked;
-    UIElements[Current_Element].Activated = FALSE;
+void Graphics_RegisterUIElement(uidata_t* Element) {
+    UIElements[Current_Element] = Element;
+
+    Element->id = Current_Element;
 
     Current_Element++;
+}
+
+// Update UI Elements
+void Graphics_UpdateUIElement(uidata_t* Element) {
+    for (int i = 0; i < Current_Element; ++i) {
+        if (UIElements[i]->id == Element->id) {
+            UIElements[i] = Element;
+            UIElements[i]->Initialized = FALSE;
+        }
+    }
 }
 
 // Font stuff

@@ -12,9 +12,10 @@
 anima_t Animas[G_NUM_ANIMAS];
 camera_t Camera;
 gamestate_t Game;
+
+// Text Elements
 textelement_t Hour_Text;
 textelement_t Night_Text;
-
 textelement_t Power_Text;
 textelement_t Power_Percent_Text;
 
@@ -33,6 +34,9 @@ int PowerDecreaseRate;
 // Relating to Freddy after Power's out
 int FreddyPowerCounter;
 int FreddyState;
+
+// UI Elements
+uidata_t CameraButton;
 
 //
 // globals
@@ -599,8 +603,15 @@ func_t G_Main(u16_t night) {
     Input_RegisterKey(KEY_RIGHT, G_SwapRooms);
 
     // Camera Enter Button
-    Graphics_RegisterUIElement("assets/textures/ui/misc/open_camera.png", 50, 100, 
-                                UI_ANCHOR_CENTER, UI_ANCHOR_BOTTOM, FALSE, G_SwapRooms);
+    CameraButton.Graphic = "assets/textures/ui/misc/open_camera.png";
+    CameraButton.XPosPercent = 50;
+    CameraButton.YPosPercent = 100;
+    CameraButton.XAnchor = UI_ANCHOR_CENTER;
+    CameraButton.YAnchor = UI_ANCHOR_BOTTOM;
+    CameraButton.Need_Clicked = FALSE;
+    CameraButton.Visible = FALSE;
+    CameraButton.func = G_SwapRooms;
+    Graphics_RegisterUIElement(&CameraButton);
 
     // Our HUD Elements
     G_NightText();
@@ -708,6 +719,8 @@ func_t G_PowerOut() {
     Graphics_UpdateTextElement(&Night_Text);
     Graphics_UpdateTextElement(&Power_Percent_Text);
     Graphics_UpdateTextElement(&Power_Text);
+    CameraButton.Visible = FALSE;
+    Graphics_UpdateUIElement(&CameraButton);
 
     // Update the Game State
     Game.State = 1;

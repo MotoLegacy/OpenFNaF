@@ -56,34 +56,38 @@ void Input_CheckMouse() {
     int MinY;
     int MaxY;
     for (int i = 0; i < Current_Element; ++i) {
+        // Just CULL here if it isnt visible
+        if (!UIElements[i]->Visible)
+            return;
+
         // Set Up Boundaries
-        MinX = Graphics_GetSpriteXPosition(UIElements[i].Sprite);
-        MaxX = MinX + Graphics_GetTextureWidth(UIElements[i].Texture);
-        MinY =  Graphics_GetSpriteYPosition(UIElements[i].Sprite);
-        MaxY = MinY + Graphics_GetTextureHeight(UIElements[i].Texture);
+        MinX = Graphics_GetSpriteXPosition(UIElements[i]->Sprite);
+        MaxX = MinX + Graphics_GetTextureWidth(UIElements[i]->Texture);
+        MinY =  Graphics_GetSpriteYPosition(UIElements[i]->Sprite);
+        MaxY = MinY + Graphics_GetTextureHeight(UIElements[i]->Texture);
         // Our Cursor is on the X Pos
         if (mouse.x >= MinX && mouse.x <= MaxX) {
             // Our Cursor is on the Y Pos
             if (mouse.y >= MinY &&  mouse.y <= MaxY) {
                 // Remove Spam
-                if (UIElements[i].Activated)
+                if (UIElements[i]->Activated)
                     return;
                 
                 // Check for Click if needbe
-                if (UIElements[i].Need_Clicked) {
+                if (UIElements[i]->Need_Clicked) {
                     if (Input_ButtonPressed(Mouse_Left)) {
-                        UIElements[i].func();
-                        UIElements[i].Activated = TRUE;
+                        UIElements[i]->func();
+                        UIElements[i]->Activated = TRUE;
                     }
                 } else {
-                    UIElements[i].func();
-                    UIElements[i].Activated = TRUE;
+                    UIElements[i]->func();
+                    UIElements[i]->Activated = TRUE;
                 }
             } else {
-                UIElements[i].Activated = FALSE;
+                UIElements[i]->Activated = FALSE;
             }
         } else {
-            UIElements[i].Activated = FALSE;
+            UIElements[i]->Activated = FALSE;
         }
     }
 }
