@@ -469,7 +469,7 @@ func_t G_PrecacheSounds() {
 
 // TEMP (FIXME -- Set up room GUIDs!)
 func_t G_SwapRooms() {
-    if (Game.State != 0)
+    if (Game.State != 1)
         return;
 
     if (Current_Room.Graphic == Rooms[RM_OFFICE].Graphic) {
@@ -574,10 +574,10 @@ func_t G_PlayCall() {
 }
 
 //
-// G_Main()
+// G_GameMain(night)
 // Game-specific initialization.
 //
-func_t G_Main(u16_t night) {
+func_t G_GameMain(u16_t night) {
     // Init Animas and Rooms
     G_SetupAnimatronics();
     G_SetupRooms();
@@ -588,7 +588,7 @@ func_t G_Main(u16_t night) {
     // Define Game States
     Game.Night = night;
     Game.Hour = 0;
-    Game.State = 0;
+    Game.State = 1;
 
     // Power Percentage
     Power = 100;
@@ -609,7 +609,7 @@ func_t G_Main(u16_t night) {
     CameraButton.XAnchor = UI_ANCHOR_CENTER;
     CameraButton.YAnchor = UI_ANCHOR_BOTTOM;
     CameraButton.Need_Clicked = FALSE;
-    CameraButton.Visible = FALSE;
+    CameraButton.Visible = TRUE;
     CameraButton.func = G_SwapRooms;
     Graphics_RegisterUIElement(&CameraButton);
 
@@ -619,6 +619,7 @@ func_t G_Main(u16_t night) {
 
     // Throw us into the Office
     Current_Room = Rooms[RM_OFFICE];
+    Graphics_UpdateRoom(Current_Room);
 
     // Manual Room Scrolling
     Scroll_Method = SCROLL_MANUAL;
@@ -723,7 +724,7 @@ func_t G_PowerOut() {
     Graphics_UpdateUIElement(&CameraButton);
 
     // Update the Game State
-    Game.State = 1;
+    Game.State = 2;
 }
 
 //
@@ -740,7 +741,7 @@ func_t G_BlackOut() {
     Sound_Stream(0, "assets/sounds/null.ogg", FALSE, 1, 100);
 
     // Update Game state
-    Game.State = 2;
+    Game.State = 3;
 }
 
 //
@@ -748,8 +749,12 @@ func_t G_BlackOut() {
 // Called every frame
 //
 func_t G_GameLoop(void) {
-    // Normal Game Loop
+    // Menu Loop
     if (Game.State == 0) {
+        G_MenuLoop();
+    }
+    // Normal Game Loop
+    else if (Game.State == 1) {
         // Run the AI movement checks
         for(int i = 0; i < G_NUM_ANIMAS; i++) {
             // We don't wanna check for golden freddy
@@ -780,7 +785,7 @@ func_t G_GameLoop(void) {
         }
     }
     // Power Out Game Loop
-    else if (Game.State == 1) {
+    else if (Game.State == 2) {
         // Every 5s, there is a 20% chance freddy can do something
         if (Time_FrameReady(3)) {
             if (Math_GenerateChance(20) || FreddyPowerCounter >= 4) {
@@ -800,7 +805,7 @@ func_t G_GameLoop(void) {
         }
     }
     // Wait to die after BlackOut
-    else if (Game.State == 2) {
+    else if (Game.State == 3) {
         if (Time_FrameReady(3)) {
             // We're Losers ;(
             if (Math_GenerateChance(20)) {
