@@ -99,6 +99,8 @@ func_t G_MenuLoop(void) {
         Sound_Stream(0, "assets/sounds/null.ogg", TRUE, 1, 0);
         Text_NewGame.Text = "";
         Text_Title.Text = "";
+        Graphics_UpdateTextElement(&Text_Title);
+        Graphics_UpdateTextElement(&Text_NewGame);
         G_GameMain(Dummy_Night);
     }
 }
