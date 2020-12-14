@@ -4,6 +4,9 @@
 #include "defs.h"
 
 int main(int argc, char* argv[]) {
+    // Discover Game INIs
+    INI_Initialize();
+    /*
     // Parse command line arguments
     Options_ParseCMD(argc, argv);
 
@@ -13,6 +16,7 @@ int main(int argc, char* argv[]) {
 
     // Init Game handler
     Game_Initialize();
+    */
 
     return 0;
 }
