@@ -28,7 +28,8 @@
 
 #include "../defs.h"
 
-gamedata_t* INI_Games[8];
+gamedata_t INI_Games[8];
+int         INI_GameCount;
 
 //
 // INI_FetchGameInformation(directory)
@@ -52,6 +53,9 @@ void INI_FetchGameInformation(char* directory) {
         return;
     }
 
+    // It exists, so let's occupy a game slot
+    INI_Games[INI_GameCount].occupied = TRUE;
+
     // Buffer setup
     char* buffer = malloc(sizeof(INIFile));
 
@@ -64,23 +68,41 @@ void INI_FetchGameInformation(char* directory) {
         // Name
         if (strncmp(buffer, "name=", strlen("name=")) == 0) {
             memmove(buffer, buffer+5, strlen(buffer));
-            pspDebugScreenPrintf("Found Game: %s\n", buffer);
+            strcpy(INI_Games[INI_GameCount].name, buffer);
         }
-
+        // Supports PSP
+        if (strncmp(buffer, "supports_psp=", strlen("supports_psp=")) == 0) {
+            int value = 0;
+            sscanf(buffer + strlen("supports_psp="), "%d", &value);
+            INI_Games[INI_GameCount].supports_psp = value;
+        }
+        // Supports PC
+        if (strncmp(buffer, "supports_pc=", strlen("supports_pc=")) == 0) {
+            int value = 0;
+            sscanf(buffer + strlen("supports_pc="), "%d", &value);
+            INI_Games[INI_GameCount].supports_pc = value;
+        }
+        // Window Width
+        if (strncmp(buffer, "window_width=", strlen("window_width=")) == 0) {
+            int value = 0;
+            sscanf(buffer + strlen("window_width="), "%d", &value);
+            INI_Games[INI_GameCount].window_width = value;
+        }
+        // Window Width
+        if (strncmp(buffer, "window_height=", strlen("window_height=")) == 0) {
+            int value = 0;
+            sscanf(buffer + strlen("window_height="), "%d", &value);
+            INI_Games[INI_GameCount].window_height = value;
+        }
         // Continue parsing
         buffer = strtok(NULL, "\n");
     }
 
-    /*while(sceIoRead(INIFile, buffer, bufferlength)) {
-        if (strncmp(buffer, "\0name=", strlen("\0name=")) == 0) {
-            pspDebugScreenPrintf("gmaeline: %s\n", buffer);
-            //memmove(buffer, buffer+5, strlen(buffer));
-            //pspDebugScreenPrintf("Found Game: %s\n", buffer);
-        }
-    }*/
-
     // Close the File
     sceIoClose(INIFile);
+
+    // Increment the gamecount
+    INI_GameCount++;
 }
 
 //
@@ -90,6 +112,16 @@ void INI_FetchGameInformation(char* directory) {
 void INI_Initialize() {
     // Grab the games/ directory with sceIoDopen
     int directory = sceIoDopen("games/");
+
+    // Initialize gamecount
+    INI_GameCount = 0;
+
+    for (int i = 0; i < 8; i++) {
+        INI_Games[i].occupied = FALSE;
+        INI_Games[i].supports_psp = FALSE;
+        INI_Games[i].supports_pc = FALSE;
+        INI_Games[i].name = malloc(sizeof(char)*64);
+    }
 
     // If the directory exists
     if (directory > 0) {

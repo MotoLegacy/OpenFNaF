@@ -23,47 +23,40 @@
 //
 
 //
-// main.c - initialization and primary entry point for the engine
+// pc_gameloader.c - the game loader/chooser for UNIX/PC
 //
 
-#include "defs.h"
+#include "../defs.h"
 
-// PSP: Include Module info
-#ifdef PSP
-PSP_MODULE_INFO("OpenFNaF", 0, 1, 0);
-PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
-PSP_HEAP_SIZE_KB(-1024);
-#endif
+void Game_InitializeLoader() {
+    gamedata_t  supported_games[8];
+    bool        game_selected = FALSE;
+    int         iterer = 0;
+    int         selection;
 
-int main(int argc, char* argv[]) {
-    #ifdef PSP
-    pspDebugScreenInit();
-    pspDebugScreenSetXY(0, 0);
-    #endif
+    // Grab a list of only the games supporting PC
+    for (int i = 0; i < 8; i++) {
+        if (INI_Games[i].supports_pc == TRUE) {
+            supported_games[iterer].occupied = TRUE;
+            supported_games[iterer].name = INI_Games[i].name;
+            iterer++;
+        }
+    }
 
-    // Discover Game INIs
-    INI_Initialize();
+    // Print out the game selection
+    while(game_selected == FALSE) {
+        printf("Select a Supported Game from the list\n");
+        for (int i = 0; i < iterer; i++) {
+            printf("%d. %s\n", i, supported_games[i].name);
+        }
+        scanf("%d", &selection);
 
-    // Parse command line arguments
-    Options_ParseCMD(argc, argv);
+        if (selection < 0 || selection >= iterer) {
+            printf("Invalid Selection.\n");
+            printf("======================\n");
+        } else {
+            game_selected = TRUE;
+        }
+    }
 
-    // Run our platform's designated Game Loader
-    Game_InitializeLoader();
-
-    /*
-    // Initialize Game window
-    if(!OPT_NORENDER)
-        Window_Initialize(I_GAME_WIDTH, I_GAME_HEIGHT, I_GAME_TITLE);
-
-    // Init Game handler
-    Game_Initialize();
-    */
-
-    printf("=== done ===\n");
-
-    #ifdef PSP
-    sceKernelDelayThread(15*1000000);
-    sceKernelExitGame();
-    #endif
-    return 0;
 }

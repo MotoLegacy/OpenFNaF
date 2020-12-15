@@ -28,7 +28,8 @@
 
 #include "../defs.h"
 
-gamedata_t* INI_Games[8];
+gamedata_t  INI_Games[8];
+int         INI_GameCount;
 
 //
 // INI_FetchGameInformation(directory)
@@ -51,6 +52,9 @@ void INI_FetchGameInformation(char* directory) {
         return;
     }
 
+    // It exists, so let's occupy a game slot
+    INI_Games[INI_GameCount].occupied = TRUE;
+
     // Buffer setup
     char buffer[64];
     int bufferlength = sizeof(buffer);
@@ -60,10 +64,38 @@ void INI_FetchGameInformation(char* directory) {
         // Name
         if (strncmp(buffer, "name=", strlen("name=")) == 0) {
             memmove(buffer, buffer+5, strlen(buffer));
-            printf("Found Game: %s", buffer);
+            buffer[strlen(buffer) - 1] = 0;
+            strcpy(INI_Games[INI_GameCount].name, buffer);
+        }
+        // Supports PSP
+        if (strncmp(buffer, "supports_psp=", strlen("supports_psp=")) == 0) {
+            int value = 0;
+            sscanf(buffer + strlen("supports_psp="), "%u", &value);
+            INI_Games[INI_GameCount].supports_psp = value;
+        }
+        // Supports PC
+        if (strncmp(buffer, "supports_pc=", strlen("supports_pc=")) == 0) {
+            int value = 0;
+            sscanf(buffer + strlen("supports_pc="), "%u", &value);
+            INI_Games[INI_GameCount].supports_pc = value;
+        }
+        // Window Width
+        if (strncmp(buffer, "window_width=", strlen("window_width=")) == 0) {
+            int value = 0;
+            sscanf(buffer + strlen("window_width="), "%d", &value);
+            INI_Games[INI_GameCount].window_width = value;
+        }
+        // Window Width
+        if (strncmp(buffer, "window_height=", strlen("window_height=")) == 0) {
+            int value = 0;
+            sscanf(buffer + strlen("window_height="), "%d", &value);
+            INI_Games[INI_GameCount].window_height = value;
         }
     }
     fclose(INIFile);
+
+    // Increment the gamecount
+    INI_GameCount++;
 }
 
 //
@@ -74,6 +106,14 @@ void INI_Initialize() {
     // Grab the games/ directory with dirent
     struct dirent* cwdirent;
     DIR* cwd = opendir("games/");
+
+    // Initialize gamecount
+    INI_GameCount = 0;
+
+    for (int i = 0; i < 8; i++) {
+        INI_Games[i].occupied = FALSE;
+        INI_Games[i].name = malloc(sizeof(char)*32);
+    }
 
     // Loop through all directories found by opendir()
     while ((cwdirent = readdir(cwd)) != NULL) {

@@ -23,47 +23,24 @@
 //
 
 //
-// main.c - initialization and primary entry point for the engine
+// options.c - command line arguments
 //
 
 #include "defs.h"
+#include <string.h>
 
-// PSP: Include Module info
-#ifdef PSP
-PSP_MODULE_INFO("OpenFNaF", 0, 1, 0);
-PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
-PSP_HEAP_SIZE_KB(-1024);
-#endif
+bool OPT_NORENDER = FALSE;
+bool OPT_VERBOSE = FALSE;
 
-int main(int argc, char* argv[]) {
-    #ifdef PSP
-    pspDebugScreenInit();
-    pspDebugScreenSetXY(0, 0);
-    #endif
-
-    // Discover Game INIs
-    INI_Initialize();
-
-    // Parse command line arguments
-    Options_ParseCMD(argc, argv);
-
-    // Run our platform's designated Game Loader
-    Game_InitializeLoader();
-
-    /*
-    // Initialize Game window
-    if(!OPT_NORENDER)
-        Window_Initialize(I_GAME_WIDTH, I_GAME_HEIGHT, I_GAME_TITLE);
-
-    // Init Game handler
-    Game_Initialize();
-    */
-
-    printf("=== done ===\n");
-
-    #ifdef PSP
-    sceKernelDelayThread(15*1000000);
-    sceKernelExitGame();
-    #endif
-    return 0;
+void Options_ParseCMD(int argc, char* argv[]) {
+    for(int i = 0; i <= (argc - 1); i++) {
+        // No renderer/window/etc.
+        if (strcmp("-no-render", argv[i]) == 0) {
+            OPT_NORENDER = TRUE;
+        }
+        // Lots of printfs
+        if (strcmp("-verbose", argv[i]) == 0) {
+            OPT_VERBOSE = TRUE;
+        }
+    }
 }
