@@ -33,6 +33,18 @@
 lua_State* VMState;
 
 //
+// Lua_CompileFile
+// Compiles the entire Lua Script
+//
+// TODO:
+// * do we even need 'status'..???
+void Lua_CompileFile(char* filename)
+{
+    luaL_loadfile(VMState, filename);
+    lua_pcall(VMState, 0, LUA_MULTRET, 0);
+}
+
+//
 // Lua_DivideAndAdd
 // Divide parm0 by parm1, before adding parm2
 // -----
@@ -60,6 +72,29 @@ static int Lua_DivideAndAdd(lua_State* State)
 }
 
 //
+// Lua_LoadScript
+// Compiles a LUA script
+// TODO:
+// * prohibit going back a directory, contain everything
+// -----
+// Called by the Lua VM
+//
+static int  Lua_LoadScript(lua_State* State)
+{
+    // assert param
+    assert(lua_isstring(State, 1));
+
+    // Define it
+    char* script;
+    script = malloc(sizeof(char)*32);
+    strcpy(script, Loaded_Game.game_path);
+    strcat(script, lua_tostring(State, 1));
+    Lua_CompileFile(script);
+
+    return 0;
+}
+
+//
 // Lua_PSPDebugPrintf
 // Calls pspDebugPrintf()
 // -----
@@ -82,29 +117,40 @@ static int Lua_PSPDebugPrintf(lua_State* State)
 }
 
 //
+// Lua_GetPlatform
+// Returns the platform as a string
+// * "PSP"
+// * "PC"
+// -----
+// Called by the Lua VM
+//
+static int Lua_GetPlatform(lua_State* State)
+{
+#ifdef PSP
+    lua_pushstring(State, "PSP");
+    return 1;
+#endif
+#ifdef DESKTOP
+    lua_pushstring(State, "PC");
+    return 1;
+#endif
+}
+
+//
 // Lua_LinkFunctions
 // Link Lua and C Functions
 //
 void Lua_LinkFunctions()
 {
-    // DivideAndAdd()
-    lua_pushcclosure(VMState, Lua_DivideAndAdd, 0);
-    lua_setglobal(VMState, "DivideAndAdd");
     // PSPDebugPrintf()
     lua_pushcclosure(VMState, Lua_PSPDebugPrintf, 0);
     lua_setglobal(VMState, "PSPDebugPrintf");
-}
-
-//
-// Lua_CompileFile
-// Compiles the entire Lua Script
-//
-// TODO:
-// * do we even need 'status'..???
-void Lua_CompileFile(char* filename)
-{
-    luaL_loadfile(VMState, filename);
-    lua_pcall(VMState, 0, LUA_MULTRET, 0);
+    // OF_GetPlatform()
+    lua_pushcclosure(VMState, Lua_GetPlatform, 0);
+    lua_setglobal(VMState, "OF_GetPlatform");
+    // OF_LoadScript()
+    lua_pushcclosure(VMState, Lua_LoadScript, 0);
+    lua_setglobal(VMState, "OF_LoadScript");
 }
 
 //

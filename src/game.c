@@ -37,7 +37,8 @@
 #define FRAMES_PER_SECOND       30
 #endif
 
-bool Game_Running = FALSE;
+bool        Game_Running = FALSE;
+gamedata_t  Loaded_Game;
 
 //
 // Game_Intialize(game)
@@ -49,6 +50,7 @@ void Game_Initialize(gamedata_t game) {
 
     hour = 0;
     Game_Running = TRUE;
+    Loaded_Game = game;
 
     // Initialize our framedelays
     Time_FrameDelay(1, 0); // Frames per Second
@@ -67,7 +69,7 @@ void Game_Initialize(gamedata_t game) {
     Lua_CompileFile(main_script);
 
     // Run the main function
-    lua_getglobal(VMState, "main");
+    lua_getglobal(VMState, "G_Main");
     lua_pcall(VMState, 0, 0, 0);
 
     while(Game_Running) {
