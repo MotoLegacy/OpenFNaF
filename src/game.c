@@ -56,6 +56,11 @@ void Game_Initialize(gamedata_t game) {
     Time_FrameDelay(1, 0); // Frames per Second
     Time_FrameDelay(1, 1); // Actual Game Timer
 
+#ifndef DESKTOP
+    // Initialize our Input Looper
+    Input_Initialize();
+#endif
+
     // Seed the Random Number Generator
     Math_SetSeed(clock());
 
@@ -75,6 +80,15 @@ void Game_Initialize(gamedata_t game) {
     while(Game_Running) {
         // Non-graphics stuff
         if (Time_FrameReady(1)) {
+
+            // Run Game Loop function
+            lua_getglobal(VMState, "G_GameLoop");
+            lua_pcall(VMState, 0, 0, 0);
+
+#ifndef DESKTOP
+            // Check current Inputs
+            Input_Loop();
+#endif
 
             // Next Game Time iteration
             Time_FrameDelay(10, 1);

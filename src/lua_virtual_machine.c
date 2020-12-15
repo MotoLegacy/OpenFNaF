@@ -33,7 +33,7 @@
 lua_State* VMState;
 
 //
-// Lua_CompileFile
+// Lua_CompileFile(filename)
 // Compiles the entire Lua Script
 //
 // TODO:
@@ -50,7 +50,7 @@ void Lua_CompileFile(char* filename)
 // -----
 // Called by the Lua VM
 //
-static int Lua_DivideAndAdd(lua_State* State)
+/*static int Lua_DivideAndAdd(lua_State* State)
 {
     // Assert Params
     assert(lua_isnumber(State, 1));
@@ -69,10 +69,10 @@ static int Lua_DivideAndAdd(lua_State* State)
     // Push back and return result count
     lua_pushnumber(State, result);
     return 1;
-}
+}*/
 
 //
-// Lua_LoadScript
+// Lua_LoadScript(string)
 // Compiles a LUA script
 // TODO:
 // * prohibit going back a directory, contain everything
@@ -95,7 +95,7 @@ static int  Lua_LoadScript(lua_State* State)
 }
 
 //
-// Lua_PSPDebugPrintf
+// Lua_PSPDebugPrintf(string)
 // Calls pspDebugPrintf()
 // -----
 // Called by the Lua VM
@@ -137,6 +137,49 @@ static int Lua_GetPlatform(lua_State* State)
 }
 
 //
+// Lua_GetInput(button, mode)
+// Check if the key requested by
+// LUA VM is pressed
+// -----
+// Called by the Lua VM
+//
+static int Lua_GetInput(lua_State* State)
+{
+    // Assert params
+    // FIXME: asserts.. not working?
+    //assert(lua_isnumber(State, 1));
+    //assert(lua_isnumber(State, 2));
+
+    int button = (int)lua_tonumber(State, 1);
+    int inputmode = (int)lua_tonumber(State, 2);
+    int result = 0;
+
+    // Check which input mode we're looking for, send the response
+    switch (inputmode) {
+        case INPUT_BUTTON_DOWN:
+#ifndef DESKTOP
+            result = Input_ButtonPressedDown(button);
+#endif
+            break;
+        case INPUT_KEYBOARD_DOWN:
+#ifdef DESKTOP
+            result = Input_KeyboardDown(button);
+#endif
+            break;
+        default:
+            // Just push 0 if this is undefined behavior
+            result = 0;
+            break;
+    }
+
+    // Push it real good
+    lua_pushnumber(State, (lua_Number)result);
+
+    // One result
+    return 1;
+}
+
+//
 // Lua_LinkFunctions
 // Link Lua and C Functions
 //
@@ -151,6 +194,9 @@ void Lua_LinkFunctions()
     // OF_LoadScript()
     lua_pushcclosure(VMState, Lua_LoadScript, 0);
     lua_setglobal(VMState, "OF_LoadScript");
+    // OF_GetInput()
+    lua_pushcclosure(VMState, Lua_GetInput, 0);
+    lua_setglobal(VMState, "OF_GetInput");
 }
 
 //

@@ -21,9 +21,26 @@ end
 //
 ]]
 function G_Main()
+    -- Load our other scripts
     OF_LoadScript("input.lua")
+
     -- Init Animas and Rooms
     G_SetupAnimatronics()
     G_SetupRooms()
-    Input_Hello()
+end
+
+--[[
+//
+// G_GameLoop()
+// Called every Frame
+//
+]]
+function G_GameLoop()
+    if Input_ButtonDown(INPUT_SELECT) then
+        CoolPrint("nice select press bro")
+    end
+
+    if Input_KeyDown(INPUT_KEY_F) then
+        CoolPrint("respects have been paid, bro")
+    end
 end

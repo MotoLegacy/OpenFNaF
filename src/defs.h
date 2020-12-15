@@ -34,6 +34,7 @@
 #include "types.h"
 #include "print.h"
 #include "options.h"
+#include "input.h"
 #include "ini.h"
 #include "lua_includes.h"
 #include "lua_virtual_machine.h"
