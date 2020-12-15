@@ -41,6 +41,7 @@ void Game_InitializeLoader() {
             supported_games[iterer].window_width = INI_Games[i].window_width;
             supported_games[iterer].window_height = INI_Games[i].window_height;
             supported_games[iterer].name = INI_Games[i].name;
+            supported_games[iterer].game_path = INI_Games[i].game_path;
             iterer++;
         }
     }
@@ -67,5 +68,5 @@ void Game_InitializeLoader() {
 
 
     // Initialize the Game Handler
-    Game_Initialize();
+    Game_Initialize(supported_games[selection]);
 }

@@ -28,7 +28,9 @@
 
 #include "defs.h"
 
+#ifndef PSP
 #define FRAMES_PER_SECOND       60
+#endif
 
 // PSP: Limit to 30 FPS
 #ifdef PSP
@@ -38,20 +40,63 @@
 bool Game_Running = FALSE;
 
 //
-// Game_Intialize
+// Game_Intialize(game)
 // Set up our back-end and run our game loop
 //
-void Game_Initialize() {
+void Game_Initialize(gamedata_t game) {
+    char*   main_script;
+    u8_t    hour;
+
+    hour = 0;
     Game_Running = TRUE;
 
+    // Initialize our framedelays
+    Time_FrameDelay(1, 0); // Frames per Second
+    Time_FrameDelay(1, 1); // Actual Game Timer
+
+    // Seed the Random Number Generator
+    Math_SetSeed(clock());
+
+    // Initialize the Lua Virtual Machine
+    Lua_InitializeVM();
+
+    // Compile the game's main.lua file
+    main_script = malloc(sizeof(char)*32);
+    strcpy(main_script, game.game_path);
+    strcat(main_script, "main.lua");
+    Lua_CompileFile(main_script);
+
+    // Run the main function
+    lua_getglobal(VMState, "main");
+    lua_pcall(VMState, 0, 0, 0);
+
     while(Game_Running) {
-#ifndef PSP
-        if (!OPT_NORENDER)
-            Window_Update();
+        // Non-graphics stuff
+        if (Time_FrameReady(1)) {
+
+            // Next Game Time iteration
+            Time_FrameDelay(10, 1);
+        }
+
+        // New Frame
+        if (Time_FrameReady(0)) {
+#ifdef DESKTOP
+            // Clear Window
+            Window_Clear();
 #endif
+
+#ifdef DESKTOP
+            // Update our Window
+            if (!OPT_NORENDER)
+                Window_Update();
+#endif
+
+            // Set time until next frame is ready
+            Time_FrameDelay(1000/FRAMES_PER_SECOND, 0);
+        }
     }
 
-#ifndef PSP
+#ifdef DESKTOP
     Window_Close();
 #endif
 }

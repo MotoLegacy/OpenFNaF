@@ -2,9 +2,11 @@
 #define _DEFS_H_
 
 // STD-C includes
+#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 // PSPSDK includes
 #ifdef PSP
@@ -30,11 +32,18 @@
 
 // Local headers
 #include "types.h"
+#include "print.h"
 #include "options.h"
 #include "ini.h"
+#include "lua_includes.h"
+#include "lua_virtual_machine.h"
+#include "math_manager.h"
+#include "time_manager.h"
 #include "game.h"
 
 // PC local headers
+#ifdef DESKTOP
 #include "pc/window.h"
+#endif
 
 #endif

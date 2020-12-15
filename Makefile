@@ -28,7 +28,7 @@ OBJECTS        		:= $(addprefix $(BUILD)/,$(SOURCES:%.c=%.o))
 #-------------------------------------------------
 
 CFLAGS         		+= -Wall -g
-LDFLAGS        		:= -lm -lc
+LDFLAGS        		:= -llua -lm -lc
 
 # PLATFORM: PC
 ifeq ($(DESKTOP),1)
@@ -74,6 +74,7 @@ ifeq ($(PSP),1)
 TARGET 				= $(NAME)
 INCDIR 				= $(PSPPATH)/include
 OBJS				= $(SOURCES)
+LIBS 				= $(LDFLAGS)
 EXTRA_TARGETS 		= EBOOT.PBP
 PSP_EBOOT_TITLE 	= OpenFNaF
 PSPSDK				= $(shell psp-config --pspsdk-path)

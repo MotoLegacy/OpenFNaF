@@ -56,6 +56,11 @@ void INI_FetchGameInformation(char* directory) {
     // It exists, so let's occupy a game slot
     INI_Games[INI_GameCount].occupied = TRUE;
 
+    // Grab the game path
+    INIPath[strlen(INIPath) - 8] = 0;
+    INI_Games[INI_GameCount].game_path = malloc(sizeof(char)*32);
+    strcpy(INI_Games[INI_GameCount].game_path, INIPath);
+
     // Buffer setup
     char* buffer = malloc(sizeof(INIFile));
 

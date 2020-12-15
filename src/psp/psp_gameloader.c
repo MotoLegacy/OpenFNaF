@@ -43,6 +43,7 @@ void Game_InitializeLoader() {
         if (INI_Games[i].supports_psp == TRUE) {
             supported_games[iterer].occupied = TRUE;
             supported_games[iterer].name = INI_Games[i].name;
+            supported_games[iterer].game_path = INI_Games[i].game_path;
             iterer++;
         }
     }
@@ -97,4 +98,6 @@ void Game_InitializeLoader() {
             Game_Selected = TRUE;
         }
     }
+
+    Game_Initialize(supported_games[selected]);
 }
