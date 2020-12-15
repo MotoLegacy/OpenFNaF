@@ -23,6 +23,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+#include <SFML/Audio.h>
+#include <SFML/Graphics.h>
 #endif
 
 // Local headers
@@ -30,5 +33,8 @@
 #include "options.h"
 #include "ini.h"
 #include "game.h"
+
+// PC local headers
+#include "pc/window.h"
 
 #endif

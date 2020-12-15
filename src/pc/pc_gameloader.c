@@ -38,6 +38,8 @@ void Game_InitializeLoader() {
     for (int i = 0; i < 8; i++) {
         if (INI_Games[i].supports_pc == TRUE) {
             supported_games[iterer].occupied = TRUE;
+            supported_games[iterer].window_width = INI_Games[i].window_width;
+            supported_games[iterer].window_height = INI_Games[i].window_height;
             supported_games[iterer].name = INI_Games[i].name;
             iterer++;
         }
@@ -59,4 +61,11 @@ void Game_InitializeLoader() {
         }
     }
 
+    // Initialize the SFML Window
+    if (!OPT_NORENDER)
+        Window_Initialize(supported_games[selection].window_width, supported_games[selection].window_height, supported_games[selection].name);
+
+
+    // Initialize the Game Handler
+    Game_Initialize();
 }

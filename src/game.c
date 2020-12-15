@@ -23,36 +23,35 @@
 //
 
 //
-// main.c - initialization and primary entry point for the engine
+// game.c - holds the main game loop
 //
 
 #include "defs.h"
 
-// PSP: Include Module info
+#define FRAMES_PER_SECOND       60
+
+// PSP: Limit to 30 FPS
 #ifdef PSP
-PSP_MODULE_INFO("OpenFNaF", 0, 1, 0);
-PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
-PSP_HEAP_SIZE_KB(-1024);
+#define FRAMES_PER_SECOND       30
 #endif
 
-int main(int argc, char* argv[]) {
-    #ifdef PSP
-    pspDebugScreenInit();
-    pspDebugScreenSetXY(0, 0);
-    #endif
+bool Game_Running = FALSE;
 
-    // Discover Game INIs
-    INI_Initialize();
+//
+// Game_Intialize
+// Set up our back-end and run our game loop
+//
+void Game_Initialize() {
+    Game_Running = TRUE;
 
-    // Parse command line arguments
-    Options_ParseCMD(argc, argv);
+    while(Game_Running) {
+#ifndef PSP
+        if (!OPT_NORENDER)
+            Window_Update();
+#endif
+    }
 
-    // Run our platform's designated Game Loader
-    Game_InitializeLoader();
-
-    #ifdef PSP
-    sceKernelDelayThread(15*1000000);
-    sceKernelExitGame();
-    #endif
-    return 0;
+#ifndef PSP
+    Window_Close();
+#endif
 }

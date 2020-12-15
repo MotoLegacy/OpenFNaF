@@ -23,36 +23,38 @@
 //
 
 //
-// main.c - initialization and primary entry point for the engine
+// window.c - initialization and updates for the PC Game Window
 //
 
-#include "defs.h"
+#include "../defs.h"
 
-// PSP: Include Module info
-#ifdef PSP
-PSP_MODULE_INFO("OpenFNaF", 0, 1, 0);
-PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
-PSP_HEAP_SIZE_KB(-1024);
-#endif
+sfRenderWindow* GameWindow;
 
-int main(int argc, char* argv[]) {
-    #ifdef PSP
-    pspDebugScreenInit();
-    pspDebugScreenSetXY(0, 0);
-    #endif
+void Window_Initialize(int width, int height, char* title) {
+    // Create Game Window
+    sfVideoMode VideoMode = {width, height, 32};
+    GameWindow = sfRenderWindow_create(VideoMode, title, sfClose, NULL);
+}
 
-    // Discover Game INIs
-    INI_Initialize();
+// Easy Close Function
+void Window_Close() {
+    sfRenderWindow_close(GameWindow);
+    Game_Running = FALSE;
+}
 
-    // Parse command line arguments
-    Options_ParseCMD(argc, argv);
+void Window_Update() {
+    sfEvent WindowEvent;
 
-    // Run our platform's designated Game Loader
-    Game_InitializeLoader();
+    // Update
+    sfRenderWindow_display(GameWindow);
 
-    #ifdef PSP
-    sceKernelDelayThread(15*1000000);
-    sceKernelExitGame();
-    #endif
-    return 0;
+    // Process Events (close)
+    while (sfRenderWindow_pollEvent(GameWindow, &WindowEvent)) {
+        if (WindowEvent.type == sfEvtClosed)
+            Window_Close();
+    }
+}
+
+void Window_Clear() {
+    sfRenderWindow_clear(GameWindow, sfBlack);
 }
