@@ -26,13 +26,9 @@
 // ini.c - Game INI Parsing
 //
 
-#include <dirent.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
+#include "../defs.h"
+
+gamedata_t* INI_Games[8];
 
 //
 // INI_FetchGameInformation(directory)
@@ -59,10 +55,12 @@ void INI_FetchGameInformation(char* directory) {
     char buffer[64];
     int bufferlength = sizeof(buffer);
 
+    // Begin parsing
     while(fgets(buffer, bufferlength, INIFile)) {
+        // Name
         if (strncmp(buffer, "name=", strlen("name=")) == 0) {
             memmove(buffer, buffer+5, strlen(buffer));
-            printf("Found Game: %s\n", buffer);
+            printf("Found Game: %s", buffer);
         }
     }
     fclose(INIFile);
