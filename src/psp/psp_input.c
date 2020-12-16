@@ -28,22 +28,22 @@
 
 #include "../defs.h"
 
-bool btn_psp_cross;
-bool btn_psp_circle;
-bool btn_psp_square;
-bool btn_psp_triangle;
-bool btn_psp_up;
-bool btn_psp_down;
-bool btn_psp_left;
-bool btn_psp_right;
-bool btn_psp_ltrigger;
-bool btn_psp_rtrigger;
-bool btn_psp_start;
-bool btn_psp_select;
-int  anub_psp_rx;
-int  anub_psp_ry;
-int  anub_psp_lx;
-int  anub_psp_ly;
+int     anub_psp_rx;
+int     anub_psp_ry;
+int     anub_psp_lx;
+int     anub_psp_ly;
+boolean btn_psp_cross;
+boolean btn_psp_circle;
+boolean btn_psp_square;
+boolean btn_psp_triangle;
+boolean btn_psp_up;
+boolean btn_psp_down;
+boolean btn_psp_left;
+boolean btn_psp_right;
+boolean btn_psp_ltrigger;
+boolean btn_psp_rtrigger;
+boolean btn_psp_start;
+boolean btn_psp_select;
 
 SceCtrlData controller;
 

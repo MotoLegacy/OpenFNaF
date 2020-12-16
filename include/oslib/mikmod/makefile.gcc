@@ -1,0 +1,55 @@
+# MikMod Library Makefile for DJGPP (*NOT* Linux)
+# Divine Entertainment Game Programming Pack
+
+
+####################
+### User Options ###
+####################
+
+# Use the C or C++ compiler
+CC                = gcc
+Librarian         = ar
+Compiler_Options  = -O2 -I. -I../include -g
+
+Lib_file          = ../lib/mikmod.a
+Lib_file2         = ..\lib\mikmod.a
+
+LoaderObjs        = mloader.o mlreg.o npertab.o sloader.o load_uni.o \
+    load_mod.o load_m15.o load_mtm.o load_s3m.o load_stm.o load_669.o \
+    load_far.o load_dsm.o load_med.o load_xm.o load_ult.o load_it.o \
+    s3m_it.o
+
+DriverObjs        = mdriver.o mdreg.o drv_nos.o drv_raw.o dos_drv/mdma.o \
+    dos_drv/mirq.o dos_drv/gus.o dos_drv/gusdrv1.o dos_drv/gusdrv2.o \
+    dos_drv/sb.o dos_drv/sb16.o dos_drv/sbpro.o dos_drv/sndscape.o \
+    dos_drv/pas16.o dos_drv/awe32.o dos_drv/wss.o
+
+DriverObjs2       = mdriver.o mdreg.o drv_nos.o drv_raw.o mdma.o \
+    mirq.o gus.o gus_drv1.o gus_mix.o sb.o sb16.o sbpro.o sndscape.o \
+    pas16.o awe32.o wss.o
+
+PlayerObjs        = mplayer.o
+
+####################
+## Makefile rules ##
+####################
+
+all: $(Lib_file)
+
+$(Lib_file): stream.o virtch.o resample.o munitrk.o \
+	$(LoaderObjs) $(DriverObjs) $(PlayerObjs)
+	del $(Lib_file2)
+	$(Librarian) r $(Lib_file) stream.o virtch.o resample.o munitrk.o \
+        $(LoaderObjs) $(DriverObjs2) $(PlayerObjs)
+
+%.o: %.c
+	$(CC) -c $(Compiler_Options) $<
+
+# capital S is very important!!!
+%.o: %.S
+	$(CC) -c $(Compiler_Options) $<
+
+clean:
+	del *.o
+	del dos_drv\*.o
+	del $(Lib_file2)

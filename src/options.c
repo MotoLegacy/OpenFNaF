@@ -29,8 +29,8 @@
 #include "defs.h"
 #include <string.h>
 
-bool OPT_NORENDER = FALSE;
-bool OPT_VERBOSE = FALSE;
+boolean OPT_NORENDER = FALSE;
+boolean OPT_VERBOSE = FALSE;
 
 void Options_ParseCMD(int argc, char* argv[]) {
     for(int i = 0; i <= (argc - 1); i++) {

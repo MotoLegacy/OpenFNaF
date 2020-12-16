@@ -30,7 +30,7 @@
 
 void Game_InitializeLoader() {
     gamedata_t  supported_games[8];
-    bool        game_selected = FALSE;
+    boolean     game_selected = FALSE;
     int         iterer = 0;
     int         selection;
 

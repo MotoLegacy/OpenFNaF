@@ -35,6 +35,13 @@ ifeq ($(DESKTOP),1)
 LDFLAGS 			+= $(subst sfml,csfml,$(shell pkg-config sfml-all --libs --silence-errors)) $(shell pkg-config sfml-all --libs --silence-errors)
 endif
 
+# PLATFORM: PSP
+ifeq ($(PSP),1)
+LDFLAGS 			+= libs/libosl.a
+LDFLAGS 			+= -lpspgum_vfpu -lpspvfpu -lpspgu -lpspvram -lpspaudiocodec
+LDFLAGS 			+= -lpspaudiolib -lpspaudio -lpspmp3 -lpsprtc -lpsppower -lpsphprm -ljpeg -lpng
+endif
+
 # PSP: Uses more automated building tech using its custom SDK build.mak
 ifneq ($(PSP),1)
 #-------------------------------------------------
@@ -73,6 +80,7 @@ endif
 ifeq ($(PSP),1)
 TARGET 				= $(NAME)
 INCDIR 				= $(PSPPATH)/include
+INCDIR 				+= include
 OBJS				= $(SOURCES)
 LIBS 				= $(LDFLAGS)
 EXTRA_TARGETS 		= EBOOT.PBP

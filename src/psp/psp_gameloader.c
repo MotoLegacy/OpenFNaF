@@ -31,10 +31,10 @@
 
 void Game_InitializeLoader() {
     gamedata_t  supported_games[8];
-    bool        Game_Selected   = FALSE;
-    bool        redraw_screen   = TRUE;
-    bool        down_released;
-    bool        up_released;
+    boolean     Game_Selected   = FALSE;
+    boolean     redraw_screen   = TRUE;
+    boolean     down_released;
+    boolean     up_released;
     int         selected        = 0;
     int         iterer          = 0;
 

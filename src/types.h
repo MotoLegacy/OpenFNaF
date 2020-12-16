@@ -17,4 +17,4 @@ typedef signed long long  s64_t;
 #define TRUE    1
 #define FALSE   0
 
-typedef u64_t bool;
+typedef u64_t boolean;

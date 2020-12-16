@@ -44,7 +44,7 @@ void Time_Tick() {
     }
 }
 
-bool Time_FrameReady(u16_t id) {
+boolean Time_FrameReady(u16_t id) {
     if (clock() > Delay_Time[id])
         return TRUE;
     

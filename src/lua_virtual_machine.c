@@ -180,6 +180,28 @@ static int Lua_GetInput(lua_State* State)
 }
 
 //
+// Lua_StreamSound(channel, sound, loop, pitch, volume)
+// Calls for a Sound to Stream
+// -----
+// Called by the Lua VM
+//
+static int Lua_StreamSound(lua_State* State)
+{
+    // Grab our params
+    int         channel = (int)lua_tonumber(State, 1);
+    const char* sound = lua_tostring(State, 2);
+    int         loop = (int)lua_tonumber(State, 3);
+    float       pitch = (float)lua_tonumber(State, 4);
+    int         volume = (int)lua_tonumber(State, 5);
+
+    // Stream
+    Sound_Stream(channel, (char*)sound, loop, pitch, volume);
+
+    // Nothing to return
+    return 0;
+}
+
+//
 // Lua_LinkFunctions
 // Link Lua and C Functions
 //
@@ -197,6 +219,9 @@ void Lua_LinkFunctions()
     // OF_GetInput()
     lua_pushcclosure(VMState, Lua_GetInput, 0);
     lua_setglobal(VMState, "OF_GetInput");
+    // OF_SteamSound()
+    lua_pushcclosure(VMState, Lua_StreamSound, 0);
+    lua_setglobal(VMState, "OF_StreamSound");
 }
 
 //

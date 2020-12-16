@@ -59,7 +59,7 @@ u64_t seed;
 // generate random number 1-100 and if it's less than or equal
 // to percentage, return true. else, return false.
 //
-bool Math_GenerateChance(u64_t percentage) {
+boolean Math_GenerateChance(u64_t percentage) {
     u64_t random = Math_Prng() % 100 + 1;
 
     if (random <= percentage)

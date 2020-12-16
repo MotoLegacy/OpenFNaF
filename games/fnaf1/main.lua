@@ -1,3 +1,5 @@
+Game_Night = 1
+
 function CoolPrint(string)
     if OF_GetPlatform() == "PSP" then
         PSPDebugPrintf(string .. "\n")
@@ -16,6 +18,27 @@ end
 
 --[[
 //
+// G_PlayCall
+// Stream Call sound
+//
+]]
+function G_PlayCall()
+    local Sound = ""
+
+    if Game_Night == 1 then Sound = "assets/sounds/vo/night1"
+    end
+
+    if OF_GetPlatform() == "PSP" then
+        Sound = Sound .. ".mp3"
+    elseif OF_GetPlatform() == "PC" then
+        Sound = Sound .. ".ogg"
+    end
+
+    OF_StreamSound(0, Sound, false, 1, 100)
+end
+
+--[[
+//
 // G_Main()
 // Game-specific night initialization
 //
@@ -27,6 +50,9 @@ function G_Main()
     -- Init Animas and Rooms
     G_SetupAnimatronics()
     G_SetupRooms()
+
+    -- Play Phone Call
+    G_PlayCall()
 end
 
 --[[

@@ -1,0 +1,26 @@
+# MMIO Library Makefile for UNIX/Linux
+# Divine Entertainment Game Programming Pack
+#
+
+##########################
+## User settable macros ##
+##########################
+
+CC		= cc
+Librarian	= ar
+CFLAGS		= -O2 -I. -I../mikmod -I../include -DSGI
+
+Lib_file	= ../lib/libmmio.a
+
+Object_files	= mmio.o mmalloc.o mmerror.o
+
+####################
+## Makefile rules ##
+####################
+
+$(Lib_file): $(Object_files)
+	$(Librarian) r $(Lib_file) $(Object_files)
+
+clean:
+	rm -f *.o
+	rm -f $(Lib_file)

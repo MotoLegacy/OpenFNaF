@@ -1,4 +1,4 @@
-extern bool Game_Running;
+extern boolean Game_Running;
 extern gamedata_t  Loaded_Game;
 
 extern void Game_InitializeLoader();

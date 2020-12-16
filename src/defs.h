@@ -15,6 +15,7 @@
 #include <pspdebug.h>
 #include <pspdisplay.h>
 #include <pspctrl.h>
+#include <oslib/oslib.h>
 
 #define printf pspDebugScreenPrintf
 #endif
@@ -35,6 +36,7 @@
 #include "print.h"
 #include "options.h"
 #include "input.h"
+#include "sound.h"
 #include "ini.h"
 #include "lua_includes.h"
 #include "lua_virtual_machine.h"

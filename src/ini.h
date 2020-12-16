@@ -1,8 +1,8 @@
 // Game Data Struct
 typedef struct {
-    bool    occupied;
-    bool    supports_pc;
-    bool    supports_psp;
+    boolean occupied;
+    boolean supports_pc;
+    boolean supports_psp;
     int     window_width;
     int     window_height;
     char*   name;

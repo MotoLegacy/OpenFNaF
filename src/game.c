@@ -37,7 +37,7 @@
 #define FRAMES_PER_SECOND       30
 #endif
 
-bool        Game_Running = FALSE;
+boolean     Game_Running = FALSE;
 gamedata_t  Loaded_Game;
 
 //
@@ -66,6 +66,11 @@ void Game_Initialize(gamedata_t game) {
 
     // Initialize the Lua Virtual Machine
     Lua_InitializeVM();
+
+#ifndef DESKTOP
+    // Initialize Sound
+    Sound_Initialize();
+#endif
 
     // Compile the game's main.lua file
     main_script = malloc(sizeof(char)*32);
