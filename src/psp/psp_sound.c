@@ -46,3 +46,19 @@ void Sound_StopStream(stream_t* Stream) {
 stream_t* Sound_StreamFromFile(char* File) {
     return oslLoadSoundFileMP3(File, OSL_FMT_STREAM);
 }
+
+sound_t* Sound_LoadSound(char* Directory) {
+    return oslLoadSoundFile(Directory, OSL_FMT_NONE);
+}
+
+void Sound_PlaySound(sound_t* Sound, int Channel) {
+    oslPlaySound(Sound, Channel);
+}
+
+void Sound_StopSound(sound_t* Sound) {
+    oslStopSound(Sound);
+}
+
+void Sound_Delete(sound_t* Sound) {
+    oslDeleteSound(Sound);
+}

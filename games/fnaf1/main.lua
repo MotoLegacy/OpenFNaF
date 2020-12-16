@@ -28,13 +28,19 @@ function G_PlayCall()
     if Game_Night == 1 then Sound = "assets/sounds/vo/night1"
     end
 
-    if OF_GetPlatform() == "PSP" then
-        Sound = Sound .. ".mp3"
-    elseif OF_GetPlatform() == "PC" then
-        Sound = Sound .. ".ogg"
-    end
+    Sound_Stream(0, Sound, false, 1, 100)
+end
 
-    OF_StreamSound(0, Sound, false, 1, 100)
+--[[
+//
+// G_PrecacheSounds()
+// Precache all loaded (non-streamed) sounds
+//
+]]
+function G_PrecacheSounds()
+    --Sound_Precache("assets/sounds/misc/footsteps")
+    Sound_Precache("assets/sounds/misc/power_out")
+    --Sound_Precache("assets/sounds/anima/scream")
 end
 
 --[[
@@ -46,10 +52,16 @@ end
 function G_Main()
     -- Load our other scripts
     OF_LoadScript("input.lua")
+    OF_LoadScript("sound.lua")
 
     -- Init Animas and Rooms
     G_SetupAnimatronics()
     G_SetupRooms()
+
+    -- Precache Sounds
+    G_PrecacheSounds()
+
+    Sound_Play(1, "assets/sounds/misc/power_out", false, 1, 100)
 
     -- Play Phone Call
     G_PlayCall()

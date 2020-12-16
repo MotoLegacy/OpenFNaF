@@ -117,6 +117,12 @@ void Game_Initialize(gamedata_t game) {
         }
     }
 
+    Sound_Clean();
+
+#ifdef PSP
+    oslQuit();
+#endif
+
 #ifdef DESKTOP
     Window_Close();
 #endif
