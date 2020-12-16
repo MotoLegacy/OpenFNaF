@@ -189,13 +189,19 @@ static int Lua_StreamSound(lua_State* State)
 {
     // Grab our params
     int         channel = (int)lua_tonumber(State, 1);
-    const char* sound = lua_tostring(State, 2);
+    char*       sound = (char*)lua_tostring(State, 2);
     int         loop = (int)lua_tonumber(State, 3);
     float       pitch = (float)lua_tonumber(State, 4);
     int         volume = (int)lua_tonumber(State, 5);
 
+    // Append game path
+    char* fullpath = malloc(sizeof(char)*64);
+    strcpy(fullpath, Loaded_Game.game_path);
+    strcat(fullpath, "assets/");
+    strcat(fullpath, sound);
+
     // Stream
-    Sound_Stream(channel, (char*)sound, loop, pitch, volume);
+    Sound_Stream(channel, fullpath, loop, pitch, volume);
 
     // Nothing to return
     return 0;
@@ -212,8 +218,14 @@ static int Lua_PrecacheSound(lua_State* State)
     // Grab the param
     char* sound = (char*)lua_tostring(State, 1);
 
+    // Append game path
+    char* fullpath = malloc(sizeof(char)*64);
+    strcpy(fullpath, Loaded_Game.game_path);
+    strcat(fullpath, "assets/");
+    strcat(fullpath, sound);
+
     // Call to precache
-    Sound_Precache(sound);
+    Sound_Precache(fullpath);
 
     // Nothing to return
     return 0;
@@ -229,13 +241,19 @@ static int Lua_PlaySound(lua_State *State)
 {
     // Grab our params
     int         channel = (int)lua_tonumber(State, 1);
-    const char* sound = lua_tostring(State, 2);
+    char*       sound = (char*)lua_tostring(State, 2);
     int         loop = (int)lua_tonumber(State, 3);
     float       pitch = (float)lua_tonumber(State, 4);
     int         volume = (int)lua_tonumber(State, 5);
 
+    // Append game path
+    char* fullpath = malloc(sizeof(char)*64);
+    strcpy(fullpath, Loaded_Game.game_path);
+    strcat(fullpath, "assets/");
+    strcat(fullpath, sound);
+
     // Play it
-    Sound_Play(channel, (char*)sound, loop, pitch, volume);
+    Sound_Play(channel, fullpath, loop, pitch, volume);
 
     // Nothing to return
     return 0;
