@@ -60,6 +60,7 @@ $(NAME): $(OBJECTS)
 #-------------------------------------------------
 	@echo Linking...
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LDFLAGS)
+	@mv $(NAME) pc/
 	@echo $(OUTPUT_BOLD)$(OUTPUT_GREEN)Build done.$(OUTPUT_NORMAL)
 
 #-------------------------------------------------
@@ -87,4 +88,7 @@ EXTRA_TARGETS 		= EBOOT.PBP
 PSP_EBOOT_TITLE 	= OpenFNaF
 PSPSDK				= $(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak
+
+install: EBOOT.PBP
+	mv EBOOT.PBP psp/
 endif
