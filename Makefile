@@ -39,7 +39,7 @@ endif
 ifeq ($(PSP),1)
 LDFLAGS 			+= libs/libosl.a
 LDFLAGS 			+= -lpspgum_vfpu -lpspvfpu -lpspgu -lpspvram -lpspaudiocodec
-LDFLAGS 			+= -lpspaudiolib -lpspaudio -lpspmp3 -lpsprtc -lpsppower -lpsphprm -ljpeg -lpng
+LDFLAGS 			+= -lpspaudiolib -lpspaudio -lpspmp3 -lpsprtc -lpsppower -lpsphprm -ljpeg -lpng -lz
 endif
 
 # PSP: Uses more automated building tech using its custom SDK build.mak

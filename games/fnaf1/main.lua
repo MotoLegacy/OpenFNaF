@@ -72,7 +72,7 @@ end
 --[[
 //
 // G_GameLoop()
-// Called every Frame
+// Called every loop iteration (10ms)
 //
 ]]
 function G_GameLoop()
@@ -86,4 +86,16 @@ function G_GameLoop()
     if Input_KeyDown(INPUT_KEY_F) then
         CoolPrint("respects have been paid, bro")
     end]]
+end
+
+--[[
+//
+// G_DrawLoop()
+// Called every renderframe
+//
+]]
+function G_DrawLoop()
+    if Game_State == STATE_IN_MENU then
+        Menu_DrawLoop()
+    end
 end

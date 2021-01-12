@@ -260,6 +260,57 @@ static int Lua_PlaySound(lua_State *State)
 }
 
 //
+// Lua_DrawImage()
+// Loads a generic image, assuming LoadImage()
+// has been called.
+// -----
+// Called by the Lua VM
+//
+static int Lua_DrawImage(lua_State* State)
+{
+    // Grab our params
+    char* path = (char*)lua_tostring(State, 1);
+    int   x = (int)lua_tonumber(State, 2);
+    int   y = (int)lua_tonumber(State, 3);
+
+    char* fullpath = malloc(sizeof(char)*64);
+    strcpy(fullpath, Loaded_Game.game_path);
+    strcat(fullpath, "assets/");
+    strcat(fullpath, path);
+    strcat(fullpath, ".png");
+
+    // Draw it
+    Graphics_DrawImage(fullpath, x, y);
+
+    // Nothing to return
+    return 0;
+}
+
+//
+// Lua_LoadImage()
+// Stores a generic image into RAM
+// -----
+// Called by the Lua VM
+//
+static int Lua_LoadImage(lua_State* State) 
+{
+    // Grab our path
+    char* path = (char*)lua_tostring(State, 1);
+
+    char* fullpath = malloc(sizeof(char)*64);
+    strcpy(fullpath, Loaded_Game.game_path);
+    strcat(fullpath, "assets/");
+    strcat(fullpath, path);
+    strcat(fullpath, ".png");
+
+    // Load it
+    Graphics_LoadImage(fullpath);
+
+    // Nothing to return
+    return 0;
+}
+
+//
 // Lua_LinkFunctions
 // Link Lua and C Functions
 //
@@ -286,6 +337,12 @@ void Lua_LinkFunctions()
     // OF_PlaySound()
     lua_pushcclosure(VMState, Lua_PlaySound, 0);
     lua_setglobal(VMState, "OF_PlaySound");
+    // OF_LoadImage()
+    lua_pushcclosure(VMState, Lua_LoadImage, 0);
+    lua_setglobal(VMState, "OF_LoadImage");
+    // OF_DrawImage()
+    lua_pushcclosure(VMState, Lua_DrawImage, 0);
+    lua_setglobal(VMState, "OF_DrawImage");
 }
 
 //

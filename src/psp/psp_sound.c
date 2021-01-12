@@ -29,9 +29,7 @@
 #include "../defs.h"
 
 void Sound_Initialize() {
-    oslInit(0);
-    oslInitAudio();
-    oslInitAudioME(OSL_FMT_MP3);
+    //
 }
 
 void Sound_PlayStream(stream_t* Stream, int Channel) {

@@ -23,35 +23,17 @@
 //
 
 //
-// main.c - initialization and primary entry point for the engine
+// psp_graphics.c - PSP graphics handling
 //
 
-#include "defs.h"
+#include "../defs.h"
 
-// PSP: Include Module info
-#ifdef PSP
-PSP_MODULE_INFO("OpenFNaF", 0, 1, 0);
-PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
-PSP_HEAP_SIZE_KB(-1024);
-#endif
+texture2d_t* Graphics_CreateTextureFromFile(char* Directory)
+{
+    return oslLoadImageFilePNG(Directory, OSL_IN_RAM, OSL_PF_5551);
+}
 
-int main(int argc, char* argv[]) {
-    #ifdef PSP
-    pspDebugScreenInit();
-    pspDebugScreenSetXY(0, 0);
-    #endif
-
-    // Discover Game INIs
-    INI_Initialize();
-
-    // Parse command line arguments
-    Options_ParseCMD(argc, argv);
-
-    // Run our platform's designated Game Loader
-    Game_InitializeLoader();
-
-    #ifdef PSP
-    sceKernelExitGame();
-    #endif
-    return 0;
+void Graphics_DrawImageGeneric(image2d_t* Texture, int X, int Y)
+{
+    oslDrawImageXY(Texture->texture, X, Y);
 }

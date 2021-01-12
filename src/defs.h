@@ -37,6 +37,7 @@
 #include "options.h"
 #include "input.h"
 #include "sound.h"
+#include "graphics.h"
 #include "ini.h"
 #include "lua_includes.h"
 #include "lua_virtual_machine.h"

@@ -52,6 +52,13 @@ void Game_Initialize(gamedata_t game) {
     Game_Running = TRUE;
     Loaded_Game = game;
 
+#ifdef PSP
+    oslInit(0);
+    oslInitAudio();
+    oslInitGfx(OSL_PF_5551, 1);
+    oslInitAudioME(OSL_FMT_MP3);
+#endif
+
     // Initialize our framedelays
     Time_FrameDelay(1, 0); // Frames per Second
     Time_FrameDelay(1, 1); // Actual Game Timer
@@ -101,10 +108,17 @@ void Game_Initialize(gamedata_t game) {
 
         // New Frame
         if (Time_FrameReady(0)) {
+#ifdef PSP
+            oslStartDrawing();
+#endif
 #ifdef DESKTOP
             // Clear Window
             Window_Clear();
 #endif
+
+            // Run Draw Loop function
+            lua_getglobal(VMState, "G_DrawLoop");
+            lua_pcall(VMState, 0, 0, 0);
 
 #ifdef DESKTOP
             // Update our Window
@@ -114,13 +128,19 @@ void Game_Initialize(gamedata_t game) {
 
             // Set time until next frame is ready
             Time_FrameDelay(1000/FRAMES_PER_SECOND, 0);
+
+#ifdef PSP
+            oslEndDrawing();
+		    oslSyncFrame();	
+#endif
         }
     }
 
     Sound_Clean();
 
 #ifdef PSP
-    oslQuit();
+    oslEndGfx();
+	oslQuit();
 #endif
 
 #ifdef DESKTOP
