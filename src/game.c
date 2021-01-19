@@ -77,9 +77,6 @@ void Game_Initialize(gamedata_t game) {
     lua_getglobal(VMState, "G_Main");
     lua_pcall(VMState, 0, 0, 0);
 
-    Music music = LoadMusicStream("wow.mp3");
-    PlayMusicStream(music);
-
     while(Game_Running) {
 #ifdef DESKTOP
         Sound_Update();

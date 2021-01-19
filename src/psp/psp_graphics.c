@@ -35,7 +35,7 @@ texture2d_t* Graphics_CreateTextureFromFile(char* Directory)
 
 void Graphics_DrawImageGeneric(texture2d_t* Image, int X, int Y)
 {
-    oslDrawImageXY(Texture->texture, X, Y);
+    oslDrawImageXY(Image, X, Y);
 }
 
 void Graphics_StartDrawing()

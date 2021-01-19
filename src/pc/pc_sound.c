@@ -47,15 +47,12 @@ stream_t* Sound_StreamFromFile(char* File) {
 }
 
 sound_t* Sound_LoadSound(char* Directory) {
-    sound_t TempSound;
-    sound_t* TempSoundPtr;
-    TempSound = LoadSound(Directory);
-    TempSoundPtr = malloc(sizeof(sound_t));
+    sound_t* TempSound = (sound_t*)malloc(sizeof(sound_t));
 
-    TempSoundPtr->stream = TempSound.stream;
-    TempSoundPtr->sampleCount = TempSound.sampleCount;
+    if (TempSound != NULL)
+        *TempSound = LoadSound(Directory);
 
-    return TempSoundPtr;
+    return TempSound;
 }
 
 void Sound_PlaySound(sound_t* Sound, int Channel) {
