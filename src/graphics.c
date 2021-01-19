@@ -52,12 +52,6 @@ void Graphics_LoadImage(char* Directory) {
     // Create the texture2d based on the path
     Graphics_Images[Graphics_LoadedImages]->texture = Graphics_CreateTextureFromFile(Directory);
 
-    // Create a sprite in SFML
-#ifdef DESKTOP
-    Graphics_Images[Graphics_LoadedImages]->sprite = Graphics_CreateSprite();
-    Graphics_BindTextureToSprite(Graphics_Images[Graphics_LoadedImages]->texture, Graphics_Images[Graphics_LoadedImages]->sprite);
-#endif
-
     Graphics_LoadedImages++;
 }
 
@@ -75,5 +69,5 @@ void Graphics_DrawImage(char* Directory, int X, int Y) {
     }
 
     // Draw it
-    Graphics_DrawImageGeneric(Texture, X, Y);
+    Graphics_DrawImageGeneric(Texture->texture, X, Y);
 }

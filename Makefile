@@ -32,7 +32,7 @@ LDFLAGS        		:= -llua -lm -lc
 
 # PLATFORM: PC
 ifeq ($(DESKTOP),1)
-LDFLAGS 			+= $(subst sfml,csfml,$(shell pkg-config sfml-all --libs --silence-errors)) $(shell pkg-config sfml-all --libs --silence-errors)
+LDFLAGS 			+= -lraylib
 endif
 
 # PLATFORM: PSP

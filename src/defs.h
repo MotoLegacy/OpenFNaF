@@ -27,8 +27,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <SFML/Audio.h>
-#include <SFML/Graphics.h>
+#include <raylib.h>
 #endif
 
 // Local headers

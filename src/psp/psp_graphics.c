@@ -33,7 +33,18 @@ texture2d_t* Graphics_CreateTextureFromFile(char* Directory)
     return oslLoadImageFilePNG(Directory, OSL_IN_RAM, OSL_PF_5551);
 }
 
-void Graphics_DrawImageGeneric(image2d_t* Texture, int X, int Y)
+void Graphics_DrawImageGeneric(texture2d_t* Image, int X, int Y)
 {
     oslDrawImageXY(Texture->texture, X, Y);
+}
+
+void Graphics_StartDrawing()
+{
+    oslStartDrawing();
+}
+
+void Graphics_StopDrawing()
+{
+    oslEndDrawing();
+	oslSyncFrame();	
 }

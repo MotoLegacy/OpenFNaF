@@ -28,73 +28,68 @@
 
 #include "../defs.h"
 
-stream_t* Sound_StreamFromFile(char* File)
-{
-    return sfMusic_createFromFile(File);
+void Sound_PlayStream(stream_t* Stream, int Channel) {
+    PlayMusicStream(*Stream);
 }
 
-void Sound_SetStreamLoop(stream_t* Stream, boolean Loop)
-{
-    sfMusic_setLoop(Stream, Loop);
+void Sound_StopStream(stream_t* Stream) {
+    StopMusicStream(*Stream);
+    UnloadMusicStream(*Stream);
 }
 
-void Sound_SetStreamPitch(stream_t* Stream, float Pitch)
-{
-    sfMusic_setPitch(Stream, Pitch);
+stream_t* Sound_StreamFromFile(char* File) {
+    stream_t* TempStreamPtr = (stream_t*)malloc(sizeof(stream_t));
+
+    if (TempStreamPtr != NULL)
+        *TempStreamPtr = LoadMusicStream(File);
+
+    return TempStreamPtr;
 }
 
-void Sound_SetStreamVolume(stream_t* Stream, float Volume)
-{
-    sfMusic_setVolume(Stream, Volume);
+sound_t* Sound_LoadSound(char* Directory) {
+    sound_t TempSound;
+    sound_t* TempSoundPtr;
+    TempSound = LoadSound(Directory);
+    TempSoundPtr = malloc(sizeof(sound_t));
+
+    TempSoundPtr->stream = TempSound.stream;
+    TempSoundPtr->sampleCount = TempSound.sampleCount;
+
+    return TempSoundPtr;
 }
 
-void Sound_PlayStream(stream_t* Stream, int Channel)
-{
-    sfMusic_play(Stream);
+void Sound_PlaySound(sound_t* Sound, int Channel) {
+    PlaySound(*Sound);
 }
 
-void Sound_StopStream(stream_t* Stream)
-{
-    sfMusic_stop(Stream);
-    sfMusic_destroy(Stream);
+void Sound_StopSound(sound_t* Sound) {
+    StopSound(*Sound);
 }
 
-sndbuffer_t* Sound_LoadSound(char* Directory)
-{
-    return sfSoundBuffer_createFromFile(Directory);
+void Sound_Delete(sound_t* Sound) {
+    UnloadSound(*Sound);
 }
 
-sound_t* Sound_Create()
-{
-    return sfSound_create();
+void Sound_SetStreamLoop(stream_t* Stream, boolean Loop) {
+    // TODO
 }
 
-void Sound_BindSoundToBuffer(sound_t* Sound, sndbuffer_t* SoundBuffer)
-{
-    sfSound_setBuffer(Sound, SoundBuffer);
+void Sound_SetStreamPitch(stream_t* Stream, float Pitch) {
+    SetMusicPitch(*Stream, Pitch);
 }
 
-void Sound_SetSoundLoop(sound_t* Sound, boolean Loop)
-{
-    sfSound_setLoop(Sound, Loop);
+void Sound_SetStreamVolume(stream_t* Stream, float Volume) {
+    SetMusicVolume(*Stream, Volume);
 }
 
-void Sound_SetSoundPitch(sound_t* Sound, float Pitch)
-{
-    sfSound_setPitch(Sound, Pitch);
+void Sound_SetSoundLoop(sound_t* Sound, boolean Loop) {
+    // TODO
 }
 
-void Sound_SetSoundVolume(sound_t* Sound, float Volume)
-{
-    sfSound_setVolume(Sound, Volume);
+void Sound_SetSoundPitch(sound_t* Sound, float Pitch) {
+    SetSoundPitch(*Sound, Pitch);
 }
 
-void Sound_PlaySound(sound_t* Sound, int Channel)
-{
-    sfSound_play(Sound);
-}
-
-void Sound_StopSound(sound_t* Sound)
-{
-    sfSound_stop(Sound);
+void Sound_SetSoundVolume(sound_t* Sound, float Volume) {
+    SetSoundVolume(*Sound, Volume);
 }

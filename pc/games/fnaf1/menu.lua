@@ -14,7 +14,7 @@ function Menu_Initialize()
     Sound_Stream(0, "sounds/menu/theme", true, 1, 100)
 
     -- Load the background images
-    OF_LoadImage("textures/menu/bg/1_psp")
+    OF_LoadImage("textures/menu/bg/1")
 
 
     -- We're in the menu
@@ -28,7 +28,7 @@ end
 //
 ]]
 function Menu_Main_Draw()
-    OF_DrawImage("textures/menu/bg/1_psp", 0, 0)
+    OF_DrawImage("textures/menu/bg/1", 0, 0)
 end
 
 -- Called every interation we're in the menu

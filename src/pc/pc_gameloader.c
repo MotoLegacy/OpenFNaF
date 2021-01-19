@@ -62,7 +62,7 @@ void Game_InitializeLoader() {
         }
     }
 
-    // Initialize the SFML Window
+    // Initialize the raylib Window
     if (!OPT_NORENDER)
         Window_Initialize(supported_games[selection].window_width, supported_games[selection].window_height, supported_games[selection].name);
 

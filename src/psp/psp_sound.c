@@ -28,10 +28,6 @@
 
 #include "../defs.h"
 
-void Sound_Initialize() {
-    //
-}
-
 void Sound_PlayStream(stream_t* Stream, int Channel) {
     oslPlaySound(Stream, Channel);
 }

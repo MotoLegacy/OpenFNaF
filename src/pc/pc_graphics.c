@@ -30,21 +30,32 @@
 
 texture2d_t* Graphics_CreateTextureFromFile(char* Directory)
 {
-    return sfTexture_createFromFile(Directory, NULL);
+    texture2d_t TempTexture;
+    texture2d_t* TempTexturePtr;
+    TempTexture = LoadTexture(Directory);
+    TempTexturePtr = malloc(sizeof(texture2d_t));
+
+    TempTexturePtr->id = TempTexture.id;
+    TempTexturePtr->width = TempTexture.width;
+    TempTexturePtr->height = TempTexture.height;
+    TempTexturePtr->mipmaps = TempTexture.mipmaps;
+    TempTexturePtr->format = TempTexture.format;
+
+
+    return TempTexturePtr;
 }
 
-void Graphics_BindTextureToSprite(texture2d_t* Texture, sprite_t* Sprite)
+void Graphics_DrawImageGeneric(texture2d_t* Image, int X, int Y)
 {
-    sfSprite_setTexture(Sprite, Texture, sfTrue);
+    DrawTexture(*Image, X, Y, WHITE);
 }
 
-sprite_t* Graphics_CreateSprite()
+void Graphics_StartDrawing()
 {
-    return sfSprite_create();
+    BeginDrawing();
 }
 
-void Graphics_DrawImageGeneric(image2d_t* Texture, int X, int Y)
+void Graphics_StopDrawing()
 {
-    sfSprite_setPosition(Texture->sprite, (sfVector2f) {X, Y});
-    return sfRenderWindow_drawSprite(GameWindow, Texture->sprite, NULL);
+    EndDrawing();
 }

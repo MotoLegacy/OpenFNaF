@@ -194,6 +194,10 @@ static int Lua_StreamSound(lua_State* State)
     float       pitch = (float)lua_tonumber(State, 4);
     int         volume = (int)lua_tonumber(State, 5);
 
+#ifdef DESKTOP
+    volume /= 100;
+#endif
+
     // Append game path
     char* fullpath = malloc(sizeof(char)*64);
     strcpy(fullpath, Loaded_Game.game_path);
@@ -245,6 +249,10 @@ static int Lua_PlaySound(lua_State *State)
     int         loop = (int)lua_tonumber(State, 3);
     float       pitch = (float)lua_tonumber(State, 4);
     int         volume = (int)lua_tonumber(State, 5);
+
+#ifdef DESKTOP
+    volume /= 100;
+#endif
 
     // Append game path
     char* fullpath = malloc(sizeof(char)*64);

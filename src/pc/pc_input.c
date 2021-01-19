@@ -29,5 +29,5 @@
 #include "../defs.h"
 
 int Input_KeyboardDown(int key) {
-    return sfKeyboard_isKeyPressed(key);
+    return IsKeyPressed(key);
 }

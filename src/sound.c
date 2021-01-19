@@ -47,17 +47,16 @@ void Sound_FreeChannel(int Channel, sound_t* Sound)
 }
 
 #ifdef DESKTOP
-void Sound_Clean()
+void Sound_Update()
 {
-    for (int i = 0; i < MAX_SOUND_CHANNELS; ++i)
-    {
-        if (Channels[i] == TRUE)
-            Sound_FreeChannelStream(i);
+    for(int i = 0; i < MAX_SOUND_CHANNELS; i++) {
+        if (Channels[i] == TRUE) {
+            UpdateMusicStream(*StreamElements[i].Stream);
+        }
     }
 }
 #endif
 
-#ifdef PSP
 void Sound_Clean()
 {
     for (int i = 0; i < Current_Precache_Amount; i++) {
@@ -67,13 +66,12 @@ void Sound_Clean()
     for (int i = 0; i < MAX_SOUND_CHANNELS; i++) {
         if (Channels[i] == TRUE && StreamElements[i].Stream) {
             Sound_StopStream(StreamElements[i].Stream);
-            Sound_Delete(StreamElements[i].Stream);
+            Channels[i] = FALSE;
         } else if (Channels[i] == TRUE && SoundElements[i].Sound) {
-            Sound_StopSound(SoundElements[i].Sound);
+            Sound_FreeChannel(i, SoundElements[i].Sound);
         }
     }
 }
-#endif
 
 void Sound_Stream(int Channel, char* Sound, boolean Loop, float Pitch, float Volume) 
 {
@@ -118,35 +116,16 @@ void Sound_Precache(char* Directory)
     }
 
     // Try To Load Sound, Fail if not exist.
-#ifdef DESKTOP
-    sndbuffer_t* SoundBuffer;
-    SoundBuffer = Sound_LoadSound(Directory);
-#elif PSP
     sound_t* Sound;
     Sound = Sound_LoadSound(Directory);
-#endif
 
-#ifdef DESKTOP
-    if (!SoundBuffer) {
-#elif PSP
     if (!Sound) {
-#endif
         Print_Normal("Sound_Precache: Tried to load a sound that doesn't exist! (%s)\n", Directory);
         return;
     }
 
-    // Bind the Sound to the SoundBuffer
-#ifdef DESKTOP
-    sound_t* Sound;
-    Sound = Sound_Create();
-    Sound_BindSoundToBuffer(Sound, SoundBuffer);
-#endif
-
     // Add to Sound list
     SoundElements[Current_Precache_Amount].Sound = Sound;
-#ifdef DESKTOP
-    SoundElements[Current_Precache_Amount].SoundBuffer = SoundBuffer;
-#endif
     SoundElements[Current_Precache_Amount].File = Directory;
 
     // Increment Precache list

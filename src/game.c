@@ -52,13 +52,6 @@ void Game_Initialize(gamedata_t game) {
     Game_Running = TRUE;
     Loaded_Game = game;
 
-#ifdef PSP
-    oslInit(0);
-    oslInitAudio();
-    oslInitGfx(OSL_PF_5551, 1);
-    oslInitAudioME(OSL_FMT_MP3);
-#endif
-
     // Initialize our framedelays
     Time_FrameDelay(1, 0); // Frames per Second
     Time_FrameDelay(1, 1); // Actual Game Timer
@@ -74,11 +67,6 @@ void Game_Initialize(gamedata_t game) {
     // Initialize the Lua Virtual Machine
     Lua_InitializeVM();
 
-#ifndef DESKTOP
-    // Initialize Sound
-    Sound_Initialize();
-#endif
-
     // Compile the game's main.lua file
     main_script = malloc(sizeof(char)*32);
     strcpy(main_script, game.game_path);
@@ -89,7 +77,13 @@ void Game_Initialize(gamedata_t game) {
     lua_getglobal(VMState, "G_Main");
     lua_pcall(VMState, 0, 0, 0);
 
+    Music music = LoadMusicStream("wow.mp3");
+    PlayMusicStream(music);
+
     while(Game_Running) {
+#ifdef DESKTOP
+        Sound_Update();
+#endif
         // Non-graphics stuff
         if (Time_FrameReady(1)) {
 
@@ -108,11 +102,9 @@ void Game_Initialize(gamedata_t game) {
 
         // New Frame
         if (Time_FrameReady(0)) {
-#ifdef PSP
-            oslStartDrawing();
-#endif
+            Graphics_StartDrawing();
+
 #ifdef DESKTOP
-            // Clear Window
             Window_Clear();
 #endif
 
@@ -120,20 +112,16 @@ void Game_Initialize(gamedata_t game) {
             lua_getglobal(VMState, "G_DrawLoop");
             lua_pcall(VMState, 0, 0, 0);
 
-#ifdef DESKTOP
-            // Update our Window
-            if (!OPT_NORENDER)
-                Window_Update();
-#endif
-
             // Set time until next frame is ready
             Time_FrameDelay(1000/FRAMES_PER_SECOND, 0);
 
-#ifdef PSP
-            oslEndDrawing();
-		    oslSyncFrame();	
-#endif
+            Graphics_StopDrawing();
         }
+
+#ifdef DESKTOP
+        if (WindowShouldClose())
+            Window_Close();
+#endif
     }
 
     Sound_Clean();
@@ -141,9 +129,5 @@ void Game_Initialize(gamedata_t game) {
 #ifdef PSP
     oslEndGfx();
 	oslQuit();
-#endif
-
-#ifdef DESKTOP
-    Window_Close();
 #endif
 }
