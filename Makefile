@@ -20,6 +20,7 @@ endif
 # PLATFORM: PSP
 ifeq ($(PSP),1)
 SOURCES 			+= $(shell find $(PSP_WRAPPER_SRC) -name '*.c')
+SOURCES 			+= libs/gLib2D/glib2d.c
 CFLAGS 				:= -DPSP
 endif
 
@@ -81,7 +82,7 @@ endif
 ifeq ($(PSP),1)
 TARGET 				= $(NAME)
 INCDIR 				= $(PSPPATH)/include
-INCDIR 				+= include
+INCDIR 				+= libs
 OBJS				= $(SOURCES)
 LIBS 				= $(LDFLAGS)
 EXTRA_TARGETS 		= EBOOT.PBP

@@ -15,7 +15,7 @@
 #include <pspdebug.h>
 #include <pspdisplay.h>
 #include <pspctrl.h>
-#include <oslib/oslib.h>
+#include <gLib2D/glib2d.h>
 
 #define printf pspDebugScreenPrintf
 #endif

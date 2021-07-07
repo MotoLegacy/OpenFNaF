@@ -1,0 +1,3 @@
+[submodule "libs/gLib2D"]
+	path = libs/gLib2D
+	url = https://github.com/libcg/gLib2D

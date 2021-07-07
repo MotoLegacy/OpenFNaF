@@ -122,9 +122,4 @@ void Game_Initialize(gamedata_t game) {
     }
 
     Sound_Clean();
-
-#ifdef PSP
-    oslEndGfx();
-	oslQuit();
-#endif
 }

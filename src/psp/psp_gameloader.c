@@ -99,9 +99,5 @@ void Game_InitializeLoader() {
         }
     }
 
-    oslInit(0);
-    oslInitAudio();
-    oslInitGfx(OSL_PF_5551, 1);
-    oslInitAudioME(OSL_FMT_MP3);
     Game_Initialize(supported_games[selected]);
 }
