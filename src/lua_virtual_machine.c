@@ -105,11 +105,10 @@ static int Lua_PSPDebugPrintf(lua_State* State)
     // Assert Param
     assert(lua_isstring(State, 1));
 
+    #ifdef PSP
     // Define it
     const char* parm0;
     parm0 = lua_tostring(State, 1);
-
-    #ifdef PSP
     pspDebugScreenPrintf("%s", parm0);
     #endif
 

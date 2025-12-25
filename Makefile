@@ -29,7 +29,7 @@ OBJECTS        		:= $(addprefix $(BUILD)/,$(SOURCES:%.c=%.o))
 #-------------------------------------------------
 
 CFLAGS         		+= -Wall -g
-LDFLAGS        		:= -llua -lm -lc
+LDFLAGS        		:= -llua -lm
 
 # PLATFORM: PC
 ifeq ($(DESKTOP),1)
