@@ -27,6 +27,8 @@
 //
 
 #include "../defs.h"
+#include <sys/stat.h>
+#include <string.h>
 
 gamedata_t  INI_Games[8];
 int         INI_GameCount;
@@ -123,8 +125,20 @@ void INI_Initialize() {
     // Loop through all directories found by opendir()
     while ((cwdirent = readdir(cwd)) != NULL) {
         // If we found a directory, and it is not backwards from our root
-        if (cwdirent->d_type == DT_DIR && strcmp(".", cwdirent->d_name) != 0 && strcmp("..", cwdirent->d_name) != 0)
+        char fullpath[1024];
+        struct stat st;
+        
+        snprintf(fullpath, sizeof(fullpath), "games/%s", cwdirent->d_name);
+        
+        if (stat(fullpath, &st) == 0 &&
+            S_ISDIR(st.st_mode) &&
+            strcmp(".", cwdirent->d_name) != 0 &&
+            strcmp("..", cwdirent->d_name) != 0)
+        {
             // Try to fetch game information
             INI_FetchGameInformation(cwdirent->d_name);
+        }
     }
+    
+    closedir(cwd);
 }

@@ -6,3 +6,4 @@ EBOOT.PBP
 .vscode/*
 Saves/*
 *.DS_Store
+pc/

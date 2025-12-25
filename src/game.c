@@ -46,9 +46,7 @@ gamedata_t  Loaded_Game;
 //
 void Game_Initialize(gamedata_t game) {
     char*   main_script;
-    u8_t    hour;
 
-    hour = 0;
     Game_Running = TRUE;
     Loaded_Game = game;
 
